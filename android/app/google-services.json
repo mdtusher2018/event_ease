@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "981731840955",
+    "project_id": "lucca-b1abe",
+    "storage_bucket": "lucca-b1abe.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:981731840955:android:29a24f8c8d23d9df356a9e",
+        "android_client_info": {
+          "package_name": "it.pianofesta.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCc3VZbBqxv_tKtF3UjjeHA6Oyd2L5gte8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
