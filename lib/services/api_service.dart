@@ -112,13 +112,13 @@ class ApiService extends GetxService {
   ///>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Multipart Request >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
   Future<ApiResponse> multipartData(
-      String uri,
-      Map<String, dynamic> body, {
-        required List<MultipartBody> multipartBody,
-        Map<String, String>? extraHeaders,
-        String method = "POST",
-        bool showMessage = false,
-      }) async {
+    String uri,
+    Map<String, dynamic> body, {
+    required List<MultipartBody> multipartBody,
+    Map<String, String>? extraHeaders,
+    String method = "POST",
+    bool showMessage = false,
+  }) async {
     try {
       var mainHeaders = {'token': PrefsHelper.token};
 
@@ -131,10 +131,9 @@ class ApiService extends GetxService {
       // Add files to request
       for (MultipartBody element in multipartBody) {
         if (element.file.existsSync()) {
-          request.files.add(await http.MultipartFile.fromPath(
-            element.key,
-            element.file.path,
-          ));
+          request.files.add(
+            await http.MultipartFile.fromPath(element.key, element.file.path),
+          );
         }
       }
 
@@ -143,9 +142,9 @@ class ApiService extends GetxService {
         body.map((key, value) => MapEntry(key, value.toString())),
       );
 
-
-      http.Response response =
-      await http.Response.fromStream(await request.send());
+      http.Response response = await http.Response.fromStream(
+        await request.send(),
+      );
 
       return _processResponse(response, showMessage);
     } catch (e) {
@@ -179,10 +178,12 @@ class ApiService extends GetxService {
   ///>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Header >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   Map<String, String> _buildHeaders(extraHeaders) {
     log(">>>>>>>>>>>>>>> Token ${PrefsHelper.token}");
-    return extraHeaders != null? extraHeaders : {
-      "Content-Type": extraHeaders ?? "application/json",
-      "token": PrefsHelper.token,
-    };
+    return extraHeaders != null
+        ? extraHeaders
+        : {
+          "Content-Type": extraHeaders ?? "application/json",
+          "token": PrefsHelper.token,
+        };
   }
 
   ///>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Process Response >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -241,7 +242,6 @@ class ApiService extends GetxService {
       statusCode: 0,
     );
   }
-
 }
 
 class MultipartBody {
@@ -250,4 +250,3 @@ class MultipartBody {
 
   MultipartBody(this.key, this.file);
 }
-
