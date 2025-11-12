@@ -4,8 +4,52 @@ class AppTranslations extends Translations {
   @override
   Map<String, Map<String, String>> get keys => {
     'en_US': {
-      "Delete Account":"Delete Account",
-      "My Subscription":"My Subscription",
+      "Password is required": "Password is required",
+      "Delete failed": "Delete failed",
+      "Error: ": "Error: ",
+
+      // Dialog
+      "Confirm Delete": "Confirm Delete",
+      "Are you sure you want to delete your account? This action cannot be undone.":
+          "Are you sure you want to delete your account? This action cannot be undone.",
+      "Delete": "Delete",
+
+      // Page Texts
+      "Delete Your Account": "Delete Your Account",
+      "This action is permanent and cannot be undone.\nPlease enter your password to confirm.":
+          "This action is permanent and cannot be undone.\nPlease enter your password to confirm.",
+      "Password": "Password",
+
+      "Latest Polls": "Latest Polls",
+      "Latest Post": "Latest Post",
+      "My Polls": "My Polls",
+      "My Post": "My Post",
+      "See All": "See All",
+      "Add More Images": "Add More Images",
+      "Upload Images": "Upload Images",
+
+      "Getting Started Ideas": "Getting Started Ideas",
+      "Seasonal Trends": "Seasonal Trends",
+      "Real Events That Inspire": "Real Events That Inspire",
+      "Style & Mood": "Style & Mood",
+      "Latest Publications": "Latest Publications",
+      "Freshly added content. Stay up to date with the latest inspiration uploaded by vendors and our team.":
+          "Freshly added content. Stay up to date with the latest inspiration uploaded by vendors and our team.",
+
+      "Not sure where to start? Discover guides, checklists, and practical tips to plan your event step by step.":
+          "Not sure where to start? Discover guides, checklists, and practical tips to plan your event step by step.",
+
+      "New season, new ideas! Get inspired by the colors, styles, and setups that are trending this season.":
+          "New season, new ideas! Get inspired by the colors, styles, and setups that are trending this season.",
+
+      "Events that truly speak to you. See how others organized their celebrations: real photos, ideas, and personal stories.":
+          "Events that truly speak to you. See how others organized their celebrations: real photos, ideas, and personal stories.",
+
+      "Choose the mood for your event. Boho, luxury, jungle, or romantic? Find the style that reflects your personality.":
+          "Choose the mood for your event. Boho, luxury, jungle, or romantic? Find the style that reflects your personality.",
+
+      "Delete Account": "Delete Account",
+      "My Subscription": "My Subscription",
       'event_ease': 'Event Ease',
       'plan_your_perfect_event_with_ease': "Plan Your Perfect Event with Ease",
       'discover_top_venues':
@@ -431,8 +475,12 @@ class AppTranslations extends Translations {
       'within_milan': 'Within 50 km of Milan',
 
       'related_event': 'Related Event',
+
+      'pending_request': "Pending Request",
     },
     'it_IT': {
+      'pending_request': "Richiesta in sospeso",
+
       'event_ease': 'Event Ease',
       'plan_your_perfect_event_with_ease':
           'Organizza il tuo evento perfetto con facilità',
@@ -664,7 +712,7 @@ class AppTranslations extends Translations {
       'inspirations': 'Ispirazioni',
       'let_yourself_be_inspired_to_create_your_perfect_event':
           'Lasciati ispirare per creare il tuo evento perfetto',
-      'community': 'Community',
+      'community': 'Comunità',
       'connect_with_other_user': 'Connettiti con altri utenti',
       'tailor_made_solutions_for_your_event':
           'Soluzioni su misura per il tuo evento: scegli, personalizza e noi pensiamo a tutto',
@@ -856,10 +904,6 @@ class AppTranslations extends Translations {
       'discover_the_perfect_setting':
           'Scopri l’ambientazione perfetta per il tuo evento. Trova lo spazio ideale in base al tuo stile e al numero di ospiti.',
 
-      'Logout': 'Logout',
-      'Are you sure you want to logout?': 'Are you sure you want to logout?',
-      'Cancel': 'Cancel',
-
       'Success': 'Success',
       'Error': 'Error',
       'Failed': 'Failed',
@@ -879,8 +923,59 @@ class AppTranslations extends Translations {
       'Unfollowed successfully': 'Unfollowed successfully',
       'Followed successfully': 'Followed successfully',
       'Exception': 'Exception',
-      "Delete Account":"Elimina account",
-      "My Subscription":"Il mio abbonamento"
+      "Delete Account": "Elimina account",
+      "My Subscription": "Il mio abbonamento",
+
+      "Getting Started Ideas": "Idee per Iniziare",
+      "Seasonal Trends": "Tendenze Stagionali",
+      "Real Events That Inspire": "Eventi Reali che Ispirano",
+      "Style & Mood": "Stile e Atmosfera",
+      "Latest Publications": "Ultime Pubblicazioni",
+
+      "Freshly added content. Stay up to date with the latest inspiration uploaded by vendors and our team.":
+          "Contenuti appena aggiunti. Rimani aggiornato con le ultime ispirazioni caricate dai fornitori e dal nostro team.",
+
+      "Not sure where to start? Discover guides, checklists, and practical tips to plan your event step by step.":
+          "Non sai da dove iniziare? Scopri guide, checklist e consigli pratici per organizzare il tuo evento passo dopo passo.",
+
+      "New season, new ideas! Get inspired by the colors, styles, and setups that are trending this season.":
+          "Nuova stagione, nuove idee! Lasciati ispirare dai colori, dagli stili e dagli allestimenti di tendenza in questa stagione.",
+
+      "Events that truly speak to you. See how others organized their celebrations: real photos, ideas, and personal stories.":
+          "Eventi che parlano davvero di te. Scopri come altri hanno organizzato le loro celebrazioni: foto reali, idee e storie personali.",
+
+      "Choose the mood for your event. Boho, luxury, jungle, or romantic? Find the style that reflects your personality.":
+          "Scegli l’atmosfera per il tuo evento. Boho, lusso, jungle o romantico? Trova lo stile che riflette la tua personalità.",
+
+      "Latest Polls": "Ultimi Sondaggi",
+      "Latest Post": "Ultimi Post",
+      "My Polls": "I Miei Sondaggi",
+      "My Post": "I Miei Post",
+      "See All": "Vedi Tutto",
+
+      "Add More Images": "Aggiungi Altre Immagini",
+      "Upload Images": "Carica Immagini",
+
+      // SnackBars
+      "Password is required": "La password è obbligatoria",
+      "Delete failed": "Eliminazione fallita",
+      "Error: ": "Errore: ",
+
+      // Dialog
+      "Confirm Delete": "Conferma Eliminazione",
+      "Are you sure you want to delete your account? This action cannot be undone.":
+          "Sei sicuro di voler eliminare il tuo account? Questa azione non può essere annullata.",
+
+      "Delete": "Elimina",
+
+      // Page Texts
+      "Delete Your Account": "Elimina il tuo Account",
+      "This action is permanent and cannot be undone.\nPlease enter your password to confirm.":
+          "Questa azione è permanente e non può essere annullata.\nInserisci la password per confermare.",
+      "Password": "Password",
+      "Logout": "Esci",
+      "Are you sure you want to logout?": "Sei sicuro di voler uscire?",
+      "Cancel": "Annulla",
     },
   };
 }

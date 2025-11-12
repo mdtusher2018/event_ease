@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:event_ease/features/auth/data/repository/user_repository.dart';
+import 'package:event_ease/features/auth/presentation/controller/profile/model/user_pending_credit_request.dart';
 import 'package:event_ease/features/auth/presentation/screen/business/dashboard/api/my_business_model.dart';
 import 'package:event_ease/features/auth/presentation/utils/app_url.dart';
 import 'package:event_ease/services/api_service.dart';
@@ -23,7 +24,8 @@ class ReferralsController extends GetxController {
   RxString invitedFriends = "".obs;
   RxString creditEarned = "".obs;
   RxString referralCode = "".obs;
-    var suppliers = <BusinessNameModel>[].obs;
+  var suppliers = <BusinessNameModel>[].obs;
+  var pendingRequests = <PendingCreditRequestOfUser>[].obs;
 
   @override
   void onClose() {
@@ -34,8 +36,8 @@ class ReferralsController extends GetxController {
 
   void resetAmountInput() {
     amountController.clear();
-    selectedSupplier.value="";
-    selectedImage.value=null;
+    selectedSupplier.value = "";
+    selectedImage.value = null;
     getReferral();
   }
 
@@ -45,12 +47,10 @@ class ReferralsController extends GetxController {
     // Call both APIs when controller is initialized
     getReferral();
     fetchBusinesses();
+    getAllPending();
   }
+
   ///>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> all folder >>>>>>>>>>>>>>>>>>>>>>>
-
-
-
-
 
   Rx<File?> selectedImage = Rx<File?>(null);
 
@@ -67,54 +67,65 @@ class ReferralsController extends GetxController {
     }
   }
 
-RxBool isSubmitting=false.obs;
-Future<void> submitCredit() async {
-  isSubmitting.value = true;
-  try {
-    final enteredAmount = double.tryParse(amountController.text.trim()) ?? -1;
+  RxBool isSubmitting = false.obs;
+  RxBool isPendingLoading = false.obs;
 
-    // ✅ Validation checks
-    if (enteredAmount <= 0) {
-      Get.snackbar("Error".tr,"Please enter a valid amount greater than 0.");
-      isSubmitting.value = false;
-      return;
-    }
+  Future<void> getAllPending() async {
+    log("Featching=======>>>>>>>>>>Pending");
+    isPendingLoading.value = true;
+    final response = await ApiService.to.getApi(AppUrl.pendingRequestsOfUser);
+    final List<dynamic> requests = response.data;
 
-    if (enteredAmount > 15) {
-      Get.snackbar("Error".tr,"You cannot use more than 15 credits.");
-      isSubmitting.value = false;
-      return;
-    }
-
-    final response = await ApiService.to.multipartData(
-      AppUrl.useCredit,
-      {
-        "type": "discount",
-        "usedCredits": enteredAmount, // ✅ Double value
-        "businessId": selectedSupplierId.value,
-      },
-      multipartBody: [
-        MultipartBody("image", selectedImage.value!),
-      ],
-    );
-
-    if (response.success) {
-      Get.back();
-      Get.snackbar("Success".tr, response.message);
-    } else {
-      log("Error : === ${response.message}");
-      Get.snackbar("Error".tr,response.message);
-    }
-  } catch (e) {
-    Get.snackbar("Error".tr,e.toString());
-  } finally {
-    isSubmitting.value = false;
+    // Convert each request into a PendingCreditRequest object
+    pendingRequests.value =
+        requests
+            .map((json) => PendingCreditRequestOfUser.fromJson(json))
+            .toList();
+    isPendingLoading.value = false;
   }
-}
 
+  Future<void> submitCredit() async {
+    isSubmitting.value = true;
+    try {
+      final enteredAmount = double.tryParse(amountController.text.trim()) ?? -1;
 
+      // ✅ Validation checks
+      if (enteredAmount <= 0) {
+        Get.snackbar("Error".tr, "Please enter a valid amount greater than 0.");
+        isSubmitting.value = false;
+        return;
+      }
 
+      if (enteredAmount > 15) {
+        Get.snackbar("Error".tr, "You cannot use more than 15 credits.");
+        isSubmitting.value = false;
+        return;
+      }
 
+      final response = await ApiService.to.multipartData(
+        AppUrl.useCredit,
+        {
+          "type": "discount",
+          "usedCredits": enteredAmount, // ✅ Double value
+          "businessId": selectedSupplierId.value,
+        },
+        multipartBody: [MultipartBody("image", selectedImage.value!)],
+      );
+
+      if (response.success) {
+        await getAllPending();
+        Get.back();
+        Get.snackbar("Success".tr, response.message);
+      } else {
+        log("Error : === ${response.message}");
+        Get.snackbar("Error".tr, response.message);
+      }
+    } catch (e) {
+      Get.snackbar("Error".tr, e.toString());
+    } finally {
+      isSubmitting.value = false;
+    }
+  }
 
   Future<void> getReferral() async {
     isLoading.value = true;
@@ -140,12 +151,11 @@ Future<void> submitCredit() async {
       isLoading.value = false;
     }
   }
-void fetchBusinesses() async {
+
+  void fetchBusinesses() async {
     try {
       isLoading.value = true;
-      final response = await ApiService.to.getApi(
-        AppUrl.fetchAllBusinessName,
-      );
+      final response = await ApiService.to.getApi(AppUrl.fetchAllBusinessName);
 
       if (response.success && response.data != null) {
         final List<dynamic> list = response.data;
@@ -156,6 +166,4 @@ void fetchBusinesses() async {
       isLoading.value = false;
     }
   }
-
-
 }

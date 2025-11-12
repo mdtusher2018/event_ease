@@ -31,7 +31,7 @@ class AppUrl {
   // static const baseImageUrl = "http://109.176.197.7:7010";
   // static const socketUrl = "http://109.176.197.7:7020";
 
-  //   static const baseUrl = "http://10.10.10.32:7010/api/v1";
+  // static const baseUrl = "http://10.10.10.32:7010/api/v1";
   // static const baseImageUrl = "http://10.10.10.32:7010";
   // static const socketUrl = "http://10.10.10.32:7020";
 
@@ -43,10 +43,11 @@ class AppUrl {
   static const newPassword = "$baseUrl/auth/forgot-password-reset";
   static const businessCreate = "$baseUrl/business/create";
   static const inspirationCreate = "$baseUrl/inspiration/create";
-  static  inspirationUpdate(String id) => "$baseUrl/inspiration//update/$id";
+  static inspirationUpdate(String id) => "$baseUrl/inspiration//update/$id";
   static const inspirationMyPost = "$baseUrl/inspiration/my";
   static const providerType = "$baseUrl/category/Provider?limit=10000";
-  static const supportedService = "$baseUrl/category/sopportedServices?limit=10000";
+  static const supportedService =
+      "$baseUrl/category/sopportedServices?limit=10000";
   static const findProvider = "$baseUrl/requestCategory/create";
   static const extraServices = "$baseUrl/category/extraServices?limit=10000";
   static const editProfile = "$baseUrl/users/update-my-profile";
@@ -60,11 +61,11 @@ class AppUrl {
       "$baseUrl/settings/business/accept-privacy-policy";
   static const termCondition = "$baseUrl/settings/business/termAndConditions";
 
-
   static const usertermCondition = "$baseUrl/settings/termAndConditions";
 
   static const faq = "$baseUrl/faq";
-  static const inspirationCategory = "$baseUrl/category/inspiration?limit=10000";
+  static const inspirationCategory =
+      "$baseUrl/category/inspiration?limit=10000";
   static const inspirationCategoryGroup =
       "$baseUrl/inspiration/group-by/subcategory";
   static const specificCategory = "$baseUrl/inspiration/category/";
@@ -118,10 +119,11 @@ class AppUrl {
   static const mapData = "$baseUrl/business/map";
   static const createBlog = "$baseUrl/inspiration/create";
   static const checkList = "$baseUrl/checkList";
-  static const createCheckList="$baseUrl/checkList/create";
-  static String updateCheckList(id)=>"$baseUrl/checkList/update/$id";
-  static String deleteCheckList(String id)=>"$baseUrl/checkList/$id";
-  static const updateCheckListIteamsStatus = "$baseUrl/checkList/update-item-status";
+  static const createCheckList = "$baseUrl/checkList/create";
+  static String updateCheckList(id) => "$baseUrl/checkList/update/$id";
+  static String deleteCheckList(String id) => "$baseUrl/checkList/$id";
+  static const updateCheckListIteamsStatus =
+      "$baseUrl/checkList/update-item-status";
   static const createCheckListItem = "$baseUrl/checkList/add-item";
   static const wishlist = "$baseUrl/wishlist";
   static const wishlistFolder = "$baseUrl/wishlist/";
@@ -135,16 +137,18 @@ class AppUrl {
   static const getAllBusiness = "$baseUrl/business/location";
   // static const getAllBusiness = "$baseUrl/business/";
   // static const getAllSubscriptionEvent = "$baseUrl/event/sub/location";
-static const getAllSubscriptionEvent = "$baseUrl/event/all/location";
+  static const getAllSubscriptionEvent = "$baseUrl/event/all/location";
   static const getAllEvent = "$baseUrl/business/exclusive/location";
-  static const getAllInspirationCategory = "$baseUrl/category/inspiration?limit=10000";
+  static const getAllInspirationCategory =
+      "$baseUrl/category/inspiration?limit=10000";
   static String getBusinessDetailsById(String id) => "$baseUrl/business/$id";
   static String getExtraBusinessDetailsById(String id) =>
       "$baseUrl/business/extra/$id";
   static const String giveBusinessLikeById =
       "$baseUrl/business/engaagement/like";
   static String geEventDetailsById(String id) => "$baseUrl/event/$id";
-  static const String categoryProvider = "$baseUrl/category/business?limit=10000";
+  static const String categoryProvider =
+      "$baseUrl/category/business?limit=10000";
   static const String categoryEvent = "$baseUrl/category/Event?limit=10000";
   static const String categoryJob = "$baseUrl/category/job?limit=10000";
   static const String chatFileUpload = "$baseUrl/message/file-upload";
@@ -214,48 +218,46 @@ static const getAllSubscriptionEvent = "$baseUrl/event/all/location";
   static String getEventSubscriptionPlans = "$baseUrl/subscription/type/event";
   static String getJobSubscriptionPlans = "$baseUrl/subscription/type/job";
   static String freeSearch({
-  required String searchValue,
-  String? address,
-  String? city,
-  String? town,
-  String? longitude,
-  String? latitude
-}) {
-  final queryParams = [
-    "searchTerm=$searchValue",
-    if (address != null && address.isNotEmpty) "address=$address",
-    if (city != null && city.isNotEmpty) "city=$city",
-    if (town != null && town.isNotEmpty) "town=$town",
-    if (longitude != null && longitude.isNotEmpty) "longitude=$longitude",
-    if (latitude != null && latitude.isNotEmpty) "latitude=$latitude",
-    "limit=10000000",
-  ].join("&");
+    required String searchValue,
+    String? address,
+    String? city,
+    String? town,
+    String? longitude,
+    String? latitude,
+  }) {
+    final queryParams = [
+      "searchTerm=$searchValue",
+      if (address != null && address.isNotEmpty) "address=$address",
+      if (city != null && city.isNotEmpty) "city=$city",
+      if (town != null && town.isNotEmpty) "town=$town",
+      if (longitude != null && longitude.isNotEmpty) "longitude=$longitude",
+      if (latitude != null && latitude.isNotEmpty) "latitude=$latitude",
+      "limit=10000000",
+    ].join("&");
 
-  return "$baseUrl/business/search/location?$queryParams";
-}
+    return "$baseUrl/business/search/location?$queryParams";
+  }
 
+  static String freeEventSearch({
+    required String searchValue,
+    String? address,
+    String? city,
+    String? town,
+    String? longitude,
+    String? latitude,
+  }) {
+    final queryParams = [
+      "searchTerm=$searchValue",
+      if (address != null && address.isNotEmpty) "address=$address",
+      if (city != null && city.isNotEmpty) "city=$city",
+      if (town != null && town.isNotEmpty) "town=$town",
+      if (longitude != null && longitude.isNotEmpty) "longitude=$longitude",
+      if (latitude != null && latitude.isNotEmpty) "latitude=$latitude",
+      "limit=10000000",
+    ].join("&");
 
-static String freeEventSearch({
-  required String searchValue,
-  String? address,
-  String? city,
-  String? town,
-  String? longitude,
-  String? latitude
-}) {
-  final queryParams = [
-    "searchTerm=$searchValue",
-    if (address != null && address.isNotEmpty) "address=$address",
-    if (city != null && city.isNotEmpty) "city=$city",
-    if (town != null && town.isNotEmpty) "town=$town",
-    if (longitude != null && longitude.isNotEmpty) "longitude=$longitude",
-    if (latitude != null && latitude.isNotEmpty) "latitude=$latitude",
-    "limit=10000000",
-  ].join("&");
-
-  return "$baseUrl/event/search/location?$queryParams";
-}
-
+    return "$baseUrl/event/search/location?$queryParams";
+  }
 
   static String paymentUrl = "$baseUrl/subscriptionPayment/initiate";
   static String paymentWithCriditUrl =
@@ -289,36 +291,38 @@ static String freeEventSearch({
   static const sendFCMToken = "$baseUrl/users/update-fcmToken";
   static const createFolder = "$baseUrl/wishlist/create";
 
-static const myBusiness="$baseUrl/business/my/nameList";
-static String categoryBusinessNameList = "$baseUrl/business/categoryBusinessNameList";
-static String categoryEventNameList = "$baseUrl/event/categoryEventNameList";
+  static const myBusiness = "$baseUrl/business/my/nameList";
+  static String categoryBusinessNameList =
+      "$baseUrl/business/categoryBusinessNameList";
+  static String categoryEventNameList = "$baseUrl/event/categoryEventNameList";
 
-  static String fetchAllBusinessName="$baseUrl/business/allNameList";
+  static String fetchAllBusinessName = "$baseUrl/business/allNameList";
 
-  static String useCredit="$baseUrl/useCredits/use";
+  static String useCredit = "$baseUrl/useCredits/use";
 
-  static String categoryJobNameList="$baseUrl/job/categoryJobNameList";
+  static String categoryJobNameList = "$baseUrl/job/categoryJobNameList";
 
-  static String leatestUrl="$baseUrl/inspiration";
-  static String freeJobSearch(String trems)=>"$baseUrl/job?searchTerm=$trems&limit=10000";
+  static String leatestUrl = "$baseUrl/inspiration";
+  static String freeJobSearch(String trems) =>
+      "$baseUrl/job?searchTerm=$trems&limit=10000";
 
   static editCommunityPolls(String id) => "$baseUrl/pollCommunity/update/$id";
   static deletePolls(String id) => "$baseUrl/pollCommunity/$id";
 
+  static String shareBusiness(String id) =>
+      "https://api.pianofesta.it/share/business/$id";
+  static String shareEvent(String id) =>
+      "https://api.pianofesta.it/share/event/$id";
+  static String shareJob(String id) =>
+      "https://api.pianofesta.it/share/job/$id";
 
+  static const String pendingRequestsOfUser =
+      "$baseUrl/useCredits/pending-requests-of-user";
 
+  static const String pendingRequestsOfBusiness =
+      "$baseUrl/useCredits/pending-requests-of-business";
 
+  static var approvePendingRequest = "$baseUrl/useCredits/accept";
 
-
-
-
-static String shareBusiness(String id)=>"https://api.pianofesta.it/share/business/$id";
-static String shareEvent(String id)=>"https://api.pianofesta.it/share/event/$id";
-static String shareJob(String id)=>"https://api.pianofesta.it/share/job/$id";
-
-
-
-
-
-
+  static var rejectPendingRequest = "$baseUrl/useCredits/reject";
 }

@@ -27,16 +27,12 @@ class _EditBlockPostScreenState extends State<EditBlockPostScreen> {
   InspirationController inspirationController =
       Get.find<InspirationController>();
 
-final List<Map<String, String>> subcategories = [
-  {"label": "Getting Started Ideas", "value": "ideas"},
-  {"label": "Seasonal Trends", "value": "sessional"},
-  {"label": "Real Events That Inspire", "value": "inspire"},
-  {"label": "Stile & Mood", "value": "styleMood"},
-  
-];
-
-
-
+  final List<Map<String, String>> subcategories = [
+    {"label": "Getting Started Ideas".tr, "value": "ideas"},
+    {"label": "Seasonal Trends".tr, "value": "sessional"},
+    {"label": "Real Events That Inspire".tr, "value": "inspire"},
+    {"label": "Stile & Mood".tr, "value": "styleMood"},
+  ];
 
   @override
   void initState() {
@@ -49,7 +45,7 @@ final List<Map<String, String>> subcategories = [
         widget.postData.description;
     controller.selectedCategory.value = widget.postData.category.id;
     controller.coverImage.value = widget.postData.coverImage;
-    controller.selectedSubCategory.value=widget.postData.subCategory;
+    controller.selectedSubCategory.value = widget.postData.subCategory;
     controller.galleryImages.assignAll(widget.postData.imageGallery);
   }
 
@@ -98,19 +94,31 @@ final List<Map<String, String>> subcategories = [
                     ),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12.r),
-                      borderSide: BorderSide(color: AppColors.primary, width: 2),
+                      borderSide: BorderSide(
+                        color: AppColors.primary,
+                        width: 2,
+                      ),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12.r),
-                      borderSide: BorderSide(color: AppColors.primary, width: 2),
+                      borderSide: BorderSide(
+                        color: AppColors.primary,
+                        width: 2,
+                      ),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12.r),
-                      borderSide: BorderSide(color: AppColors.primary, width: 2),
+                      borderSide: BorderSide(
+                        color: AppColors.primary,
+                        width: 2,
+                      ),
                     ),
                     disabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12.r),
-                      borderSide: BorderSide(color: AppColors.primary, width: 2),
+                      borderSide: BorderSide(
+                        color: AppColors.primary,
+                        width: 2,
+                      ),
                     ),
                   ),
                   hint: Text(
@@ -146,65 +154,6 @@ final List<Map<String, String>> subcategories = [
                     controller.selectedCategory.value = value!;
                   },
                 ),
-
-
-// SizedBox(height: 10.h),
-// Text(
-//   "Sub Category",
-//   style: styleForBoldText.copyWith(fontSize: 18.sp),
-// ),
-// SizedBox(height: 5.h),
-// DropdownButtonFormField<String>(
-//   decoration: InputDecoration(
-//     fillColor: AppColors.textFieldBg,
-//     filled: true,
-//     contentPadding: EdgeInsets.symmetric(
-//       horizontal: 12.w,
-//       vertical: 14.h,
-//     ),
-//     border: OutlineInputBorder(
-//       borderRadius: BorderRadius.circular(12.r),
-//       borderSide: BorderSide(color: AppColors.primary, width: 2),
-//     ),
-//     enabledBorder: OutlineInputBorder(
-//       borderRadius: BorderRadius.circular(12.r),
-//       borderSide: BorderSide(color: AppColors.primary, width: 2),
-//     ),
-//     focusedBorder: OutlineInputBorder(
-//       borderRadius: BorderRadius.circular(12.r),
-//       borderSide: BorderSide(color: AppColors.primary, width: 2),
-//     ),
-//   ),
-//   hint: Text(
-//     "Select Subcategory",
-//     style: styleForNormalText.copyWith(
-//       color: AppColors.grey,
-//       fontSize: 14.sp,
-//       fontWeight: FontWeight.w400,
-//     ),
-//   ),
-//   value: subcategories.any((sub) => sub['value'] == controller.selectedSubCategory.value)
-//       ? controller.selectedSubCategory.value
-//       : null,
-//   items: subcategories.map((sub) {
-//     return DropdownMenuItem<String>(
-//       value: sub['value'],
-//       child: Text(
-//         sub['label']!,
-//         style: styleForNormalText.copyWith(
-//           color: Colors.black,
-//           fontSize: 15.sp,
-//           fontWeight: FontWeight.w500,
-//         ),
-//       ),
-//     );
-//   }).toList(),
-//   onChanged: (value) {
-//     controller.selectedSubCategory.value = value!;
-//   },
-// ),
-
-
                 SizedBox(height: 10.h),
                 Text(
                   AppString.description,
@@ -216,7 +165,7 @@ final List<Map<String, String>> subcategories = [
                   controller: controller.eventDetailedDescriptionController,
                 ),
                 SizedBox(height: 10.h),
-          
+
                 // ---------- Cover Image ----------
                 Row(
                   children: [
@@ -256,7 +205,7 @@ final List<Map<String, String>> subcategories = [
                   ),
                 ),
                 SizedBox(height: 10),
-          
+
                 if (controller.coverImage.isNotEmpty)
                   Stack(
                     children: [
@@ -267,19 +216,20 @@ final List<Map<String, String>> subcategories = [
                                 ? ImageType.network
                                 : ImageType.file,
                         height: 100,
-                       
                       ),
-                       Positioned(
+                      Positioned(
                         top: 5,
                         right: 8,
                         child: InkWell(
                           onTap: () {
                             controller.coverImage.value = '';
                           },
-                          child: Icon(Icons.cancel,color: Colors.white,)))
+                          child: Icon(Icons.cancel, color: Colors.white),
+                        ),
+                      ),
                     ],
                   ),
-          
+
                 // ---------- Gallery Images ----------
                 Row(
                   children: [
@@ -309,8 +259,8 @@ final List<Map<String, String>> subcategories = [
                         SizedBox(width: 8.w),
                         Text(
                           controller.galleryImages.isNotEmpty
-                              ? "Add More Images"
-                              : "Upload Images",
+                              ? "Add More Images".tr
+                              : "Upload Images".tr,
                           style: styleForBoldText.copyWith(color: Colors.white),
                         ),
                         SizedBox(width: 10),
@@ -322,9 +272,9 @@ final List<Map<String, String>> subcategories = [
                 if (controller.galleryImages.isNotEmpty)
                   Wrap(
                     spacing: 8,
-                    
+
                     runSpacing: 8,
-                    
+
                     children:
                         controller.galleryImages.map((path) {
                           return Stack(
@@ -361,15 +311,18 @@ final List<Map<String, String>> subcategories = [
                           );
                         }).toList(),
                   ),
-          
-                const SizedBox(height: 24,),
-          
+
+                const SizedBox(height: 24),
+
                 // ---------- Submit Button ----------
                 CustomButton(
                   text: "Update Post", // 👈 Changed button text
                   borderRadius: 16,
                   isLoading: controller.isLoading.value,
-                  onTap: () => controller.updateBlog(inspirationController.inspirationDetailModel.value.id), // 👈 Call update API
+                  onTap:
+                      () => controller.updateBlog(
+                        inspirationController.inspirationDetailModel.value.id,
+                      ), // 👈 Call update API
                 ),
                 SizedBox(height: 30.h),
               ],

@@ -16,32 +16,31 @@ class RegularInspirationContent extends StatelessWidget {
 
   final InspirationController controller = Get.find<InspirationController>();
 
-
   // Define your static titles and subtitles for each subcategory (without 'latest')
   final List<Map<String, String>> subcategories = [
     {
       "key": "ideas",
       "title": "Getting Started Ideas",
       "subtitle":
-          "Not sure where to start? Discover guides, checklists, and practical tips to plan your event step by step."
+          "Not sure where to start? Discover guides, checklists, and practical tips to plan your event step by step.",
     },
     {
       "key": "sessional",
       "title": "Seasonal Trends",
       "subtitle":
-          "New season, new ideas! Get inspired by the colors, styles, and setups that are trending this season."
+          "New season, new ideas! Get inspired by the colors, styles, and setups that are trending this season.",
     },
     {
       "key": "inspire",
       "title": "Real Events That Inspire",
       "subtitle":
-          "Events that truly speak to you. See how others organized their celebrations: real photos, ideas, and personal stories."
+          "Events that truly speak to you. See how others organized their celebrations: real photos, ideas, and personal stories.",
     },
     {
       "key": "styleMood",
       "title": "Style & Mood",
       "subtitle":
-          "Choose the mood for your event. Boho, luxury, jungle, or romantic? Find the style that reflects your personality."
+          "Choose the mood for your event. Boho, luxury, jungle, or romantic? Find the style that reflects your personality.",
     },
   ];
 
@@ -57,7 +56,9 @@ class RegularInspirationContent extends StatelessWidget {
               child: Text(
                 AppString.inspiration,
                 style: styleForBoldText.copyWith(
-                    color: AppColors.darkGrey, fontSize: 28.sp),
+                  color: AppColors.darkGrey,
+                  fontSize: 28.sp,
+                ),
               ),
             ),
             SizedBox(height: 20.h),
@@ -65,9 +66,10 @@ class RegularInspirationContent extends StatelessWidget {
               child: Text(
                 AppString.getInspiredAndDefineYourStyle,
                 style: styleForBoldText.copyWith(
-                    color: AppColors.darkGrey,
-                    fontSize: 24.sp,
-                    fontWeight: FontWeight.w600),
+                  color: AppColors.darkGrey,
+                  fontSize: 24.sp,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ),
             SizedBox(height: 10.h),
@@ -82,24 +84,26 @@ class RegularInspirationContent extends StatelessWidget {
                 itemBuilder: (context, index) {
                   var data = controller.inspirationCategoryList[index];
 
+                  // ✅ Skip if the name matches any subcategory title
+                  bool isSubcategory = subcategories.any(
+                    (sub) => sub['title'] == data['name'],
+                  );
 
-
-      // ✅ Skip if the name matches any subcategory title
-      bool isSubcategory = subcategories.any(
-        (sub) => sub['title'] == data['name'],
-      );
-
-      if (isSubcategory) {
-        return const SizedBox.shrink(); // Don't render
-      }
-
+                  if (isSubcategory) {
+                    return const SizedBox.shrink(); // Don't render
+                  }
 
                   return Padding(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 5.w, vertical: 10.h),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 5.w,
+                      vertical: 10.h,
+                    ),
                     child: InkWell(
                       onTap: () {
-                        controller.allSpecificCategory(data['_id'], data['name']);
+                        controller.allSpecificCategory(
+                          data['_id'],
+                          data['name'],
+                        );
                       },
                       child: Column(
                         children: [
@@ -147,8 +151,9 @@ class RegularInspirationContent extends StatelessWidget {
 
                 final matchedData = controller.inspirationCategoryGroupList
                     .firstWhere(
-                        (e) => e['subCategory'] == subKey,
-                        orElse: () => {'inspirations': []});
+                      (e) => e['subCategory'] == subKey,
+                      orElse: () => {'inspirations': []},
+                    );
                 final inspirations = matchedData['inspirations'] ?? [];
 
                 return Column(
@@ -159,83 +164,92 @@ class RegularInspirationContent extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          staticTitle,
+                          staticTitle.tr,
                           style: styleForBoldText.copyWith(
-                              color: AppColors.darkGrey, fontSize: 24.sp),
+                            color: AppColors.darkGrey,
+                            fontSize: 24.sp,
+                          ),
                         ),
                         TextButton(
                           onPressed: () {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (_) => ViewAllInspirationPage(
-                                  title: staticTitle,
-                                  subtitle: staticSubtitle,
-                                  inspirations: inspirations,
-                                ),
+                                builder:
+                                    (_) => ViewAllInspirationPage(
+                                      title: staticTitle.tr,
+                                      subtitle: staticSubtitle.tr,
+                                      inspirations: inspirations,
+                                    ),
                               ),
                             );
                           },
                           child: Text(
                             AppString.viewAll,
                             style: styleForNormalText.copyWith(
-                                fontSize: 12.sp, fontWeight: FontWeight.w500),
+                              fontSize: 12.sp,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
                         ),
                       ],
                     ),
                     Text(
-                      staticSubtitle,
+                      staticSubtitle.tr,
                       style: styleForNormalText.copyWith(
-                          color: AppColors.darkGrey,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 16.sp),
+                        color: AppColors.darkGrey,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 16.sp,
+                      ),
                     ),
                     SizedBox(height: 10.h),
 
                     inspirations.isNotEmpty
                         ? SizedBox(
-                            height: 320,
-                            child: ListView.builder(
-                              scrollDirection: Axis.horizontal,
-                              itemCount: inspirations.length,
-                              itemBuilder: (context, i) {
-                                final item = inspirations[i];
-                                DateTime dateTime =
-                                    DateTime.parse(item['createdAt']);
-                                String createDate =
-                                    DateFormat('dd-MM-yyyy').format(dateTime);
-                                String createTime =
-                                    DateFormat('HH:mm').format(dateTime);
+                          height: 320,
+                          child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: inspirations.length,
+                            itemBuilder: (context, i) {
+                              final item = inspirations[i];
+                              DateTime dateTime = DateTime.parse(
+                                item['createdAt'],
+                              );
+                              String createDate = DateFormat(
+                                'dd-MM-yyyy',
+                              ).format(dateTime);
+                              String createTime = DateFormat(
+                                'HH:mm',
+                              ).format(dateTime);
 
-                                return Padding(
-                                  padding: const EdgeInsets.only(right: 10.0),
-                                  child: CustomIdeaContainer(
-                                    image: item['coverImage'] ?? "",
-                                    title: item['title'] ?? "",
-                                    description: item['description'] ?? "",
-                                    authorImage: item['author']['profileImage'],
-                                    authorName: item['author']['name'],
-                                    createDate: createDate,
-                                    createTime: createTime,
-                                    imageWidth: 356,
-                                    onTap: () {
-                                      controller.getCategoryDetails(item['_id']);
-                                    },
-                                  ),
-                                );
-                              },
-                            ),
-                          )
+                              return Padding(
+                                padding: const EdgeInsets.only(right: 10.0),
+                                child: CustomIdeaContainer(
+                                  image: item['coverImage'] ?? "",
+                                  title: item['title'] ?? "",
+                                  description: item['description'] ?? "",
+                                  authorImage: item['author']['profileImage'],
+                                  authorName: item['author']['name'],
+                                  createDate: createDate,
+                                  createTime: createTime,
+                                  imageWidth: 356,
+                                  onTap: () {
+                                    controller.getCategoryDetails(item['_id']);
+                                  },
+                                ),
+                              );
+                            },
+                          ),
+                        )
                         : Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 20),
-                            child: Center(
-                              child: Text(
-                                "No data found",
-                                style: styleForNormalText.copyWith(fontSize: 14),
-                              ),
+                          padding: const EdgeInsets.symmetric(vertical: 20),
+                          child: Center(
+                            child: Text(
+                              "No data found",
+                              style: styleForNormalText.copyWith(fontSize: 14),
                             ),
                           ),
+                        ),
                   ],
                 );
               },
@@ -262,17 +276,21 @@ class RegularInspirationContent extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Latest Publications",
+                    "Latest Publications".tr,
                     style: styleForBoldText.copyWith(
-                        color: AppColors.darkGrey, fontSize: 24.sp),
+                      color: AppColors.darkGrey,
+                      fontSize: 24.sp,
+                    ),
                   ),
                   SizedBox(height: 5.h),
                   Text(
-                    "Freshly added content. Stay up to date with the latest inspiration uploaded by vendors and our team.",
+                    "Freshly added content. Stay up to date with the latest inspiration uploaded by vendors and our team."
+                        .tr,
                     style: styleForNormalText.copyWith(
-                        color: AppColors.darkGrey,
-                        fontWeight: FontWeight.w500,
-                        fontSize: 16.sp),
+                      color: AppColors.darkGrey,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 16.sp,
+                    ),
                   ),
                   SizedBox(height: 10.h),
                   SizedBox(
@@ -283,10 +301,12 @@ class RegularInspirationContent extends StatelessWidget {
                       itemBuilder: (context, index) {
                         final item = controller.latestList[index];
                         DateTime dateTime = DateTime.parse(item.createdAt);
-                        String createDate =
-                            DateFormat('dd-MM-yyyy').format(dateTime);
-                        String createTime =
-                            DateFormat('HH:mm').format(dateTime);
+                        String createDate = DateFormat(
+                          'dd-MM-yyyy',
+                        ).format(dateTime);
+                        String createTime = DateFormat(
+                          'HH:mm',
+                        ).format(dateTime);
 
                         return Padding(
                           padding: const EdgeInsets.only(right: 10.0),

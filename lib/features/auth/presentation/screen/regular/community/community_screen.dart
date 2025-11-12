@@ -1,4 +1,3 @@
-
 import 'package:event_ease/core/routers/routes_name.dart';
 import 'package:event_ease/features/auth/presentation/screen/regular/community/see_all_my_polls.dart';
 import 'package:event_ease/features/auth/presentation/screen/regular/community/widget/custom_poll_widget.dart';
@@ -327,26 +326,30 @@ class _CommunityScreenState extends State<CommunityScreen>
                   controller.myPollList.isNotEmpty
                       ? ListView.builder(
                         padding: EdgeInsets.all(0),
-                        itemCount: controller.myPollList.length > 3 ? 3 : controller.myPollList.length,
+                        itemCount:
+                            controller.myPollList.length > 3
+                                ? 3
+                                : controller.myPollList.length,
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
                         itemBuilder: (context, index) {
                           final pollData = controller.myPollList[index];
                           return Obx(() {
-
                             final selected =
                                 controller.selectedMyPollOptions[pollData.id];
-                                                        String isoTime = pollData.createdAt;
+                            String isoTime = pollData.createdAt;
 
-DateTime dateTime = DateTime.parse(isoTime);
+                            DateTime dateTime = DateTime.parse(isoTime);
 
-// Format as dd-MM-yyyy
-String createDate = DateFormat('dd-MM-yyyy').format(dateTime); // 👉 14-08-2025
+                            // Format as dd-MM-yyyy
+                            String createDate = DateFormat(
+                              'dd-MM-yyyy',
+                            ).format(dateTime); // 👉 14-08-2025
 
-// Format time (HH:mm)
-String createTime = DateFormat('HH:mm').format(dateTime); // 👉 11:08
-
-
+                            // Format time (HH:mm)
+                            String createTime = DateFormat(
+                              'HH:mm',
+                            ).format(dateTime); // 👉 11:08
 
                             return Padding(
                               padding: const EdgeInsets.only(bottom: 10),
@@ -356,7 +359,7 @@ String createTime = DateFormat('HH:mm').format(dateTime); // 👉 11:08
                                 name: pollData.creator.name,
                                 image: pollData.creator.profileImage,
                                 options: pollData.options,
-                                     time: "$createDate  •  $createTime",
+                                time: "$createDate  •  $createTime",
                                 selectedIndex: selected,
                                 onOptionTap: (optionIndex) {
                                   if (selected == null) {
@@ -378,12 +381,10 @@ String createTime = DateFormat('HH:mm').format(dateTime); // 👉 11:08
                       )
                       : Center(
                         child: Text("No data found", style: styleForNormalText),
-                      )
+                      ),
             ),
 
-
-const SizedBox(height: 10),
-
+            const SizedBox(height: 10),
 
             if (selectedIndex == 1)
               _buildPostSection(
@@ -421,26 +422,30 @@ const SizedBox(height: 10),
                   controller.latestPollList.isNotEmpty
                       ? ListView.builder(
                         padding: EdgeInsets.all(0),
-                        itemCount: controller.latestPollList.length > 3 ? 3 : controller.latestPollList.length,
+                        itemCount:
+                            controller.latestPollList.length > 3
+                                ? 3
+                                : controller.latestPollList.length,
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
                         itemBuilder: (context, index) {
                           final pollData = controller.latestPollList[index];
                           return Obx(() {
-
                             final selected =
                                 controller.selectedPollOptions[pollData.id];
-                                                        String isoTime = pollData.createdAt;
+                            String isoTime = pollData.createdAt;
 
-DateTime dateTime = DateTime.parse(isoTime);
+                            DateTime dateTime = DateTime.parse(isoTime);
 
-// Format as dd-MM-yyyy
-String createDate = DateFormat('dd-MM-yyyy').format(dateTime); // 👉 14-08-2025
+                            // Format as dd-MM-yyyy
+                            String createDate = DateFormat(
+                              'dd-MM-yyyy',
+                            ).format(dateTime); // 👉 14-08-2025
 
-// Format time (HH:mm)
-String createTime = DateFormat('HH:mm').format(dateTime); // 👉 11:08
-
-
+                            // Format time (HH:mm)
+                            String createTime = DateFormat(
+                              'HH:mm',
+                            ).format(dateTime); // 👉 11:08
 
                             return Padding(
                               padding: const EdgeInsets.only(bottom: 10),
@@ -450,7 +455,7 @@ String createTime = DateFormat('HH:mm').format(dateTime); // 👉 11:08
                                 name: pollData.creator.name,
                                 image: pollData.creator.profileImage,
                                 options: pollData.options,
-                                     time: "$createDate  •  $createTime",
+                                time: "$createDate  •  $createTime",
                                 selectedIndex: selected,
                                 onOptionTap: (optionIndex) {
                                   if (selected == null) {
@@ -472,7 +477,7 @@ String createTime = DateFormat('HH:mm').format(dateTime); // 👉 11:08
                       )
                       : Center(
                         child: Text("No data found", style: styleForNormalText),
-                      )
+                      ),
             ),
 
             SizedBox(height: 90.h),
@@ -559,7 +564,7 @@ String createTime = DateFormat('HH:mm').format(dateTime); // 👉 11:08
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
-          title,
+          title.tr,
           style: styleForBoldText.copyWith(
             fontSize: 18.sp,
             color: AppColors.darkGrey,
@@ -568,7 +573,7 @@ String createTime = DateFormat('HH:mm').format(dateTime); // 👉 11:08
         TextButton(
           onPressed: onSeeAll,
           child: Text(
-            "See All",
+            "See All".tr,
             style: styleForBoldText.copyWith(
               fontSize: 14.sp,
               color: AppColors.primary,
@@ -593,7 +598,7 @@ String createTime = DateFormat('HH:mm').format(dateTime); // 👉 11:08
           onSeeAll: () {
             Get.toNamed(
               RoutesName.seeAllPostScreen,
-              arguments: {'data': routeArg,'isMyPost':routeArg=="myPost"},
+              arguments: {'data': routeArg, 'isMyPost': routeArg == "myPost"},
             );
           },
         ),
@@ -608,20 +613,20 @@ String createTime = DateFormat('HH:mm').format(dateTime); // 👉 11:08
                     physics: const NeverScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
                       final data = postList[index];
-                    
 
-                        String isoTime = data.createdAt;
+                      String isoTime = data.createdAt;
 
-DateTime dateTime = DateTime.parse(isoTime);
+                      DateTime dateTime = DateTime.parse(isoTime);
 
-// Format as dd-MM-yyyy
-String createDate = DateFormat('dd-MM-yyyy').format(dateTime); // 👉 14-08-2025
+                      // Format as dd-MM-yyyy
+                      String createDate = DateFormat(
+                        'dd-MM-yyyy',
+                      ).format(dateTime); // 👉 14-08-2025
 
-// Format time (HH:mm)
-String createTime = DateFormat('HH:mm').format(dateTime); // 👉 11:08
-
-
-
+                      // Format time (HH:mm)
+                      String createTime = DateFormat(
+                        'HH:mm',
+                      ).format(dateTime); // 👉 11:08
 
                       return Padding(
                         padding: const EdgeInsets.only(bottom: 10),
@@ -636,7 +641,11 @@ String createTime = DateFormat('HH:mm').format(dateTime); // 👉 11:08
                           onTap: () {
                             Get.toNamed(
                               RoutesName.commentPost,
-                              arguments: {'id': data.id, 'type': type,'isMyPost':routeArg=="myPost"},
+                              arguments: {
+                                'id': data.id,
+                                'type': type,
+                                'isMyPost': routeArg == "myPost",
+                              },
                             );
                           },
                           isLiked: data.isLiked,
