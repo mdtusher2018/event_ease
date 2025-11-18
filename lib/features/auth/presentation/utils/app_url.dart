@@ -135,10 +135,14 @@ class AppUrl {
 
   //>>>>>>>>>>>>>>> business <<<<<<<<<<<<<<<<<<<<<<<<<<<
   static const getAllBusiness = "$baseUrl/business/location";
+  static const getAllGuestBusiness = "$baseUrl/business/guest/location";
   // static const getAllBusiness = "$baseUrl/business/";
   // static const getAllSubscriptionEvent = "$baseUrl/event/sub/location";
   static const getAllSubscriptionEvent = "$baseUrl/event/all/location";
+  static const getAllGuestSubscriptionEvent =
+      "$baseUrl/event/all/guest/location";
   static const getAllEvent = "$baseUrl/business/exclusive/location";
+  static const getGuestAllEvent = "$baseUrl/business/exclusive/guest/location";
   static const getAllInspirationCategory =
       "$baseUrl/category/inspiration?limit=10000";
   static String getBusinessDetailsById(String id) => "$baseUrl/business/$id";

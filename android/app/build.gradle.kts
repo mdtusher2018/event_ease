@@ -33,30 +33,20 @@ android {
         applicationId = "it.pianofesta.app"
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
-        versionCode = 9
-        versionName = "9.0.0"
+        versionCode = 10
+        versionName = "10.0.0"
     }
     signingConfigs {
         create("release") {
-        /*    val keyAliasValue = keystoreProperties["keyAlias"] as? String
-            val keyPasswordValue = keystoreProperties["keyPassword"] as? String
-            val storeFileValue = keystoreProperties["storeFile"] as? String
-            val storePasswordValue = keystoreProperties["storePassword"] as? String
-
-            if (keyAliasValue != null && keyPasswordValue != null && storeFileValue != null && storePasswordValue != null) {
-                keyAlias = keyAliasValue
-                keyPassword = keyPasswordValue
-                storeFile = file(storeFileValue)
-                storePassword = storePasswordValue
-            } else {
-                println("⚠️ Warning: Missing key.properties values. Release signing config will be skipped.")
-            }
-        */
+            keyAlias = keystoreProperties["keyAlias"] as String
+            keyPassword = keystoreProperties["keyPassword"] as String
+            storeFile = file(keystoreProperties["storeFile"] as String)
+            storePassword = keystoreProperties["storePassword"] as String      
+        
         }
     }
     buildTypes {
         release {
-            signingConfig = signingConfigs.getByName("debug")
             signingConfig = signingConfigs.getByName("release")
         }
     }
