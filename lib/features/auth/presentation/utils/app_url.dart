@@ -142,7 +142,6 @@ class AppUrl {
   static const getAllGuestSubscriptionEvent =
       "$baseUrl/event/all/guest/location";
   static const getAllEvent = "$baseUrl/business/exclusive/location";
-  // static const getGuestAllEvent = "$baseUrl/business/exclusive/guest/location";
   static const getAllInspirationCategory =
       "$baseUrl/category/inspiration?limit=10000";
   static String getBusinessDetailsById(String id) => "$baseUrl/business/$id";
