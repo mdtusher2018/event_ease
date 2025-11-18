@@ -4,6 +4,7 @@ class AppTranslations extends Translations {
   @override
   Map<String, Map<String, String>> get keys => {
     'en_US': {
+      "continue_as_a_guest": "Continue as a Guest",
       "Password is required": "Password is required",
       "Delete failed": "Delete failed",
       "Error: ": "Error: ",
@@ -976,6 +977,7 @@ class AppTranslations extends Translations {
       "Logout": "Esci",
       "Are you sure you want to logout?": "Sei sicuro di voler uscire?",
       "Cancel": "Annulla",
+      "continue_as_a_guest": "Continua come ospite",
     },
   };
 }

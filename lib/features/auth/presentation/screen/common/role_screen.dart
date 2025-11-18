@@ -1,10 +1,8 @@
 import 'package:event_ease/core/routers/routes_name.dart';
 import 'package:event_ease/features/auth/presentation/screen/common/Guest/guest_home_page.dart';
-import 'package:event_ease/features/auth/presentation/utils/app_colors.dart';
 import 'package:event_ease/features/auth/presentation/utils/app_string.dart';
 import 'package:event_ease/features/auth/presentation/utils/styles.dart';
 import 'package:event_ease/features/auth/presentation/widgets/custom_button.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -64,37 +62,52 @@ class RoleScreen extends StatelessWidget {
                 },
               ),
               SizedBox(height: 16),
-              RichText(
-                text: TextSpan(
-                  children: [
-                    TextSpan(
-                      text: "Continue as a ",
-                      style: styleForBoldText.copyWith(
-                        color: AppColors.primary.withOpacity(0.8),
-                        height: 1.40,
-                        letterSpacing: 0.2,
-                        fontSize: 14.sp,
-                      ),
-                    ),
-                    TextSpan(
-                      text: "Guest",
-                      recognizer:
-                          TapGestureRecognizer()
-                            ..onTap = () {
-                              Get.to(GuestHomeScreen());
-                            },
-                      style: styleForBoldText.copyWith(
-                        color: AppColors.primary,
-                        height: 1.40,
-                        letterSpacing: 0.2,
-                        fontSize: 14.sp,
-                        decoration: TextDecoration.underline,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
+
+              // ElevatedButton(
+              //   onPressed: () {
+              //     Get.to(GuestHomeScreen());
+              //   },
+              //   child: Text(AppString.continueAsGuest),
+              // ),
+              CustomButton(
+                text: AppString.continueAsGuest,
+
+                onTap: () {
+                  Get.to(GuestHomeScreen());
+                },
               ),
+
+              // RichText(
+              //   text: TextSpan(
+              //     children: [
+              //       TextSpan(
+              //         text: "Continue as a ",
+              //         style: styleForBoldText.copyWith(
+              //           color: AppColors.primary.withOpacity(0.8),
+              //           height: 1.40,
+              //           letterSpacing: 0.2,
+              //           fontSize: 14.sp,
+              //         ),
+              //       ),
+              //       TextSpan(
+              //         text: "Guest",
+              //         recognizer:
+              //             TapGestureRecognizer()
+              //               ..onTap = () {
+              //                 Get.to(GuestHomeScreen());
+              //               },
+              //         style: styleForBoldText.copyWith(
+              //           color: AppColors.primary,
+              //           height: 1.40,
+              //           letterSpacing: 0.2,
+              //           fontSize: 14.sp,
+              //           decoration: TextDecoration.underline,
+              //           fontWeight: FontWeight.bold,
+              //         ),
+              //       ),
+              //     ],
+              //   ),
+              // ),
             ],
           ),
         ),

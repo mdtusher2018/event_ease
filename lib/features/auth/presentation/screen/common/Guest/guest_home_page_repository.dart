@@ -29,16 +29,6 @@ class GuestHomePageRepository {
     return response;
   }
 
-  Future<ApiResponse> getALLEvents(double long, double lat) async {
-    final response = await ApiService.to.getApi(
-      "${AppUrl.getGuestAllEvent}?longitude=$long&latitude=$lat&limit=10000",
-    );
-    // final response = await ApiService.to.getApi("${AppUrl.getAllEvent}?longitude=12.1607116&latitude=42.0979882&limit=10000");
-    log(">>>> Business Response : $response");
-    log(">>>> Business Response Body : ${response.toString()}");
-    return response;
-  }
-
   Future<ApiResponse> getALLInspirationCategory() async {
     final response = await ApiService.to.getApi(
       AppUrl.getAllInspirationCategory,

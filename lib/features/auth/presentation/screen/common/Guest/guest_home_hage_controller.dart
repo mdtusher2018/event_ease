@@ -31,7 +31,6 @@ class GuestHomePageController extends GetxController {
     fetchProviderCategories();
     fetchAllSubscriptionEvents();
     fetchAllInspirationCategory();
-    fetchAllEvents();
     getInspirationCategory();
   }
 
@@ -143,50 +142,6 @@ class GuestHomePageController extends GetxController {
       }
     } catch (e, s) {
       log("Error in fetchAllSubscriptionEvents: $e\n$s");
-      Get.snackbar("Error".tr, "Something went wrong");
-    } finally {
-      isLoading.value = false;
-    }
-  }
-
-  Future<void> fetchAllEvents() async {
-    try {
-      isLoading.value = true;
-      if (position == null) {
-        // position = await Geolocator.getCurrentPosition();
-        //     double lat = position!.latitude;
-        // double long = position!.longitude;
-        double lat;
-        double long;
-        if (await Permission.location.isGranted) {
-          position = await Geolocator.getCurrentPosition();
-          lat = position!.latitude;
-          long = position!.longitude;
-        } else {
-          lat = 41.9028; // Rome latitude
-          long = 12.4964; // Rome longitude
-        }
-        final response = await _guestHomePageRepository.getALLEvents(long, lat);
-        if (response.success && response.data != null) {
-          final businessResponse = BusinessDataModel.fromJson(response.data);
-          eventsList.assignAll(businessResponse.data);
-        } else {
-          Get.snackbar("Error".tr, response.message);
-        }
-      } else {
-        double lat = position!.latitude;
-        double long = position!.longitude;
-        final response = await _guestHomePageRepository.getALLEvents(long, lat);
-        if (response.success && response.data != null) {
-          final businessResponse = BusinessDataModel.fromJson(response.data);
-          eventsList.assignAll(businessResponse.data);
-          log("Fetched ${businessList.length} Subscription businesses");
-        } else {
-          Get.snackbar("Error".tr, response.message);
-        }
-      }
-    } catch (e, s) {
-      log("Error in fetchAllEvents: $e\n$s");
       Get.snackbar("Error".tr, "Something went wrong");
     } finally {
       isLoading.value = false;

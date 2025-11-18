@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 
 class AppString {
+  static String get continueAsGuest => "continue_as_a_guest".tr;
   static String get appTitleText => "event_ease".tr;
   static String get planYourPerfectEventWithEase =>
       "plan_your_perfect_event_with_ease".tr;
