@@ -478,8 +478,47 @@ class AppTranslations extends Translations {
       'related_event': 'Related Event',
 
       'pending_request': "Pending Request",
+
+      'favorite_title': 'Favorite Items',
+      'favorite_subtitle':
+          'Tap here to explore your favorite items, or log in to manage them.',
+      'favorite_button': 'Explore Favorites',
+
+      'inspiration_title': 'Inspiration',
+      'inspiration_subtitle':
+          'Tap here to get inspired, or log in for personalized suggestions.',
+      'inspiration_button': 'Get Inspired',
+
+      'community_title': 'Community',
+      'community_subtitle':
+          'Join the community, or log in to interact with others.',
+      'community_button': 'Explore Community',
+
+      'chat_title': 'Chat',
+      'chat_subtitle': 'Start a conversation or log in to chat with others.',
+      'chat_button': 'Start Chatting',
     },
     'it_IT': {
+      'favorite_title': 'Articoli preferiti',
+      'favorite_subtitle':
+          'Tocca qui per esplorare i tuoi articoli preferiti o accedi per gestirli.',
+      'favorite_button': 'Esplora preferiti',
+
+      'inspiration_title': 'Ispirazione',
+      'inspiration_subtitle':
+          'Tocca qui per farti ispirare o accedi per suggerimenti personalizzati.',
+      'inspiration_button': 'Fatti ispirare',
+
+      'community_title': 'Comunità',
+      'community_subtitle':
+          'Unisciti alla comunità o accedi per interagire con gli altri.',
+      'community_button': 'Esplora la comunità',
+
+      'chat_title': 'Chat',
+      'chat_subtitle':
+          'Inizia una conversazione o accedi per chattare con gli altri.',
+      'chat_button': 'Inizia a chattare',
+
       'pending_request': "Richiesta in sospeso",
 
       'event_ease': 'Event Ease',
