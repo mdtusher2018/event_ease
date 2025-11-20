@@ -1,4 +1,3 @@
-
 import 'pasination_model.dart';
 
 class BusinessDataModel {
@@ -9,7 +8,9 @@ class BusinessDataModel {
 
   factory BusinessDataModel.fromJson(Map<String, dynamic> json) {
     return BusinessDataModel(
-      data: List<Business>.from(json['data'].map((x) => Business.fromJson(x??{}))),
+      data: List<Business>.from(
+        json['data'].map((x) => Business.fromJson(x ?? {})),
+      ),
       meta: Meta.fromJson(json['meta']),
     );
   }
@@ -60,18 +61,18 @@ class Business {
       name: json['name'],
       coverImage: json['coverImage'] ?? "",
       address: json['address'],
-      providerType: ProviderType.fromJson(json['providerType']??{}),
+      providerType: ProviderType.fromJson(json['providerType'] ?? {}),
       priceRange: json['priceRange'],
       maxGuest: json['maxGuest'],
-      subscriptionType: json['subscriptionType'],
-      createdAt: json['createdAt'],
-      averageRating: (json['averageRating'] as num).toDouble(),
-      totalReviews: json['totalReviews'],
-      totalLikes: json['totalLikes'],
-isLiked: json['isLiked'] ?? false,
+      subscriptionType: json['subscriptionType'] ?? "none",
+      createdAt: json['createdAt'] ?? "",
+      averageRating: (json['averageRating'] ?? 0).toDouble(),
+      totalReviews: json['totalReviews'] ?? 0,
+      totalLikes: json['totalLikes'] ?? 0,
+      isLiked: json['isLiked'] ?? false,
       isFollowed: json['isFollowed'] ?? false,
-      totalComments: json['totalComments'],
-      blueVerifiedBadge: json['blueVerifiedBadge']??false,
+      totalComments: json['totalComments'] ?? 0,
+      blueVerifiedBadge: json['blueVerifiedBadge'] ?? false,
       isWishlisted: json['isWishlisted'] ?? false,
     );
   }
@@ -84,6 +85,6 @@ class ProviderType {
   ProviderType({required this.id, required this.name});
 
   factory ProviderType.fromJson(Map<String, dynamic> json) {
-    return ProviderType(id: json['_id'], name: json['name']);
+    return ProviderType(id: json['_id'] ?? "", name: json['name'] ?? "");
   }
 }

@@ -37,11 +37,11 @@ class InspirationController extends GetxController {
         inspirationCategoryList.value = response.data['data'];
         log("Fetched Inspiration Category");
       } else {
-        Get.snackbar("Error".tr,response.message);
+        Get.snackbar("Error".tr, response.message);
       }
     } catch (e, s) {
       log("Error in fetch Inspiration Category: $e\n$s");
-      Get.snackbar("Error".tr,"Something went wrong");
+      Get.snackbar("Error".tr, "Something went wrong");
     } finally {
       isLoading.value = false;
     }
@@ -56,11 +56,11 @@ class InspirationController extends GetxController {
         inspirationCategoryGroupList.value = response.data['data'];
         log("Fetched Inspiration Category");
       } else {
-        Get.snackbar("Error".tr,response.message);
+        Get.snackbar("Error".tr, response.message);
       }
     } catch (e, s) {
       log("Error in fetch Inspiration Category: $e\n$s");
-      Get.snackbar("Error".tr,"Something went wrong");
+      Get.snackbar("Error".tr, "Something went wrong");
     } finally {
       isLoading.value = false;
     }
@@ -80,11 +80,11 @@ class InspirationController extends GetxController {
         log("Fetched Inspiration Category");
         Get.toNamed(RoutesName.idea, arguments: false);
       } else {
-        Get.snackbar("Error".tr,response.message);
+        Get.snackbar("Error".tr, response.message);
       }
     } catch (e, s) {
       log("Error in fetch Inspiration Category: $e\n$s");
-      Get.snackbar("Error".tr,"Something went wrong");
+      Get.snackbar("Error".tr, "Something went wrong");
     } finally {
       isLoading.value = false;
     }
@@ -104,11 +104,11 @@ class InspirationController extends GetxController {
         log("Fetched Inspiration Category========$groupCategoryViewAllList");
         Get.toNamed(RoutesName.idea, arguments: true);
       } else {
-        Get.snackbar("Error".tr,response.message);
+        Get.snackbar("Error".tr, response.message);
       }
     } catch (e, s) {
       log("Error in fetch Inspiration Category: $e\n$s");
-      Get.snackbar("Error".tr,"Something went wrong");
+      Get.snackbar("Error".tr, "Something went wrong");
     } finally {
       isLoading.value = false;
     }
@@ -142,7 +142,7 @@ class InspirationController extends GetxController {
       }
     } catch (e, s) {
       log("Error in fetch Inspiration Category: $e\n$s");
-      Get.snackbar("Error".tr,"Something went wrong");
+      Get.snackbar("Error".tr, "Something went wrong");
     } finally {
       isLoading.value = false;
     }
@@ -157,16 +157,15 @@ class InspirationController extends GetxController {
         inspirationMyPost.value = response.data['data'];
         log("Fetched Inspiration my post");
       } else {
-        Get.snackbar("Error".tr,response.message);
+        Get.snackbar("Error".tr, response.message);
       }
     } catch (e, s) {
       log("Error in fetch Inspiration my post: $e\n$s");
-      Get.snackbar("Error".tr,"Something went wrong");
+      Get.snackbar("Error".tr, "Something went wrong");
     } finally {
       isLoading.value = false;
     }
   }
-
 
   RxList<InspirationItem> latestList = <InspirationItem>[].obs;
 
@@ -190,9 +189,6 @@ class InspirationController extends GetxController {
     }
   }
 
-
-
-
   @override
   void onInit() {
     // TODO: implement onInit
@@ -200,6 +196,6 @@ class InspirationController extends GetxController {
     getInspirationCategory();
     getInspirationCategoryGroup();
     getInspirationMyPost();
-     fetchLatestInspirations();
+    fetchLatestInspirations();
   }
 }

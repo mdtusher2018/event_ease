@@ -2,8 +2,10 @@ import 'dart:developer';
 
 import 'package:event_ease/core/helper/prefs_helper.dart';
 import 'package:event_ease/core/routers/routes_name.dart';
+import 'package:event_ease/features/auth/presentation/screen/common/creadit_history/creadit_history.dart';
 import 'package:event_ease/features/auth/presentation/screen/common/home/my_subscription_history.dart';
 import 'package:event_ease/features/auth/presentation/screen/common/profile/delete_profile.dart';
+import 'package:event_ease/features/auth/presentation/screen/common/profile/pending_crdite_scareen_for_business.dart';
 import 'package:event_ease/features/auth/presentation/utils/app_colors.dart';
 import 'package:event_ease/features/auth/presentation/utils/app_icons.dart';
 import 'package:event_ease/features/auth/presentation/utils/app_string.dart';
@@ -121,25 +123,43 @@ class _CustomDrawerState extends State<CustomDrawer> {
               },
             ),
             Divider(),
-            // if (PrefsHelper.myRole == "user")
-              CustomDrawerListTile(
-                leadingIcon: AppIcons.referralsIcon,
-                title: AppString.myReferrals,
-                onTabFunction: () {
-                  Get.toNamed(RoutesName.myReferralsScreen);
-                },
-              ),
-            // if (PrefsHelper.myRole == "user") 
-            Divider(),
-            // if (PrefsHelper.myRole == "user")
+
+            if (PrefsHelper.myRole == "organizer") ...[
               CustomDrawerListTile(
                 leadingIcon: AppIcons.job,
-                title: AppString.job,
+                title: AppString.pendingrequest,
                 onTabFunction: () {
-                  Get.toNamed(RoutesName.job);
+                  Get.to(BusinessPendingRequestsPage());
                 },
               ),
-            // if (PrefsHelper.myRole == "user") 
+              Divider(),
+            ],
+            CustomDrawerListTile(
+              leadingIcon: AppIcons.support,
+              title: "creditHistory".tr,
+              onTabFunction: () {
+                Get.to(() => CreditHistoryPage());
+              },
+            ),
+            Divider(),
+            CustomDrawerListTile(
+              leadingIcon: AppIcons.referralsIcon,
+              title: AppString.myReferrals,
+              onTabFunction: () {
+                Get.toNamed(RoutesName.myReferralsScreen);
+              },
+            ),
+            // if (PrefsHelper.myRole == "user")
+            Divider(),
+            // if (PrefsHelper.myRole == "user")
+            CustomDrawerListTile(
+              leadingIcon: AppIcons.job,
+              title: AppString.job,
+              onTabFunction: () {
+                Get.toNamed(RoutesName.job);
+              },
+            ),
+            // if (PrefsHelper.myRole == "user")
             Divider(),
 
             CustomDrawerListTile(
@@ -173,22 +193,25 @@ class _CustomDrawerState extends State<CustomDrawer> {
               onTabFunction: () {
                 Get.toNamed(RoutesName.privacyPolicy);
               },
-            ),     
-            if (PrefsHelper.myRole == "organizer")Divider(),
-              if (PrefsHelper.myRole == "organizer")   CustomDrawerListTile(
-              leadingIcon: AppIcons.sponsorshipIcon,
-              title: "My Subscription".tr,
+            ),
+            if (PrefsHelper.myRole == "organizer") Divider(),
+            if (PrefsHelper.myRole == "organizer")
+              CustomDrawerListTile(
+                leadingIcon: AppIcons.sponsorshipIcon,
+                title: "My Subscription".tr,
+                onTabFunction: () {
+                  Get.to(MySubscriptionHistoryScreen());
+                },
+              ),
+            Divider(),
+            CustomDrawerListTile(
+              title: "Delete Account".tr,
+              leadingIcon: "assets/icons/delete.svg",
               onTabFunction: () {
-                Get.to(MySubscriptionHistoryScreen());
+                Get.to(DeleteProfilePage());
               },
             ),
             Divider(),
-            CustomDrawerListTile(title: "Delete Account".tr, 
-              leadingIcon: "assets/icons/delete.svg",
-            onTabFunction: (){
-              Get.to(DeleteProfilePage());
-            }),
-  Divider(),
             ListTile(
               leading: SvgPicture.asset(
                 AppIcons.logoutIcon,

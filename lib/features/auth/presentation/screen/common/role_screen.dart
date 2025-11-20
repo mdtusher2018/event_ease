@@ -1,4 +1,6 @@
 import 'package:event_ease/core/routers/routes_name.dart';
+import 'package:event_ease/features/auth/presentation/screen/common/Guest/guest_root_page.dart';
+import 'package:event_ease/features/auth/presentation/utils/app_colors.dart';
 import 'package:event_ease/features/auth/presentation/utils/app_string.dart';
 import 'package:event_ease/features/auth/presentation/utils/styles.dart';
 import 'package:event_ease/features/auth/presentation/widgets/custom_button.dart';
@@ -17,10 +19,15 @@ class RoleScreen extends StatelessWidget {
       body: Container(
         padding: EdgeInsets.all(10),
         width: double.infinity,
-        child: Center(  // Center the entire content
+        child: Center(
+          // Center the entire content
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center, // Center the column content vertically
-            crossAxisAlignment: CrossAxisAlignment.center, // Center the column content horizontally
+            mainAxisAlignment:
+                MainAxisAlignment
+                    .center, // Center the column content vertically
+            crossAxisAlignment:
+                CrossAxisAlignment
+                    .center, // Center the column content horizontally
             children: [
               Text(
                 "${AppString.welcomeTo} PianoFesta",
@@ -30,7 +37,11 @@ class RoleScreen extends StatelessWidget {
               SizedBox(height: 30),
               Text(
                 "${AppString.areYouRegisteringAsBusiness}?",
-                style: styleForNormalText.copyWith(fontSize: 24.sp, height: 1.33.h, fontWeight: FontWeight.w600),
+                style: styleForNormalText.copyWith(
+                  fontSize: 24.sp,
+                  height: 1.33.h,
+                  fontWeight: FontWeight.w600,
+                ),
                 textAlign: TextAlign.center, // Center align text
               ),
               SizedBox(height: 60),
@@ -40,7 +51,7 @@ class RoleScreen extends StatelessWidget {
                   PrefsHelper.myRole = "user";
                   await PrefsHelper.setString("myRole", PrefsHelper.myRole);
                   Get.toNamed(RoutesName.signIn);
-                  },
+                },
               ),
               SizedBox(height: 20),
               CustomButton(
@@ -50,6 +61,37 @@ class RoleScreen extends StatelessWidget {
                   await PrefsHelper.setString("myRole", PrefsHelper.myRole);
                   Get.toNamed(RoutesName.signIn);
                 },
+              ),
+              SizedBox(height: 16),
+
+              // ElevatedButton(
+              //   onPressed: () {
+              //     Get.to(GuestHomeScreen());
+              //   },
+              //   child: Text(AppString.continueAsGuest),
+              // ),
+              // CustomButton(
+              //   text: AppString.continueAsGuest,
+
+              //   onTap: () {
+              //     Get.to(GuestHomeScreen());
+              //   },
+              // ),
+              InkWell(
+                onTap: () {
+                  Get.to(GuestRootPage());
+                },
+                child: Text(
+                  AppString.continueAsGuest,
+                  style: styleForBoldText.copyWith(
+                    color: AppColors.primary,
+                    height: 1.40,
+                    letterSpacing: 0.2,
+                    fontSize: 18.sp,
+                    decoration: TextDecoration.underline,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
             ],
           ),

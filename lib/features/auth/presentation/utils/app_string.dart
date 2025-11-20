@@ -1,17 +1,22 @@
 import 'package:get/get.dart';
 
 class AppString {
+  static String get continueAsGuest => "continue_as_a_guest".tr;
   static String get appTitleText => "event_ease".tr;
-  static String get planYourPerfectEventWithEase => "plan_your_perfect_event_with_ease".tr;
+  static String get planYourPerfectEventWithEase =>
+      "plan_your_perfect_event_with_ease".tr;
   static String get discoverTopVenues => "discover_top_venues".tr;
   static String get getStarted => "get_started".tr;
-  static String get discoverTopEventServices => "discover_top_event_services".tr;
-  static String get exploreAndBookTheBestVenues => "explore_and_book_the_best_venues".tr;
+  static String get discoverTopEventServices =>
+      "discover_top_event_services".tr;
+  static String get exploreAndBookTheBestVenues =>
+      "explore_and_book_the_best_venues".tr;
   static String get seamlessBookingPlanning => "seamless_booking_planning".tr;
   static String get manageYourEvent => "manage_your_event".tr;
   static String get finish => "finish".tr;
   static String get welcomeTo => "welcome_to".tr;
-  static String get areYouRegisteringAsBusiness => "are_you_registering_as_business".tr;
+  static String get areYouRegisteringAsBusiness =>
+      "are_you_registering_as_business".tr;
   static String get regularProfile => "regular_profile".tr;
   static String get businessProfile => "business_profile".tr;
   static String get signInYourAccount => "sign_in_your_account".tr;
@@ -30,7 +35,8 @@ class AppString {
   static String get dateOfBirth => "date_of_birth".tr;
   static String get confirmPassword => "confirm_password".tr;
   static String get iAcceptThe => "i_accept_the".tr;
-  static String get pleaseAcceptThePrivacyPolicy => "please_accept_the_privacy_policy".tr;
+  static String get pleaseAcceptThePrivacyPolicy =>
+      "please_accept_the_privacy_policy".tr;
   static String get acceptTerms => "accept_terms".tr;
   static String get alreadyHaveAnAccount => "already_have_an_account".tr;
   static String get continueText => "continue".tr;
@@ -46,11 +52,14 @@ class AppString {
   static String get confirmNewPassword => "confirm_new_password".tr;
   static String get findEventsNearYou => "find_events_near_you".tr;
   static String get enableLocationServices => "enable_location_services".tr;
-  static String get wantToFindTheBestEvents => "want_to_find_the_best_events".tr;
+  static String get wantToFindTheBestEvents =>
+      "want_to_find_the_best_events".tr;
   static String get allowLocationAccess => "allow_location_access".tr;
   static String get stayUpdated => "stay_updated".tr;
-  static String get enableNotificationServices => "enable_notification_services".tr;
-  static String get enableNotificationsToReceive => "enable_notifications_to_receive".tr;
+  static String get enableNotificationServices =>
+      "enable_notification_services".tr;
+  static String get enableNotificationsToReceive =>
+      "enable_notifications_to_receive".tr;
   static String get enableNotification => "enable_notification".tr;
   static String get elegantHandcrafted => "elegant_handcrafted".tr;
   static String get organizedBy => "organized_by".tr;
@@ -68,7 +77,8 @@ class AppString {
   static String get sortBy => "sort_by".tr;
   static String get applyFilter => "apply_filter".tr;
   static String get realWedding => "real_wedding".tr;
-  static String get getInspiredByTheWeddingsOtherCouples => "get_inspired_by_the_weddings_other_couples".tr;
+  static String get getInspiredByTheWeddingsOtherCouples =>
+      "get_inspired_by_the_weddings_other_couples".tr;
   static String get melodiesForEveryMoment => "melodies_for_every_moment".tr;
   static String get photography => "photography".tr;
   static String get report => "report".tr;
@@ -78,12 +88,14 @@ class AppString {
   static String get guide => "guide".tr;
   static String get eventTips => "event_tips".tr;
   static String get essentialsForEveryEvent => "essentials_for_every_event".tr;
-  static String get letUsGuideYouToAPerfectEvent => "let_us_guide_you_to_a_perfect_event".tr;
+  static String get letUsGuideYouToAPerfectEvent =>
+      "let_us_guide_you_to_a_perfect_event".tr;
   static String get createChecklist => "create_checklist".tr;
   static String get havenNotDecidedYet => "haven_not_decided_yet".tr;
   static String get doNotWorry => "do_not_worry".tr;
   static String get whatAreYouLookingFor => "what_are_you_looking_for".tr;
-  static String get signUpForPianoFestaBusiness => "sign_up_for_pianoFesta_business".tr;
+  static String get signUpForPianoFestaBusiness =>
+      "sign_up_for_pianoFesta_business".tr;
   static String get stepGeneralInformation => "step_general_information".tr;
   static String get generalInformation => "general_information".tr;
   static String get tellUsAboutYourBusiness => "tell_us_about_your_business".tr;
@@ -93,7 +105,8 @@ class AppString {
   static String get saveAsDraft => "save_as_draft".tr;
   static String get stepImagesMedia => "step_images_media".tr;
   static String get imagesMedia => "images_media".tr;
-  static String get showcaseYourBusinessWithVisualContent => "showcase_your_business_with_visual_content".tr;
+  static String get showcaseYourBusinessWithVisualContent =>
+      "showcase_your_business_with_visual_content".tr;
   static String get businessLogo => "business_logo".tr;
   static String get changeImage => "change_image".tr;
   static String get coverImage => "cover_image".tr;
@@ -104,13 +117,15 @@ class AppString {
   static String get website => "website".tr;
   static String get stepSocialNetworks => "step_social_networks".tr;
   static String get socialNetworks => "social_networks".tr;
-  static String get connectYourBusinessSocialMediaAccounts => "connect_your_business_social_media_accounts".tr;
+  static String get connectYourBusinessSocialMediaAccounts =>
+      "connect_your_business_social_media_accounts".tr;
   static String get facebook => "facebook".tr;
   static String get instagram => "instagram".tr;
   static String get tikTok => "tik_tok".tr;
   static String get stepBusinessHours => "step_business_hours".tr;
   static String get businessHours => "business_hours".tr;
-  static String get whenAreYouAvailableForCustomers => "when_are_you_available_for_customers".tr;
+  static String get whenAreYouAvailableForCustomers =>
+      "when_are_you_available_for_customers".tr;
   static String get daysOfWeek => "days_of_week".tr;
   static String get startTime => "start_time".tr;
   static String get selectTime => "select_time".tr;
@@ -123,7 +138,8 @@ class AppString {
   static String get geolocation => "geolocation".tr;
   static String get stepServicesDetails => "step_services_details".tr;
   static String get servicesDetails => "services_details".tr;
-  static String get whatDoesYourBusinessOffer => "what_does_your_business_offer".tr;
+  static String get whatDoesYourBusinessOffer =>
+      "what_does_your_business_offer".tr;
   static String get sunday => "sunday".tr;
   static String get monday => "monday".tr;
   static String get tuesday => "tuesday".tr;
@@ -139,7 +155,8 @@ class AppString {
   static String get useCredit => "use_credit".tr;
   static String get welcome => "welcome".tr;
   static String get anIntelligentSystem => "an_intelligent_system".tr;
-  static String get recommendedAdvertisingPackage => "recommended_advertising_package".tr;
+  static String get recommendedAdvertisingPackage =>
+      "recommended_advertising_package".tr;
   static String get elite => "elite".tr;
   static String get event => "event".tr;
   static String get business => "business".tr;
@@ -170,16 +187,22 @@ class AppString {
   static String get pleaseEnterAns => "please_enter_ans".tr;
   static String get addMore => "add_more".tr;
   static String get sponsorship => "sponsorship".tr;
-  static String get boostYourBusinessVisibility => "boost_your_business_visibility".tr;
+  static String get boostYourBusinessVisibility =>
+      "boost_your_business_visibility".tr;
   static String get highlightYourProfile => "highlight_your_profile".tr;
-  static String get stepWhatDoYouWantToPromote => "step_what_do_you_want_to_promote".tr;
+  static String get stepWhatDoYouWantToPromote =>
+      "step_what_do_you_want_to_promote".tr;
   static String get profile => "profile".tr;
-  static String get showcaseYourBusinessProfile => "showcase_your_business_profile".tr;
-  static String get promoteYourUpcomingEventsToIncreaseAttendance => "promote_your_upcoming_events_to_increase_attendance".tr;
-  static String get attractTalentByPromotingYourOpenPositions => "attract_talent_by_promoting_your_open_positions".tr;
+  static String get showcaseYourBusinessProfile =>
+      "showcase_your_business_profile".tr;
+  static String get promoteYourUpcomingEventsToIncreaseAttendance =>
+      "promote_your_upcoming_events_to_increase_attendance".tr;
+  static String get attractTalentByPromotingYourOpenPositions =>
+      "attract_talent_by_promoting_your_open_positions".tr;
   static String get affiliateProgram => "affiliate_program".tr;
   static String get earnWhileYouGrow => "earn_while_you_grow".tr;
-  static String get ourAffiliateProgramAllowsBusinesses => "our_affiliate_program_allows_businesses".tr;
+  static String get ourAffiliateProgramAllowsBusinesses =>
+      "our_affiliate_program_allows_businesses".tr;
   static String get earnAdCredits => "earn_ad_credits".tr;
   static String get uniqueReferralCode => "unique_referral_code".tr;
   static String get useForAdvertising => "use_for_advertising".tr;
@@ -212,7 +235,8 @@ class AppString {
   static String get addPromotion => "add_promotion".tr;
   static String get submit => "submit".tr;
   static String get announcement => "announcement_published_by".tr;
-  static String get iDoNotHaveSpecificLocation => "i_do_not_have_a_specific_location".tr;
+  static String get iDoNotHaveSpecificLocation =>
+      "i_do_not_have_a_specific_location".tr;
   static String get withinMilan => "within_milan".tr;
 
   static String get selectGender => "select_gender".tr;
@@ -222,7 +246,8 @@ class AppString {
   static String get noDataFound => "no_data_found".tr;
   static String get noBusinessFound => "no_business_found".tr;
   static String get message => "message".tr;
-  static String get discoverThePerfectSetting => "discover_the_perfect_setting".tr;
+  static String get discoverThePerfectSetting =>
+      "discover_the_perfect_setting".tr;
   static String get foodBeverage => "food_beverage".tr;
   static String get delightYourGuests => "delight_your_guests".tr;
   static String get setups => "setups".tr;
@@ -254,7 +279,8 @@ class AppString {
   static String get active => "active".tr;
   static String get iDonotHavePrecise => "i_donot_have_precise".tr;
   static String get personalizedResults => "personalized_results".tr;
-  static String get personalizedResultsIsEmpty => "personalized_results_is_empty".tr;
+  static String get personalizedResultsIsEmpty =>
+      "personalized_results_is_empty".tr;
   static String get weHaveFoundThePerfect => "we_have_found_the_perfect".tr;
   static String get budgetFriendly => "budget_friendly".tr;
   static String get midRange => "mid_range".tr;
@@ -266,7 +292,8 @@ class AppString {
   static String get relatedEvent => "related_event".tr;
 
   static String get hello => "hello".tr;
-  static String get searchEventsLocalBusiness => "search_events_local_business".tr;
+  static String get searchEventsLocalBusiness =>
+      "search_events_local_business".tr;
   static String get music => "music".tr;
   static String get corporate => "corporate".tr;
   static String get social => "social".tr;
@@ -275,15 +302,19 @@ class AppString {
   static String get exclusivePopular => "exclusive_popular".tr;
   static String get featuredEventSpecialist => "featured_event_specialist".tr;
   static String get learnMore => "learn_more".tr;
-  static String get featuredEventSpecialistDetails => "featured_event_specialist_details".tr;
+  static String get featuredEventSpecialistDetails =>
+      "featured_event_specialist_details".tr;
   static String get goToTheGuide => "go_to_the_guide".tr;
   static String get whatHappening => "what_happening".tr;
-  static String get discoverAllTheEventsAroundYou => "discover_all_the_events_around_you".tr;
+  static String get discoverAllTheEventsAroundYou =>
+      "discover_all_the_events_around_you".tr;
   static String get inspirations => "inspirations".tr;
-  static String get letYourselfBeInspiredToCreateYourPerfectEvent => "let_yourself_be_inspired_to_create_your_perfect_event".tr;
+  static String get letYourselfBeInspiredToCreateYourPerfectEvent =>
+      "let_yourself_be_inspired_to_create_your_perfect_event".tr;
   static String get community => "community".tr;
   static String get connectWithOtherUser => "connect_with_other_user".tr;
-  static String get tailorMadeSolutionsForYourEvent => "tailor_made_solutions_for_your_event".tr;
+  static String get tailorMadeSolutionsForYourEvent =>
+      "tailor_made_solutions_for_your_event".tr;
   static String get eventPlanner => "event_planner".tr;
   static String get follow => "follow".tr;
   static String get followers => "followers".tr;
@@ -291,8 +322,10 @@ class AppString {
   static String get likes => "likes".tr;
   static String get comment => "comment".tr;
   static String get comments => "comments".tr;
-  static String get handcraftedFloralArrangements => "handcrafted_floral_arrangements".tr;
-  static String get stunningBouquetsLastingArtificialBlooms => "stunning_bouquets_lasting_artificial_blooms".tr;
+  static String get handcraftedFloralArrangements =>
+      "handcrafted_floral_arrangements".tr;
+  static String get stunningBouquetsLastingArtificialBlooms =>
+      "stunning_bouquets_lasting_artificial_blooms".tr;
   static String get hour => "hour".tr;
   static String get description => "description".tr;
   static String get gallery => "gallery".tr;
@@ -346,23 +379,29 @@ class AppString {
   static String get weddingEvent => "wedding_event".tr;
   static String get selectEventCategories => "select_event_categories".tr;
   static String get next => "next".tr;
-  static String get whereWillTheEventTakePlace => "where_will_the_event_take_place".tr;
+  static String get whereWillTheEventTakePlace =>
+      "where_will_the_event_take_place".tr;
   static String get online => "online".tr;
   static String get offline => "offline".tr;
   static String get florence => "florence".tr;
   static String get venice => "venice".tr;
   static String get bologna => "bologna".tr;
   static String get enterCityAddress => "enter_city_address".tr;
-  static String get iDontHaveASpecificLocation => "i_dont_have_a_specific_location".tr;
+  static String get iDontHaveASpecificLocation =>
+      "i_dont_have_a_specific_location".tr;
   static String get howManyPeopleWillAttend => "how_many_people_will_attend".tr;
-  static String get doYouHavePreferencesForTheTypeOfLocation => "do_you_have_preferences_for_the_type_of_location".tr;
+  static String get doYouHavePreferencesForTheTypeOfLocation =>
+      "do_you_have_preferences_for_the_type_of_location".tr;
   static String get whatServicesDoYouNeed => "what_services_do_you_need".tr;
-  static String get doYouHaveAMaximumBudget => "do_you_have_a_maximum_budget".tr;
+  static String get doYouHaveAMaximumBudget =>
+      "do_you_have_a_maximum_budget".tr;
   static String get checklist => "checklist".tr;
   static String get general => "general".tr;
-  static String get getInspiredAndDefineYourStyle => "get_inspired_and_define_your_style".tr;
+  static String get getInspiredAndDefineYourStyle =>
+      "get_inspired_and_define_your_style".tr;
   static String get ideasAndAdvice => "ideas_and_advice".tr;
-  static String get readTheSuggestionsFromOurSpecialists => "read_the_suggestions_from_our_specialists".tr;
+  static String get readTheSuggestionsFromOurSpecialists =>
+      "read_the_suggestions_from_our_specialists".tr;
   static String get myPost => "my_post".tr;
   static String get addANewPost => "add_a_new_post".tr;
   static String get title => "title".tr;
@@ -387,9 +426,6 @@ class AppString {
 
   static String get twitter => "twitter".tr;
 
-
-
-
   //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
   static String get readyToWorkout => "ready_to_workout".tr;
@@ -412,7 +448,5 @@ class AppString {
   static String get workoutTimesPerWeek => "workout_times_per_week".tr;
   static String get workouts => "workouts".tr;
   static String get time => "time".tr;
-
-
-
+  static String get pendingrequest => "pending_request".tr;
 }

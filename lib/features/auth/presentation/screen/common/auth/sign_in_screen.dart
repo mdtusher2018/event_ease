@@ -22,7 +22,6 @@ class SignInScreen extends StatelessWidget {
   SignInController controller = Get.find<SignInController>();
   final _formKey = GlobalKey<FormState>();
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,13 +33,25 @@ class SignInScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-
-              SizedBox(height: 133.h,),
-              CommonImage(imageSrc: AppIcons.appLogo, imageType: ImageType.png, height: 64.h,width: 352.w,),
+              SizedBox(height: 133.h),
+              CommonImage(
+                imageSrc: AppIcons.appLogo,
+                imageType: ImageType.png,
+                height: 64.h,
+                width: 352.w,
+              ),
               // Image(image: AssetImage(AppIcons.appLogo)),
-              SizedBox(height: 77.h,),
-              Center(child: Text(AppString.signInYourAccount, style: styleForBoldText.copyWith(fontSize: 32.sp, color: AppColors.primary))),
-              SizedBox(height: 37.h,),
+              SizedBox(height: 77.h),
+              Center(
+                child: Text(
+                  AppString.signInYourAccount,
+                  style: styleForBoldText.copyWith(
+                    fontSize: 32.sp,
+                    color: AppColors.primary,
+                  ),
+                ),
+              ),
+              SizedBox(height: 37.h),
               CustomTextField(
                 validator: (value) => OtherHelper.emailValidator(value),
                 prefixIcon: AppIcons.emailLogo,
@@ -48,9 +59,8 @@ class SignInScreen extends StatelessWidget {
                 isSuffix: false,
                 backgroundColor: AppColors.textFieldBg,
                 controller: controller.emailController,
-                
               ),
-              SizedBox(height: 20.h,),
+              SizedBox(height: 20.h),
               CustomTextField(
                 validator: (value) => OtherHelper.validator(value),
                 prefixIcon: AppIcons.loginPassword,
@@ -59,54 +69,60 @@ class SignInScreen extends StatelessWidget {
                 backgroundColor: AppColors.textFieldBg,
                 controller: controller.passwordController,
               ),
-              SizedBox(height: 1.h,),
+              SizedBox(height: 1.h),
               Row(
                 children: [
-                  Obx(() => Checkbox(
-                    side: BorderSide(color: AppColors.primary, width: 2),
-                    value: controller.isRemember.value,
-                    activeColor: AppColors.primary,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5),
+                  Obx(
+                    () => Checkbox(
+                      side: BorderSide(color: AppColors.primary, width: 2),
+                      value: controller.isRemember.value,
+                      activeColor: AppColors.primary,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      onChanged: (value) => controller.toggleRememberMe(),
                     ),
-                    onChanged: (value) =>controller.toggleRememberMe(),
-                  ),),
+                  ),
                   Text(
                     AppString.rememberMe,
                     style: styleForBoldText.copyWith(
-                        color: AppColors.primary,
-                        fontWeight: FontWeight.w700,
-                        letterSpacing: 0.2,
-                        fontSize: 14.sp),
+                      color: AppColors.primary,
+                      fontWeight: FontWeight.w700,
+                      letterSpacing: 0.2,
+                      fontSize: 14.sp,
+                    ),
                   ),
                 ],
               ),
-              SizedBox(height: 18.h,),
-              Obx(() => CustomButton(
-                text: AppString.signIn,
-                isLoading: controller.isLoading.value,
-                onTap: () {
-                  if (_formKey.currentState!.validate()) {
-                    controller.loginUser();
-                  }
-                },
-              )),
-              SizedBox(height: 10.h,),
-              TextButton(
-                  onPressed: () {
-                    Get.toNamed(RoutesName.forgetPassword);
+              SizedBox(height: 18.h),
+              Obx(
+                () => CustomButton(
+                  text: AppString.signIn,
+                  isLoading: controller.isLoading.value,
+                  onTap: () {
+                    if (_formKey.currentState!.validate()) {
+                      controller.loginUser();
+                    }
                   },
-                  child: Text(
-                    "${AppString.forgetPassword}?",
-                    style: styleForBoldText.copyWith(
-                      color: AppColors.primary,
-                      letterSpacing: 0.20,
-                      height: 1.40,
-                      fontSize: 16.h,),
-                  )
+                ),
+              ),
+              SizedBox(height: 10.h),
+              TextButton(
+                onPressed: () {
+                  Get.toNamed(RoutesName.forgetPassword);
+                },
+                child: Text(
+                  "${AppString.forgetPassword}?",
+                  style: styleForBoldText.copyWith(
+                    color: AppColors.primary,
+                    letterSpacing: 0.20,
+                    height: 1.40,
+                    fontSize: 16.h,
+                  ),
+                ),
               ),
 
-               // SizedBox(height: 26.h,),
+              // SizedBox(height: 26.h,),
               // Row(
               //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               //   children: [
@@ -138,7 +154,7 @@ class SignInScreen extends StatelessWidget {
               //     child: SvgPicture.asset(AppIcons.googleIcon, height: 24.h, width: 24.w,),
               //   ),
               // ),
-              SizedBox(height: 40.h,),
+              SizedBox(height: 40.h),
               Padding(
                 padding: const EdgeInsets.only(bottom: 20),
                 child: Row(
@@ -148,29 +164,30 @@ class SignInScreen extends StatelessWidget {
                       "${AppString.doNotHaveAnAccount}?",
                       style: styleForNormalText.copyWith(
                         fontWeight: FontWeight.w400,
-                          color: AppColors.grey,
-                          fontSize: 14.sp),
+                        color: AppColors.grey,
+                        fontSize: 14.sp,
+                      ),
                     ),
                     TextButton(
-                        onPressed: () {
-                          Get.offNamed(RoutesName.signUp);
-                        },
-                        child: Text(
-                          AppString.signUp,
-                          style: styleForBoldText.copyWith(
-                              color: AppColors.primary,
-                              height: 1.40,
-                              letterSpacing: 0.2,
-                              fontSize: 14.sp),
-                        )),
+                      onPressed: () {
+                        Get.offNamed(RoutesName.signUp);
+                      },
+                      child: Text(
+                        AppString.signUp,
+                        style: styleForBoldText.copyWith(
+                          color: AppColors.primary,
+                          height: 1.40,
+                          letterSpacing: 0.2,
+                          fontSize: 14.sp,
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
-
             ],
           ),
         ),
-
       ),
     );
   }

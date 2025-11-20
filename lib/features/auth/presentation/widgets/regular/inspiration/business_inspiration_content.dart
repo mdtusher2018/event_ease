@@ -27,32 +27,31 @@ class _BusinessInspirationContentState
 
   final InspirationController controller = Get.find<InspirationController>();
 
-
   // Static titles & subtitles for subcategories (without latest)
   final List<Map<String, String>> subcategories = [
     {
       "key": "ideas",
       "title": "Getting Started Ideas",
       "subtitle":
-          "Not sure where to start? Discover guides, checklists, and practical tips to plan your event step by step."
+          "Not sure where to start? Discover guides, checklists, and practical tips to plan your event step by step.",
     },
     {
       "key": "sessional",
       "title": "Seasonal Trends",
       "subtitle":
-          "New season, new ideas! Get inspired by the colors, styles, and setups that are trending this season."
+          "New season, new ideas! Get inspired by the colors, styles, and setups that are trending this season.",
     },
     {
       "key": "inspire",
       "title": "Real Events That Inspire",
       "subtitle":
-          "Events that truly speak to you. See how others organized their celebrations: real photos, ideas, and personal stories."
+          "Events that truly speak to you. See how others organized their celebrations: real photos, ideas, and personal stories.",
     },
     {
       "key": "styleMood",
       "title": "Style & Mood",
       "subtitle":
-          "Choose the mood for your event. Boho, luxury, jungle, or romantic? Find the style that reflects your personality."
+          "Choose the mood for your event. Boho, luxury, jungle, or romantic? Find the style that reflects your personality.",
     },
   ];
 
@@ -64,13 +63,14 @@ class _BusinessInspirationContentState
           // Regular subcategories
           ...subcategories.map((sub) {
             final subKey = sub['key']!;
-            final staticTitle = sub['title']!;
+            final staticTitle = sub['title']!.tr;
             final staticSubtitle = sub['subtitle']!;
 
             final matchedData = controller.inspirationCategoryGroupList
-                    .firstWhere(
-                        (e) => e['subCategory'] == subKey,
-                        orElse: () => {'inspirations': []});
+                .firstWhere(
+                  (e) => e['subCategory'] == subKey,
+                  orElse: () => {'inspirations': []},
+                );
             final inspirations = matchedData['inspirations'] ?? [];
 
             return Column(
@@ -82,25 +82,30 @@ class _BusinessInspirationContentState
                     Text(
                       "$staticTitle:",
                       style: styleForBoldText.copyWith(
-                          color: AppColors.darkGrey, fontSize: 24.sp),
+                        color: AppColors.darkGrey,
+                        fontSize: 24.sp,
+                      ),
                     ),
                     TextButton(
                       onPressed: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (_) => ViewAllInspirationPage(
-                              title: staticTitle,
-                              subtitle: staticSubtitle,
-                              inspirations: inspirations,
-                            ),
+                            builder:
+                                (_) => ViewAllInspirationPage(
+                                  title: staticTitle,
+                                  subtitle: staticSubtitle,
+                                  inspirations: inspirations,
+                                ),
                           ),
                         );
                       },
                       child: Text(
                         AppString.viewAll,
                         style: styleForNormalText.copyWith(
-                            fontSize: 12.sp, fontWeight: FontWeight.w500),
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                     ),
                   ],
@@ -108,43 +113,44 @@ class _BusinessInspirationContentState
                 Text(
                   staticSubtitle,
                   style: styleForNormalText.copyWith(
-                      color: AppColors.darkGrey,
-                      fontWeight: FontWeight.w500,
-                      fontSize: 16.sp),
+                    color: AppColors.darkGrey,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 16.sp,
+                  ),
                 ),
                 SizedBox(height: 10.h),
                 inspirations.isNotEmpty
                     ? SizedBox(
-                        height: 310,
-                        child: ListView.builder(
-                          itemCount: inspirations.length,
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (context, i) {
-                            final item = inspirations[i];
-                            return Padding(
-                              padding: const EdgeInsets.only(right: 10),
-                              child: CustomIdeaContainer(
-                                image: "${item['coverImage']}",
-                                title: item['title'] ?? "",
-                                description: item['description'] ?? "",
-                                imageWidth: 356,
-                                onTap: () {
-                                  controller.getCategoryDetails(item["_id"]);
-                                },
-                              ),
-                            );
-                          },
-                        ),
-                      )
+                      height: 310,
+                      child: ListView.builder(
+                        itemCount: inspirations.length,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, i) {
+                          final item = inspirations[i];
+                          return Padding(
+                            padding: const EdgeInsets.only(right: 10),
+                            child: CustomIdeaContainer(
+                              image: "${item['coverImage']}",
+                              title: item['title'] ?? "",
+                              description: item['description'] ?? "",
+                              imageWidth: 356,
+                              onTap: () {
+                                controller.getCategoryDetails(item["_id"]);
+                              },
+                            ),
+                          );
+                        },
+                      ),
+                    )
                     : Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 20),
-                        child: Center(
-                          child: Text(
-                            "No data found",
-                            style: styleForNormalText.copyWith(fontSize: 14),
-                          ),
+                      padding: const EdgeInsets.symmetric(vertical: 20),
+                      child: Center(
+                        child: Text(
+                          "No data found",
+                          style: styleForNormalText.copyWith(fontSize: 14),
                         ),
                       ),
+                    ),
                 SizedBox(height: 20.h),
               ],
             );
@@ -171,23 +177,26 @@ class _BusinessInspirationContentState
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Latest Publications",
+                  "Latest Publications".tr,
                   style: styleForBoldText.copyWith(
-                      color: AppColors.darkGrey, fontSize: 24.sp),
+                    color: AppColors.darkGrey,
+                    fontSize: 24.sp,
+                  ),
                 ),
                 SizedBox(height: 5.h),
                 Text(
-                  "Freshly added content. Stay up to date with the latest inspiration uploaded by vendors and our team.",
+                  "Freshly added content. Stay up to date with the latest inspiration uploaded by vendors and our team."
+                      .tr,
                   style: styleForNormalText.copyWith(
-                      color: AppColors.darkGrey,
-                      fontWeight: FontWeight.w500,
-                      fontSize: 16.sp),
+                    color: AppColors.darkGrey,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 16.sp,
+                  ),
                 ),
                 SizedBox(height: 10.h),
                 SizedBox(
                   height: 320,
                   child: ListView.builder(
-                    
                     scrollDirection: Axis.horizontal,
                     itemCount: controller.latestList.length,
                     itemBuilder: (context, index) {
@@ -234,20 +243,21 @@ class _BusinessInspirationContentState
       }
 
       return Column(
-        children: posts.map((data) {
-          return Padding(
-            padding: const EdgeInsets.only(right: 10, bottom: 10),
-            child: CustomIdeaContainer(
-              image: "${data["coverImage"]}",
-              title: data["title"] ?? "",
-              description: data["description"] ?? "",
-              imageWidth: 356,
-              onTap: () {
-                controller.getCategoryDetails(data["_id"], isMyPost: true);
-              },
-            ),
-          );
-        }).toList(),
+        children:
+            posts.map((data) {
+              return Padding(
+                padding: const EdgeInsets.only(right: 10, bottom: 10),
+                child: CustomIdeaContainer(
+                  image: "${data["coverImage"]}",
+                  title: data["title"] ?? "",
+                  description: data["description"] ?? "",
+                  imageWidth: 356,
+                  onTap: () {
+                    controller.getCategoryDetails(data["_id"], isMyPost: true);
+                  },
+                ),
+              );
+            }).toList(),
       );
     });
   }
@@ -261,7 +271,9 @@ class _BusinessInspirationContentState
           child: Text(
             AppString.inspiration,
             style: styleForBoldText.copyWith(
-                color: AppColors.darkGrey, fontSize: 28.sp),
+              color: AppColors.darkGrey,
+              fontSize: 28.sp,
+            ),
           ),
         ),
         SizedBox(height: 20.h),
@@ -269,9 +281,10 @@ class _BusinessInspirationContentState
           child: Text(
             AppString.getInspiredAndDefineYourStyle,
             style: styleForBoldText.copyWith(
-                color: AppColors.darkGrey,
-                fontSize: 24.sp,
-                fontWeight: FontWeight.w600),
+              color: AppColors.darkGrey,
+              fontSize: 24.sp,
+              fontWeight: FontWeight.w600,
+            ),
           ),
         ),
         SizedBox(height: 10.h),
@@ -287,18 +300,20 @@ class _BusinessInspirationContentState
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {
                 final data = categories[index];
-                      // ✅ Skip if the name matches any subcategory title
-      bool isSubcategory = subcategories.any(
-        (sub) => sub['title'] == data['name'],
-      );
+                // ✅ Skip if the name matches any subcategory title
+                bool isSubcategory = subcategories.any(
+                  (sub) => sub['title'] == data['name'],
+                );
 
-      if (isSubcategory) {
-        return const SizedBox.shrink(); // Don't render
-      }
+                if (isSubcategory) {
+                  return const SizedBox.shrink(); // Don't render
+                }
 
                 return Padding(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 5.w, vertical: 10.h),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 5.w,
+                    vertical: 10.h,
+                  ),
                   child: InkWell(
                     onTap: () {
                       controller.allSpecificCategory(data['_id'], data['name']);
@@ -345,7 +360,8 @@ class _BusinessInspirationContentState
           children: [
             CustomChipTab(
               title: AppString.inspiration,
-              backgroundColor: showInspiration ? AppColors.primary : Colors.white,
+              backgroundColor:
+                  showInspiration ? AppColors.primary : Colors.white,
               textColor: showInspiration ? Colors.white : Colors.black,
               onTap: () {
                 setState(() {
@@ -356,7 +372,8 @@ class _BusinessInspirationContentState
             SizedBox(width: 10.w),
             CustomChipTab(
               title: AppString.myPost,
-              backgroundColor: !showInspiration ? AppColors.primary : Colors.white,
+              backgroundColor:
+                  !showInspiration ? AppColors.primary : Colors.white,
               textColor: !showInspiration ? Colors.white : Colors.black,
               onTap: () {
                 setState(() {
@@ -374,9 +391,10 @@ class _BusinessInspirationContentState
         Expanded(
           child: SingleChildScrollView(
             padding: EdgeInsets.only(bottom: 90.h),
-            child: showInspiration
-                ? buildInspirationContent()
-                : buildMyPostContent(),
+            child:
+                showInspiration
+                    ? buildInspirationContent()
+                    : buildMyPostContent(),
           ),
         ),
       ],

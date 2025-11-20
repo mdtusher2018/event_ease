@@ -1,8 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
-import 'package:event_ease/core/helper/logout_helper.dart';
-import 'package:event_ease/core/routers/routes_name.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
@@ -192,13 +190,6 @@ class ApiService extends GetxService {
   ApiResponse _processResponse(http.Response response, bool showMessage) {
     log("StatusCode: ${response.statusCode}");
     log("ResponseBody: ${response.body}");
-
-    if (response.statusCode == 401) {
-      LogoutHelper.logoutUser(
-        routeName: RoutesName.role,confirm: false
-      ); // <-- no await or Get.offAllNamed here
-    }
-
     try {
       final decoded = json.decode(response.body);
       final success =
