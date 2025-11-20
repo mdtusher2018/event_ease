@@ -497,8 +497,24 @@ class AppTranslations extends Translations {
       'chat_title': 'Chat',
       'chat_subtitle': 'Start a conversation or log in to chat with others.',
       'chat_button': 'Start Chatting',
+
+      'creditHistory': 'Credit History',
+      'noCreditHistory': 'No Credit History Available.',
+      'type': 'Type',
+      'status': 'Status',
+      'transactionDate': 'Transaction Date: ',
+      'usedCredits': 'Used Credits: ',
+      'receivedCredits': 'Received Credits: ',
     },
     'it_IT': {
+      'creditHistory': 'Storico dei Crediti',
+      'noCreditHistory': 'Nessuna Cronologia dei Crediti Disponibile.',
+      'type': 'Tipo',
+      'status': 'Stato',
+      'transactionDate': 'Data della Transazione: ',
+      'usedCredits': 'Crediti Utilizzati: ',
+      'receivedCredits': 'Crediti Ricevuti: ',
+
       'favorite_title': 'Articoli preferiti',
       'favorite_subtitle':
           'Tocca qui per esplorare i tuoi articoli preferiti o accedi per gestirli.',

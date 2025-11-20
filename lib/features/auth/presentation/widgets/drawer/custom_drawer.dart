@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:event_ease/core/helper/prefs_helper.dart';
 import 'package:event_ease/core/routers/routes_name.dart';
+import 'package:event_ease/features/auth/presentation/screen/common/creadit_history/creadit_history.dart';
 import 'package:event_ease/features/auth/presentation/screen/common/home/my_subscription_history.dart';
 import 'package:event_ease/features/auth/presentation/screen/common/profile/delete_profile.dart';
 import 'package:event_ease/features/auth/presentation/screen/common/profile/pending_crdite_scareen_for_business.dart';
@@ -133,6 +134,14 @@ class _CustomDrawerState extends State<CustomDrawer> {
               ),
               Divider(),
             ],
+            CustomDrawerListTile(
+              leadingIcon: AppIcons.support,
+              title: "creditHistory".tr,
+              onTabFunction: () {
+                Get.to(() => CreditHistoryPage());
+              },
+            ),
+            Divider(),
             CustomDrawerListTile(
               leadingIcon: AppIcons.referralsIcon,
               title: AppString.myReferrals,
