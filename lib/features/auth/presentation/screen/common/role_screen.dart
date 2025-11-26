@@ -64,19 +64,6 @@ class RoleScreen extends StatelessWidget {
               ),
               SizedBox(height: 16),
 
-              // ElevatedButton(
-              //   onPressed: () {
-              //     Get.to(GuestHomeScreen());
-              //   },
-              //   child: Text(AppString.continueAsGuest),
-              // ),
-              // CustomButton(
-              //   text: AppString.continueAsGuest,
-
-              //   onTap: () {
-              //     Get.to(GuestHomeScreen());
-              //   },
-              // ),
               InkWell(
                 onTap: () {
                   Get.to(GuestRootPage());

@@ -37,7 +37,7 @@ TextEditingController commentController=TextEditingController();
     isLoading.value = true;
     try {
       var body = {
-        "type": type, // 'Inspiration', 'PostCommunity', 'PollCommunity'
+        "type": type, // 'Inspiration', 'PostCommunity', 'PollCommunity',"Bussiness","Event","Job"
         "targetId": id,
         "reason": reportController.text,
       };

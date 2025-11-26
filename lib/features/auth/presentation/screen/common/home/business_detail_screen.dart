@@ -133,7 +133,7 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen> {
     if (await canLaunchUrl(uri)) {
       await launchUrl(uri, mode: LaunchMode.externalApplication);
     } else {
-      Get.snackbar("Error".tr,"Could not launch $url");
+      Get.snackbar("Error".tr, "Could not launch $url");
     }
   }
 
@@ -276,14 +276,7 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen> {
                       ),
                     ),
                   ),
-                  // Positioned(
-                  //   bottom: -50,
-                  //   right: 10,
-                  //   child: IconButton(
-                  //     icon: SvgPicture.asset(AppIcons.bookmarkIcon),
-                  //     onPressed: () => _showWishlistPopUp(context),
-                  //   ),
-                  // ),
+
                   Positioned(
                     bottom: -40,
                     left: 16,
@@ -314,6 +307,33 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen> {
                         ),
                       ],
                     ),
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  PopupMenuButton<String>(
+                    icon: Icon(Icons.more_vert_outlined),
+                    onSelected: (value) {
+                      if (value == 'report') {
+                        Get.toNamed(
+                          RoutesName.report,
+                          arguments: {
+                            'id': controller.businessDetail.value!.id,
+                            'type': "Business",
+                          },
+                        );
+                      }
+                    },
+                    itemBuilder:
+                        (BuildContext context) => [
+                          PopupMenuItem<String>(
+                            value: 'report',
+                            child: Text('Report'),
+                          ),
+                          // Add other options here if needed
+                        ],
                   ),
                 ],
               ),
@@ -672,8 +692,18 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                              if(controller.businessDetail.value!.averageRating>=4.5)  SvgPicture.asset(AppIcons.leafLeft),
-                              if(controller.businessDetail.value!.averageRating>=4.5)  SizedBox(width: 2),
+                                if (controller
+                                        .businessDetail
+                                        .value!
+                                        .averageRating >=
+                                    4.5)
+                                  SvgPicture.asset(AppIcons.leafLeft),
+                                if (controller
+                                        .businessDetail
+                                        .value!
+                                        .averageRating >=
+                                    4.5)
+                                  SizedBox(width: 2),
                                 SizedBox(
                                   width: 70.w,
                                   child: Text(
@@ -690,8 +720,18 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen> {
                                     textAlign: TextAlign.center,
                                   ),
                                 ),
-                               if(controller.businessDetail.value!.averageRating>=4.5) SizedBox(width: 2),
-                              if(controller.businessDetail.value!.averageRating>=4.5)  SvgPicture.asset(AppIcons.leafRight),
+                                if (controller
+                                        .businessDetail
+                                        .value!
+                                        .averageRating >=
+                                    4.5)
+                                  SizedBox(width: 2),
+                                if (controller
+                                        .businessDetail
+                                        .value!
+                                        .averageRating >=
+                                    4.5)
+                                  SvgPicture.asset(AppIcons.leafRight),
                               ],
                             ),
                           ),
@@ -854,58 +894,71 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen> {
                               padding: EdgeInsets.zero,
                               shrinkWrap: true,
                               physics: const NeverScrollableScrollPhysics(),
-                             itemCount: controller.businessDetail.value!.gallery.length > 4
-        ? 4 
-        : controller.businessDetail.value!.gallery.length,
+                              itemCount:
+                                  controller
+                                              .businessDetail
+                                              .value!
+                                              .gallery
+                                              .length >
+                                          4
+                                      ? 4
+                                      : controller
+                                          .businessDetail
+                                          .value!
+                                          .gallery
+                                          .length,
                               gridDelegate:
                                   const SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisCount: 2,
                                     mainAxisExtent: 180,
                                   ),
                               itemBuilder: (context, index) {
+                                final gallery =
+                                    controller.businessDetail.value!.gallery;
+                                final imageUrl = gallery[index];
 
-     final gallery = controller.businessDetail.value!.gallery;
-      final imageUrl = gallery[index];
-
-      final bool isLastThumbnail =
-          gallery.length > 4 && index == 3; // 4th item
-
+                                final bool isLastThumbnail =
+                                    gallery.length > 4 &&
+                                    index == 3; // 4th item
 
                                 return GestureDetector(
                                   onTap: () {
                                     showFullImageGallery(
                                       context,
-                                     imageUrls:  controller
-                                          .businessDetail
-                                          .value!
-                                          .gallery,
-                                        initialIndex:   index
+                                      imageUrls:
+                                          controller
+                                              .businessDetail
+                                              .value!
+                                              .gallery,
+                                      initialIndex: index,
                                     );
                                   },
                                   child: Padding(
                                     padding: const EdgeInsets.all(5),
                                     child: Stack(
-            fit: StackFit.expand,
-            children: [
-              Image.network(
-                imageUrl,
-                fit: BoxFit.cover,
-              ),
-              if (isLastThumbnail)
-                Container(
-                  color: Colors.black.withOpacity(0.5),
-                  alignment: Alignment.center,
-                  child: Text(
-                    "+${gallery.length - 4}", // number of extra images
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-            ],
-          ),
+                                      fit: StackFit.expand,
+                                      children: [
+                                        Image.network(
+                                          imageUrl,
+                                          fit: BoxFit.cover,
+                                        ),
+                                        if (isLastThumbnail)
+                                          Container(
+                                            color: Colors.black.withOpacity(
+                                              0.5,
+                                            ),
+                                            alignment: Alignment.center,
+                                            child: Text(
+                                              "+${gallery.length - 4}", // number of extra images
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 24,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ),
+                                      ],
+                                    ),
                                   ),
                                 );
                               },
@@ -1192,8 +1245,6 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen> {
                                   );
                                 },
                               ),
-
-                 
                             ),
                             SizedBox(height: 20.h),
                           ],
@@ -1242,7 +1293,6 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen> {
                             fit: BoxFit.cover,
                           ),
                         ),
-                
                       ),
 
                     // Events Section
@@ -1393,18 +1443,15 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen> {
                                     //   data.id,
                                     //   "eventId",
                                     // );
-                                    if(result){
+                                    if (result) {
                                       controller
-                                              .extraBusinessDetail
-                                              .value
-                                              .currentEvents[index].isWishlisted=true;
-                                              controller
-                                              .extraBusinessDetail.refresh();
-                                              
-                                        
+                                          .extraBusinessDetail
+                                          .value
+                                          .currentEvents[index]
+                                          .isWishlisted = true;
+                                      controller.extraBusinessDetail.refresh();
                                     }
                                   },
-                                  
                                 ),
                               ),
                             );
@@ -1452,13 +1499,12 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen> {
                                   bookType: "eventId",
                                   id: data.id,
 
-type:  controller
+                                  type:
+                                      controller
                                           .extraBusinessDetail
                                           .value
                                           .pastEvents[index]
                                           .category,
-
-
 
                                   isLiked:
                                       controller
@@ -1566,22 +1612,27 @@ type:  controller
                                           );
                                     });
                                   },
-                                  isWishlisted: controller.extraBusinessDetail.value.pastEvents[index].isWishlisted,
-
-                                  bookmarkOnPressed:(result){
+                                  isWishlisted:
                                       controller
-                                              .extraBusinessDetail
-                                              .value
-                                              .pastEvents[index].isWishlisted=true;
-                                              controller
-                                              .extraBusinessDetail.refresh();
+                                          .extraBusinessDetail
+                                          .value
+                                          .pastEvents[index]
+                                          .isWishlisted,
+
+                                  bookmarkOnPressed: (result) {
+                                    controller
+                                        .extraBusinessDetail
+                                        .value
+                                        .pastEvents[index]
+                                        .isWishlisted = true;
+                                    controller.extraBusinessDetail.refresh();
                                   },
-                                      // () => _showWishlistPopUp(
-                                      //   context,
-                                      //   data.id,
-                                      //   "eventId",
-                                      // ),
-                                  
+
+                                  // () => _showWishlistPopUp(
+                                  //   context,
+                                  //   data.id,
+                                  //   "eventId",
+                                  // ),
                                 ),
                               ),
                             );
@@ -1657,12 +1708,10 @@ type:  controller
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                     
-
-
-BusinessCommentsSection(businessId: controller.businessDetail.value!.id,isBusiness: true,),
-
-
+                        BusinessCommentsSection(
+                          businessId: controller.businessDetail.value!.id,
+                          isBusiness: true,
+                        ),
 
                         if (controller
                             .extraBusinessDetail
@@ -1748,27 +1797,33 @@ BusinessCommentsSection(businessId: controller.businessDetail.value!.id,isBusine
                                           "${controller.extraBusinessDetail.value.relatedBusinesses[index].maxGuest}",
                                       rating:
                                           "${controller.extraBusinessDetail.value.relatedBusinesses[index].totalReviews}",
-                                      
-                                         doller:
-                                                          controller
-                                                                      .extraBusinessDetail.value.relatedBusinesses[index]
-                                                                      .priceRange
-                                                                      .toLowerCase() ==
-                                                                  "budget"
-                                                              ? "€"
-                                                              : controller
-                                                                      .extraBusinessDetail.value.relatedBusinesses[index]
-                                                                      .priceRange
-                                                                      .toLowerCase() ==
-                                                                  "medium"
-                                                              ? "€€"
-                                                              : controller
-                                                                      .extraBusinessDetail.value.relatedBusinesses[index]
-                                                                      .priceRange
-                                                                      .toLowerCase() ==
-                                                                  "high"
-                                                              ? "€€€"
-                                                              : "€€€€",
+
+                                      doller:
+                                          controller
+                                                      .extraBusinessDetail
+                                                      .value
+                                                      .relatedBusinesses[index]
+                                                      .priceRange
+                                                      .toLowerCase() ==
+                                                  "budget"
+                                              ? "€"
+                                              : controller
+                                                      .extraBusinessDetail
+                                                      .value
+                                                      .relatedBusinesses[index]
+                                                      .priceRange
+                                                      .toLowerCase() ==
+                                                  "medium"
+                                              ? "€€"
+                                              : controller
+                                                      .extraBusinessDetail
+                                                      .value
+                                                      .relatedBusinesses[index]
+                                                      .priceRange
+                                                      .toLowerCase() ==
+                                                  "high"
+                                              ? "€€€"
+                                              : "€€€€",
                                       type:
                                           controller
                                               .extraBusinessDetail
@@ -1857,29 +1912,34 @@ BusinessCommentsSection(businessId: controller.businessDetail.value!.id,isBusine
                                               );
                                         });
                                       },
-                                      isWishlisted: controller.extraBusinessDetail.value.relatedBusinesses[index].isWishlisted,
-
-                                      bookmarkOnPressed:(result){
-if(result){
-    controller
+                                      isWishlisted:
+                                          controller
                                               .extraBusinessDetail
                                               .value
-                                              .relatedBusinesses[index].isWishlisted=true;
-                                              controller
-                                              .extraBusinessDetail.refresh();
-}
+                                              .relatedBusinesses[index]
+                                              .isWishlisted,
 
+                                      bookmarkOnPressed: (result) {
+                                        if (result) {
+                                          controller
+                                              .extraBusinessDetail
+                                              .value
+                                              .relatedBusinesses[index]
+                                              .isWishlisted = true;
+                                          controller.extraBusinessDetail
+                                              .refresh();
+                                        }
                                       },
-                                          // () => _showWishlistPopUp(
-                                          //   context,
-                                          //   controller
-                                          //       .extraBusinessDetail
-                                          //       .value
-                                          //       .relatedBusinesses[index]
-                                          //       .id,
-                                          //   "businessId",
-                                          // ),
-                                      
+
+                                      // () => _showWishlistPopUp(
+                                      //   context,
+                                      //   controller
+                                      //       .extraBusinessDetail
+                                      //       .value
+                                      //       .relatedBusinesses[index]
+                                      //       .id,
+                                      //   "businessId",
+                                      // ),
                                     ),
                                   ),
                                 );
@@ -1899,8 +1959,6 @@ if(result){
     );
   }
 }
-
-
 
 class BusinessCommentsSection extends StatelessWidget {
   final CommentController controller = Get.put(CommentController());
@@ -1936,7 +1994,7 @@ class BusinessCommentsSection extends StatelessWidget {
         if (controller.isLoading.value) {
           return const Center(child: CircularProgressIndicator());
         }
-    
+
         return Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -1945,12 +2003,9 @@ class BusinessCommentsSection extends StatelessWidget {
               width: 40,
               height: 4,
               margin: EdgeInsets.only(bottom: 12),
-              decoration: BoxDecoration(
-          
-                borderRadius: BorderRadius.circular(2),
-              ),
+              decoration: BoxDecoration(borderRadius: BorderRadius.circular(2)),
             ),
-    
+
             // 🔹 Header
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -1965,241 +2020,251 @@ class BusinessCommentsSection extends StatelessWidget {
               ],
             ),
             SizedBox(height: 16.h),
-    
+
             // 🔹 Comments list
             controller.comments.isEmpty
                 ? Center(
-                    child: Text(
-                      AppString.noCommentsYet,
-                      style: styleForNormalText.copyWith(
-                        fontSize: 14.sp,
-                        color: AppColors.grey,
-                      ),
+                  child: Text(
+                    AppString.noCommentsYet,
+                    style: styleForNormalText.copyWith(
+                      fontSize: 14.sp,
+                      color: AppColors.grey,
                     ),
-                  )
+                  ),
+                )
                 : ListView.builder(
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
-                    padding: EdgeInsets.only(bottom: 20.h),
-                    itemCount: controller.comments.length,
-                    itemBuilder: (context, index) {
-                      final comment = controller.comments[index];
-                
-                      if (!showReplies.containsKey(comment.id)) {
-                        showReplies[comment.id] = false;
-                      }
-                
-                      final date = DateFormat('dd-MM-yyyy')
-                          .format(DateTime.parse(comment.createdAt));
-                      final time = DateFormat('HH:mm')
-                          .format(DateTime.parse(comment.createdAt));
-                
-                      return Obx(
-                        () => Container(
-                          margin: EdgeInsets.only(bottom: 12.h),
-                          padding: EdgeInsets.all(12.w),
-                          decoration: BoxDecoration(
-                            
-                            borderRadius: BorderRadius.circular(12.r),
-                            border: Border.all(
-                              color: AppColors.grey.withOpacity(0.3),
-                            ),
+                  padding: EdgeInsets.only(bottom: 20.h),
+                  itemCount: controller.comments.length,
+                  itemBuilder: (context, index) {
+                    final comment = controller.comments[index];
+
+                    if (!showReplies.containsKey(comment.id)) {
+                      showReplies[comment.id] = false;
+                    }
+
+                    final date = DateFormat(
+                      'dd-MM-yyyy',
+                    ).format(DateTime.parse(comment.createdAt));
+                    final time = DateFormat(
+                      'HH:mm',
+                    ).format(DateTime.parse(comment.createdAt));
+
+                    return Obx(
+                      () => Container(
+                        margin: EdgeInsets.only(bottom: 12.h),
+                        padding: EdgeInsets.all(12.w),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12.r),
+                          border: Border.all(
+                            color: AppColors.grey.withOpacity(0.3),
                           ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              // 🔹 User row
-                              Row(
-                                crossAxisAlignment:
-                                    CrossAxisAlignment.start,
-                                children: [
-                                  CommonImage(
-                                    imageSrc: comment.user.profileImage,
-                                    imageType: ImageType.network,
-                                    borderRadius: 40.r,
-                                    height: 36.h,
-                                    width: 36.w,
-                                  ),
-                                  SizedBox(width: 10.w),
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              comment.user.name,
-                                              style: styleForBoldText
-                                                  .copyWith(
-                                                fontSize: 14.sp,
-                                                color: AppColors.primary,
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // 🔹 User row
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                CommonImage(
+                                  imageSrc: comment.user.profileImage,
+                                  imageType: ImageType.network,
+                                  borderRadius: 40.r,
+                                  height: 36.h,
+                                  width: 36.w,
+                                ),
+                                SizedBox(width: 10.w),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            comment.user.name,
+                                            style: styleForBoldText.copyWith(
+                                              fontSize: 14.sp,
+                                              color: AppColors.primary,
+                                            ),
+                                          ),
+                                          Text(
+                                            "$date • $time",
+                                            style: styleForNormalText.copyWith(
+                                              fontSize: 11.sp,
+                                              color: AppColors.grey,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(height: 6.h),
+                                      Text(
+                                        comment.text,
+                                        style: styleForNormalText.copyWith(
+                                          fontSize: 14.sp,
+                                          color: AppColors.darkGrey,
+                                        ),
+                                      ),
+                                      SizedBox(height: 4.h),
+                                      Row(
+                                        children: [
+                                          if (comment.replies.isNotEmpty)
+                                            TextButton(
+                                              onPressed: () {
+                                                showReplies[comment.id] =
+                                                    !showReplies[comment.id]!;
+                                              },
+                                              child: Text(
+                                                showReplies[comment.id]!
+                                                    ? "Hide Replies"
+                                                    : "View Replies (${comment.replies.length})",
+                                                style: styleForNormalText
+                                                    .copyWith(
+                                                      fontSize: 12.sp,
+                                                      color: AppColors.primary,
+                                                    ),
                                               ),
                                             ),
-                                            Text(
-                                              "$date • $time",
+                                          TextButton(
+                                            onPressed: () {
+                                              controller.replyingTo.value =
+                                                  comment.id;
+                                              controller.replyToName.value =
+                                                  comment.user.name;
+                                            },
+                                            child: Text(
+                                              "Reply".tr,
                                               style: styleForNormalText
                                                   .copyWith(
-                                                fontSize: 11.sp,
-                                                color: AppColors.grey,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        SizedBox(height: 6.h),
-                                        Text(
-                                          comment.text,
-                                          style: styleForNormalText
-                                              .copyWith(
-                                            fontSize: 14.sp,
-                                            color: AppColors.darkGrey,
-                                          ),
-                                        ),
-                                        SizedBox(height: 4.h),
-                                        Row(
-                                          children: [
-                                            if (comment.replies.isNotEmpty)
-                                              TextButton(
-                                                onPressed: () {
-                                                  showReplies[comment.id] =
-                                                      !showReplies[comment.id]!;
-                                                },
-                                                child: Text(
-                                                  showReplies[comment.id]!
-                                                      ? "Hide Replies"
-                                                      : "View Replies (${comment.replies.length})",
-                                                  style: styleForNormalText
-                                                      .copyWith(
                                                     fontSize: 12.sp,
                                                     color: AppColors.primary,
                                                   ),
-                                                ),
-                                              ),
-                                            TextButton(
-                                              onPressed: () {
-                                                controller.replyingTo.value =
-                                                    comment.id;
-                                                controller.replyToName.value =
-                                                    comment.user.name;
-                                              },
-                                              child: Text(
-                                                "Reply".tr,
-                                                style: styleForNormalText
-                                                    .copyWith(
-                                                  fontSize: 12.sp,
-                                                  color: AppColors.primary,
-                                                ),
-                                              ),
                                             ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                
-                              // 🔹 Replies
-                              if (showReplies[comment.id]! &&
-                                  comment.replies.isNotEmpty)
-                                Padding(
-                                  padding:
-                                      EdgeInsets.only(left: 48.w, top: 8.h),
-                                  child: Column(
-                                    children: comment.replies.map((reply) {
-                                      final replyDate = DateFormat('dd-MM-yyyy')
-                                          .format(DateTime.parse(reply.createdAt));
-                                      final replyTime = DateFormat('HH:mm')
-                                          .format(DateTime.parse(reply.createdAt));
-                
-                                      return Container(
-                                        margin: EdgeInsets.only(bottom: 8.h),
-                                        padding: EdgeInsets.all(10.w),
-                                        decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius:
-                                              BorderRadius.circular(10.r),
-                                          border: Border.all(
-                                            color:
-                                                AppColors.grey.withOpacity(0.3),
                                           ),
-                                        ),
-                                        child: Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            CommonImage(
-                                              imageSrc: reply.user.profileImage,
-                                              imageType: ImageType.network,
-                                              borderRadius: 30.r,
-                                              height: 28.h,
-                                              width: 28.w,
-                                            ),
-                                            SizedBox(width: 8.w),
-                                            Expanded(
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      Text(
-                                                        reply.user.name,
-                                                        style: styleForBoldText
-                                                            .copyWith(
-                                                          fontSize: 13.sp,
-                                                          color:
-                                                              AppColors.primary,
-                                                        ),
-                                                      ),
-                                                      Text(
-                                                        "$replyDate • $replyTime",
-                                                        style:
-                                                            styleForNormalText
-                                                                .copyWith(
-                                                          fontSize: 11.sp,
-                                                          color: AppColors.grey,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  SizedBox(height: 4.h),
-                                                  Text(
-                                                    reply.text,
-                                                    style: styleForNormalText
-                                                        .copyWith(
-                                                      fontSize: 13.sp,
-                                                      color: AppColors.darkGrey,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      );
-                                    }).toList(),
+                                        ],
+                                      ),
+                                    ],
                                   ),
                                 ),
-                            ],
-                          ),
+                              ],
+                            ),
+
+                            // 🔹 Replies
+                            if (showReplies[comment.id]! &&
+                                comment.replies.isNotEmpty)
+                              Padding(
+                                padding: EdgeInsets.only(left: 48.w, top: 8.h),
+                                child: Column(
+                                  children:
+                                      comment.replies.map((reply) {
+                                        final replyDate = DateFormat(
+                                          'dd-MM-yyyy',
+                                        ).format(
+                                          DateTime.parse(reply.createdAt),
+                                        );
+                                        final replyTime = DateFormat(
+                                          'HH:mm',
+                                        ).format(
+                                          DateTime.parse(reply.createdAt),
+                                        );
+
+                                        return Container(
+                                          margin: EdgeInsets.only(bottom: 8.h),
+                                          padding: EdgeInsets.all(10.w),
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius: BorderRadius.circular(
+                                              10.r,
+                                            ),
+                                            border: Border.all(
+                                              color: AppColors.grey.withOpacity(
+                                                0.3,
+                                              ),
+                                            ),
+                                          ),
+                                          child: Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              CommonImage(
+                                                imageSrc:
+                                                    reply.user.profileImage,
+                                                imageType: ImageType.network,
+                                                borderRadius: 30.r,
+                                                height: 28.h,
+                                                width: 28.w,
+                                              ),
+                                              SizedBox(width: 8.w),
+                                              Expanded(
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        Text(
+                                                          reply.user.name,
+                                                          style: styleForBoldText
+                                                              .copyWith(
+                                                                fontSize: 13.sp,
+                                                                color:
+                                                                    AppColors
+                                                                        .primary,
+                                                              ),
+                                                        ),
+                                                        Text(
+                                                          "$replyDate • $replyTime",
+                                                          style: styleForNormalText
+                                                              .copyWith(
+                                                                fontSize: 11.sp,
+                                                                color:
+                                                                    AppColors
+                                                                        .grey,
+                                                              ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    SizedBox(height: 4.h),
+                                                    Text(
+                                                      reply.text,
+                                                      style: styleForNormalText
+                                                          .copyWith(
+                                                            fontSize: 13.sp,
+                                                            color:
+                                                                AppColors
+                                                                    .darkGrey,
+                                                          ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      }).toList(),
+                                ),
+                              ),
+                          ],
                         ),
-                      );
-                    },
-                  ),
-    
+                      ),
+                    );
+                  },
+                ),
+
             // 🔹 Replying indicator
             Obx(() {
-              if (controller.replyToName.value.isEmpty) return SizedBox.shrink();
+              if (controller.replyToName.value.isEmpty)
+                return SizedBox.shrink();
               return Container(
                 margin: EdgeInsets.only(bottom: 8.h, top: 8.h),
-                padding:
-                    EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
+                padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
                 decoration: BoxDecoration(
                   color: AppColors.textFieldBg,
                   borderRadius: BorderRadius.circular(16.r),
@@ -2220,14 +2285,17 @@ class BusinessCommentsSection extends StatelessWidget {
                         controller.replyToName.value = "";
                         controller.replyingTo.value = "";
                       },
-                      child: Icon(Icons.close,
-                          size: 18.sp, color: AppColors.grey),
+                      child: Icon(
+                        Icons.close,
+                        size: 18.sp,
+                        color: AppColors.grey,
+                      ),
                     ),
                   ],
                 ),
               );
             }),
-    
+
             // 🔹 Comment input field
             Container(
               padding: EdgeInsets.symmetric(horizontal: 8.w),
@@ -2257,11 +2325,12 @@ class BusinessCommentsSection extends StatelessWidget {
                     onPressed: () async {
                       if (commentController.text.trim().isEmpty) {
                         Get.snackbar(
-                            "Empty Comment".tr,
-                            "Please write something before sending.".tr);
+                          "Empty Comment".tr,
+                          "Please write something before sending.".tr,
+                        );
                         return;
                       }
-    
+
                       bool success;
                       if (controller.replyingTo.value.isEmpty) {
                         success = await controller.postComment(
@@ -2276,10 +2345,12 @@ class BusinessCommentsSection extends StatelessWidget {
                           isBussiness: isBusiness,
                         );
                       }
-    
+
                       if (success) {
                         await controller.fetchComments(
-                            id: businessId, isBusiness: isBusiness);
+                          id: businessId,
+                          isBusiness: isBusiness,
+                        );
                         commentController.clear();
                         controller.replyToName.value = "";
                         controller.replyingTo.value = "";
