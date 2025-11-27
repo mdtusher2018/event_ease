@@ -320,7 +320,7 @@ class RegularInspirationContent extends StatelessWidget {
                             createTime: createTime,
                             imageWidth: 356,
                             onTap: () {
-                              // handle tap if needed
+                              controller.getCategoryDetails(item.id);
                             },
                           ),
                         );
