@@ -79,7 +79,7 @@ class RoleScreen extends StatelessWidget {
               // ),
               InkWell(
                 onTap: () {
-                  Get.to(GuestRootPage());
+                  Get.to(()=> GuestRootPage());
                 },
                 child: Text(
                   AppString.continueAsGuest,
