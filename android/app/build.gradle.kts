@@ -33,8 +33,8 @@ android {
         applicationId = "it.pianofesta.app"
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
-        versionCode = 10
-        versionName = "10.0.0"
+        versionCode = 11
+        versionName = "11.0.0"
     }
     signingConfigs {
         create("release") {

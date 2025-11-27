@@ -334,7 +334,36 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                   ),
                 ],
               ),
-              SizedBox(height: 50.h),
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  PopupMenuButton<String>(
+                    icon: Icon(Icons.more_vert_outlined),
+                    onSelected: (value) {
+                      if (value == 'report') {
+                        Get.toNamed(
+                          RoutesName.report,
+                          arguments: {
+                            'id': controller.eventDetail.value!.id,
+                            'type': "Event",
+                          },
+                        );
+                      }
+                    },
+                    itemBuilder:
+                        (BuildContext context) => [
+                          PopupMenuItem<String>(
+                            value: 'report',
+                            child: Text('Report'),
+                          ),
+                          // Add other options here if needed
+                        ],
+                  ),
+                ],
+              ),
+
+              SizedBox(height: 40.h),
               // Profile Name and Bio Section
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 10.w),
@@ -1282,7 +1311,6 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                                                 .value!
                                                 .currentEvents[index]
                                                 .isWishlisted,
-                                        
                                       ),
                                     ),
                                   );
@@ -1404,7 +1432,8 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                                   padding: const EdgeInsets.all(5),
                                   child: CustomFeatureEventContainer(
                                     bookType: "eventId",
-type: controller
+                                    type:
+                                        controller
                                             .extraEventData
                                             .value!
                                             .relatedEvents[index]
@@ -1474,10 +1503,13 @@ type: controller
                                             .relatedEvents[index]
                                             .averageRating
                                             .toString(),
-                                    doller: controller
+                                    doller:
+                                        controller
                                             .extraEventData
                                             .value!
-                                            .relatedEvents[index].entranceFee.toString(),
+                                            .relatedEvents[index]
+                                            .entranceFee
+                                            .toString(),
                                     padding: 5,
                                     verificationIcon: Icons.verified,
                                     likeCount:
@@ -1571,7 +1603,6 @@ type: controller
                                         controller.extraEventData.refresh();
                                       }
                                     },
-                                    
                                   ),
                                 ),
                               );
@@ -1591,5 +1622,4 @@ type: controller
       }),
     );
   }
-
 }
