@@ -211,7 +211,7 @@ class _BusinessInspirationContentState
                           authorName: item.author.name,
                           imageWidth: 356,
                           onTap: () {
-                            // handle tap if needed
+                            controller.getCategoryDetails(item.id);
                           },
                         ),
                       );
