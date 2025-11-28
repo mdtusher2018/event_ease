@@ -21,16 +21,12 @@ class MapScreen extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          Positioned(
-            top: 5,
-            left: 5,
-            child: IconButton(
-              onPressed: () {
-                Navigator.pop(context);
-                log("back button pressing");
-              },
-              icon: Icon(Icons.arrow_back),
-            ),
+          IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+              log("back button pressing");
+            },
+            icon: Icon(Icons.arrow_back),
           ),
           _buildGoogleMap(),
           _buildSearchBar(context),

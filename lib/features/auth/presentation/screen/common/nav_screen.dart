@@ -29,7 +29,8 @@ class NavScreen extends StatefulWidget {
   const NavScreen({super.key});
 
   static int selectedIndex = 0;
-  static RxBool haveUnreadMassage=false.obs;
+  static RxBool haveUnreadMassage = false.obs;
+
   @override
   _NavScreenState createState() => _NavScreenState();
 }
@@ -38,102 +39,83 @@ class _NavScreenState extends State<NavScreen> {
   late PersistentTabController _controller;
   bool _isDrawerOpen = false; // Add this to track drawer state
 
+  @override
+  void initState() {
+    super.initState();
+    // Get index from arguments, default to 0
+    final int initialIndex =
+        Get.arguments is Map && Get.arguments['index'] is int
+            ? Get.arguments['index']
+            : NavScreen.selectedIndex;
+    _controller = PersistentTabController(initialIndex: initialIndex);
 
+    _controller.addListener(() {
+      setState(() {
+        NavScreen.selectedIndex = _controller.index;
 
-@override
-void initState() {
-  super.initState();
-  // Get index from arguments, default to 0
-  final int initialIndex = Get.arguments is Map && Get.arguments['index'] is int
-      ? Get.arguments['index']
-      : NavScreen.selectedIndex;
-  _controller = PersistentTabController(initialIndex: initialIndex);
-
-  _controller.addListener(() {
-    setState(() {
-      NavScreen.selectedIndex = _controller.index;
-
-      // ✅ Clear unread dot when user goes to chat
-      if (PrefsHelper.myRole == "user") {
-        if (_controller.index == 4) {
-          NavScreen.haveUnreadMassage.value = false;
-      
+        // ✅ Clear unread dot when user goes to chat
+        if (PrefsHelper.myRole == "user") {
+          if (_controller.index == 4) {
+            NavScreen.haveUnreadMassage.value = false;
+          }
+        } else if (PrefsHelper.myRole == "organizer") {
+          if (_controller.index == 3) {
+            NavScreen.haveUnreadMassage.value = false;
+          }
         }
-      } else if (PrefsHelper.myRole == "organizer") {
-        if (_controller.index == 3) {
-          NavScreen.haveUnreadMassage.value  = false;
-  
-        }
-      }
+      });
     });
-  });
 
-  if (PrefsHelper.token.isNotEmpty) {
-
-    SocketServices.connectToSocket();
-    connecntNotification();
-        getUnreadMassage();
-  }
-}
-
-
-
-void getUnreadMassage() async {
-  try {
-    var response = await ApiService.to.getApi(AppUrl.getUnreadMassage);
-    if (response.success) {
-      log("..............................${response.data}");
-
-      final count = response.data["count"] ?? 0; // ✅ safe extraction
-      log("$count .............................."); // ✅ string interpolation
-
-      if (count > 0) {
-   
-          NavScreen.haveUnreadMassage.value  = true;
-      
-      } else {
-      
-          NavScreen.haveUnreadMassage.value  = false;
-  
-      }
-    } else {
-      log("Error: ${response.message}");
-      Get.snackbar("Error".tr,response.message);
+    if (PrefsHelper.token.isNotEmpty) {
+      SocketServices.connectToSocket();
+      connecntNotification();
+      getUnreadMassage();
     }
-  } catch (e, s) {
-    log("Exception: $e");
-    log("Stacktrace: $s");
   }
-}
 
+  void getUnreadMassage() async {
+    try {
+      var response = await ApiService.to.getApi(AppUrl.getUnreadMassage);
+      if (response.success) {
+        log("..............................${response.data}");
 
+        final count = response.data["count"] ?? 0; // ✅ safe extraction
+        log("$count .............................."); // ✅ string interpolation
 
-void connecntNotification()async{
+        if (count > 0) {
+          NavScreen.haveUnreadMassage.value = true;
+        } else {
+          NavScreen.haveUnreadMassage.value = false;
+        }
+      } else {
+        log("Error: ${response.message}");
+        Get.snackbar("Error".tr, response.message);
+      }
+    } catch (e, s) {
+      log("Exception: $e");
+      log("Stacktrace: $s");
+    }
+  }
+
+  void connecntNotification() async {
     final FirebaseMessaging messaging = FirebaseMessaging.instance;
-  String token = await messaging.getToken() ?? "";
+    String token = await messaging.getToken() ?? "";
 
-  log("device token==============$token");
-  if(token.isNotEmpty){
-    final response =await ApiService.to.patchApi(AppUrl.sendFCMToken, {
-        "fcmToken": token
-    });
-    log(response.message+">>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<");
+    log("device token==============$token");
+    if (token.isNotEmpty) {
+      final response = await ApiService.to.patchApi(AppUrl.sendFCMToken, {
+        "fcmToken": token,
+      });
+      log(response.message + ">>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<");
+    }
+
+    log(".................Firebase Initialized..............");
+    // Initialize Notification Service
+    final notificationService = NotificationService();
+    log(".................Notification..............");
+    await notificationService.initialize();
+    log(".................Notification Initialized..............");
   }
-
-  log(".................Firebase Initialized..............");
-  // Initialize Notification Service
-  final notificationService = NotificationService();
-  log(".................Notification..............");
-  await notificationService.initialize();
-  log(".................Notification Initialized..............");
-
-}
-
-
-
-
-
-
 
   // Add method to handle drawer state changes
   void _onDrawerChanged(bool isOpen) {
@@ -146,7 +128,8 @@ void connecntNotification()async{
   List<Widget> _buildScreens() {
     if (PrefsHelper.myRole == "user") {
       return [
-        HomeScreen(onDrawerChanged: _onDrawerChanged), // Pass callback to HomeScreen
+        HomeScreen(onDrawerChanged: _onDrawerChanged),
+        // Pass callback to HomeScreen
         FavoriteScreen(),
         InspirationScreen(),
         CommunityScreen(),
@@ -154,7 +137,8 @@ void connecntNotification()async{
       ];
     } else if (PrefsHelper.myRole == "organizer") {
       return [
-        HomeScreen(onDrawerChanged: _onDrawerChanged), // Pass callback to HomeScreen
+        HomeScreen(onDrawerChanged: _onDrawerChanged),
+        // Pass callback to HomeScreen
         DashboardScreen(),
         InspirationScreen(),
         ChatScreen(),
@@ -180,19 +164,34 @@ void connecntNotification()async{
         inactiveIcon: SizedBox(
           height: 24,
           width: 24,
-          child: SvgPicture.asset(AppIcons.nonActiveHomeIcon, height: 24,
-            width: 24,),
+          child: SvgPicture.asset(
+            AppIcons.nonActiveHomeIcon,
+            height: 24,
+            width: 24,
+          ),
         ),
         title: AppString.home,
       ),
       if (PrefsHelper.myRole == "user")
         _buildNavBarItem(
-          icon: Icon(Icons.favorite, color:NavScreen.selectedIndex==1? AppColors.primary :AppColors.greTab,),
+          icon: Icon(
+            Icons.favorite,
+            color:
+                NavScreen.selectedIndex == 1
+                    ? AppColors.primary
+                    : AppColors.greTab,
+          ),
           title: AppString.favorite,
         ),
       if (PrefsHelper.myRole == "organizer")
         _buildNavBarItem(
-          icon: Icon(Icons.dashboard,  color:NavScreen.selectedIndex==1? AppColors.primary :AppColors.greTab,),
+          icon: Icon(
+            Icons.dashboard,
+            color:
+                NavScreen.selectedIndex == 1
+                    ? AppColors.primary
+                    : AppColors.greTab,
+          ),
           title: AppString.dashboard,
         ),
       _buildNavBarItem(
@@ -201,7 +200,11 @@ void connecntNotification()async{
             AppIcons.inspirationIcon,
             height: 24,
             width: 24,
-            color: NavScreen.selectedIndex == (PrefsHelper.myRole == "user" ? 2 : 2) ? AppColors.primary : AppColors.greTab,
+            color:
+                NavScreen.selectedIndex ==
+                        (PrefsHelper.myRole == "user" ? 2 : 2)
+                    ? AppColors.primary
+                    : AppColors.greTab,
           ),
         ),
         inactiveIcon: Center(
@@ -221,7 +224,10 @@ void connecntNotification()async{
               AppIcons.communityIcon,
               height: 24,
               width: 24,
-              color: NavScreen.selectedIndex == 3 ? AppColors.primary : AppColors.greTab,
+              color:
+                  NavScreen.selectedIndex == 3
+                      ? AppColors.primary
+                      : AppColors.greTab,
             ),
           ),
           inactiveIcon: Center(
@@ -236,44 +242,59 @@ void connecntNotification()async{
         ),
       _buildNavBarItem(
         icon: Center(
-              child: Obx(
-                 () {
-                  return Stack(
-                    alignment: Alignment.topRight,
-                    children: [
-                      SvgPicture.asset(
-                        AppIcons.chatIcon,
-                        height: 30,
-                        width: 30,
-                        color: NavScreen.selectedIndex == (PrefsHelper.myRole == "user" ? 4 : 3) ? AppColors.primary : AppColors.greTab,
-                      ),
-                       Positioned(
-                   
-                        child: Icon(Icons.circle,color: (NavScreen.haveUnreadMassage.value)?Colors.red:Colors.transparent,size: 12,))
-                    ],
-                  );
-                }
-              ),
-            ),
-        inactiveIcon:Center(
-              child: Obx(
-                () {
-                  return Stack(
-                  alignment: Alignment.topRight,
-                    children: [
-                      SvgPicture.asset(
-                        AppIcons.chatIcon,
-                        height: 30,
-                        width: 30,
-                        color: AppColors.greTab,
-                      ),
-              Positioned(
-                        child: Icon(Icons.circle,color: (NavScreen.haveUnreadMassage.value)?Colors.red:Colors.transparent,size: 12,))
-                    ],
-                  );
-                }
-              ),
-            ),
+          child: Obx(() {
+            return Stack(
+              alignment: Alignment.topRight,
+              children: [
+                SvgPicture.asset(
+                  AppIcons.chatIcon,
+                  height: 30,
+                  width: 30,
+                  color:
+                      NavScreen.selectedIndex ==
+                              (PrefsHelper.myRole == "user" ? 4 : 3)
+                          ? AppColors.primary
+                          : AppColors.greTab,
+                ),
+                Positioned(
+                  child: Icon(
+                    Icons.circle,
+                    color:
+                        (NavScreen.haveUnreadMassage.value)
+                            ? Colors.red
+                            : Colors.transparent,
+                    size: 12,
+                  ),
+                ),
+              ],
+            );
+          }),
+        ),
+        inactiveIcon: Center(
+          child: Obx(() {
+            return Stack(
+              alignment: Alignment.topRight,
+              children: [
+                SvgPicture.asset(
+                  AppIcons.chatIcon,
+                  height: 30,
+                  width: 30,
+                  color: AppColors.greTab,
+                ),
+                Positioned(
+                  child: Icon(
+                    Icons.circle,
+                    color:
+                        (NavScreen.haveUnreadMassage.value)
+                            ? Colors.red
+                            : Colors.transparent,
+                    size: 12,
+                  ),
+                ),
+              ],
+            );
+          }),
+        ),
         title: AppString.chat,
       ),
       if (PrefsHelper.myRole == "organizer")
@@ -283,7 +304,10 @@ void connecntNotification()async{
               AppIcons.listingIcon,
               height: 24,
               width: 24,
-              color: NavScreen.selectedIndex == 4 ? AppColors.primary : AppColors.greTab,
+              color:
+                  NavScreen.selectedIndex == 4
+                      ? AppColors.primary
+                      : AppColors.greTab,
             ),
           ),
           inactiveIcon: Center(
@@ -332,19 +356,23 @@ void connecntNotification()async{
             borderRadius: BorderRadius.circular(20),
             borderSide: BorderSide.none,
           ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                AppString.maps,
-                style: styleForBoldText.copyWith(
-                  color: Colors.white,
-                  fontSize: 16,
+          child: IntrinsicWidth(
+            child: Row(
+              children: [
+                Flexible(
+                  child: Text(
+                    AppString.maps,
+                    style: styleForBoldText.copyWith(
+                      color: Colors.white,
+                      fontSize: 16,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
-              ),
-              const SizedBox(width: 5),
-              SvgPicture.asset(AppIcons.mapIcon, height: 24, width: 24,),
-            ],
+                const SizedBox(width: 5),
+                SvgPicture.asset(AppIcons.mapIcon, height: 24, width: 24),
+              ],
+            ),
           ),
         );
       },
@@ -359,7 +387,9 @@ void connecntNotification()async{
         children: [
           // Wrap the PersistentTabView with GetX for responsive sizing
           MediaQuery(
-            data: MediaQuery.of(context).copyWith(textScaler: const TextScaler.linear(1.0)),
+            data: MediaQuery.of(
+              context,
+            ).copyWith(textScaler: const TextScaler.linear(1.0)),
             child: Theme(
               // Apply Outfit font to the whole PersistentTabView using Theme
               data: Theme.of(context).copyWith(
@@ -391,12 +421,11 @@ void connecntNotification()async{
           ),
           // Positioned Floating Action Button with dynamic positioning using GetX
           // Modified condition to include drawer state check
-          if (
-              _controller.index == 0 &&
+          if (_controller.index == 0 &&
               !_isDrawerOpen) // Add this condition to hide when drawer is open
             Positioned(
               bottom: 80,
-              left:130,
+              left: 130,
               right: 130,
               child: _buildFloatingActionButton(),
             ),
