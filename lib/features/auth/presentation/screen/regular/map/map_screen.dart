@@ -2,6 +2,8 @@
 
 import 'dart:developer';
 
+import 'dart:io';
+
 import 'package:event_ease/features/auth/presentation/controller/map/map_controller.dart';
 import 'package:event_ease/features/auth/presentation/utils/app_string.dart';
 import 'package:flutter/material.dart';
@@ -152,7 +154,7 @@ class MapScreen extends StatelessWidget {
   /// Search Bar with Google Places Autocomplete
   Widget _buildSearchBar(BuildContext context) {
     return Positioned(
-      top: 70,
+      top: Platform.isIOS ? 70 : 30,
       left: 20,
       right: 20,
       child: Column(
