@@ -1,5 +1,7 @@
 // ignore_for_file: must_be_immutable
 
+import 'dart:developer';
+
 import 'package:event_ease/features/auth/presentation/controller/map/map_controller.dart';
 import 'package:event_ease/features/auth/presentation/utils/app_string.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +26,8 @@ class MapScreen extends StatelessWidget {
             left: 5,
             child: IconButton(
               onPressed: () {
-                Get.back();
+                Navigator.pop(context);
+                log("back button pressing");
               },
               icon: Icon(Icons.arrow_back),
             ),
@@ -149,7 +152,7 @@ class MapScreen extends StatelessWidget {
   /// Search Bar with Google Places Autocomplete
   Widget _buildSearchBar(BuildContext context) {
     return Positioned(
-      top: 30,
+      top: 70,
       left: 20,
       right: 20,
       child: Column(
