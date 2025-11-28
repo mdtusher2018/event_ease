@@ -49,7 +49,7 @@ Future<bool> requestLocationPermission() async {
   if (await Permission.location.isGranted) {
     return true;
   }
-  var status = await Permission.location.request();
+  var status = await Permission.locationAlways.request();
 
   if (status.isGranted) {
     return true;
@@ -124,7 +124,7 @@ Future<bool> requestNotificationsPermission() async {
 
 /// Call this before `runApp()` to ensure all required permissions are requested
 Future<void> requestAppPermissions() async {
-  await Permission.location.request();
+  await Permission.locationAlways.request();
   await Permission.photos.request();
   await requestNotificationPermission();
 }
