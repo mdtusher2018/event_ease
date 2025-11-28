@@ -20,29 +20,30 @@ class ReportScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     log("runtimetype==============${Get.arguments.runtimeType}");
-    final String type = Get.arguments['type']?? "";
-    final String id = Get.arguments['id']?? "";
+    final String type = Get.arguments['type'] ?? "";
+    final String id = Get.arguments['id'] ?? "";
     log(">>>>>>> Type ======== $type");
 
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
         leading: IconButton(
-          icon:  Icon(Icons.arrow_back_rounded),
+          icon: Icon(Icons.arrow_back_rounded),
           onPressed: () {
             Get.back();
           },
         ),
 
-        title: Text(AppString.report, style: styleForBoldText.copyWith(fontSize: 24.sp),),
-
+        title: Text(
+          AppString.report,
+          style: styleForBoldText.copyWith(fontSize: 24.sp),
+        ),
       ),
 
       body: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Column(
           children: [
-
             Container(
               width: double.infinity,
               decoration: BoxDecoration(
@@ -52,34 +53,33 @@ class ReportScreen extends StatelessWidget {
               child: TextFormField(
                 validator: (value) => OtherHelper.validator(value),
                 controller: controller.reportController,
-                maxLines: 3, // Maximum number of lines
-                maxLength: 100,
-                decoration: InputDecoration(
-                    counterText: "",
-                    contentPadding: EdgeInsets.all(10),
-                    hintText: "${AppString.writeReport}...",
-                    hintStyle: styleForNormalText.copyWith(color: Colors.grey),
-                  border: OutlineInputBorder(borderSide: BorderSide.none)
-              ),
-            ),),
+                maxLines: 5, // Maximum number of lines
 
-            SizedBox(
-              height: 20,
+                decoration: InputDecoration(
+                  counterText: "",
+                  contentPadding: EdgeInsets.all(10),
+                  hintText: "${AppString.writeReport}...",
+                  hintStyle: styleForNormalText.copyWith(color: Colors.grey),
+                  border: OutlineInputBorder(borderSide: BorderSide.none),
+                ),
+              ),
             ),
-            Obx(() => InkWell(
+
+            SizedBox(height: 20),
+            Obx(
+              () => InkWell(
                 onTap: () => controller.report(type: type, id: id),
                 child: CustomButton(
                   isLoading: controller.isLoading.value,
                   fontSize: 18,
                   text: AppString.submitReport,
                   // isLoading: controller.isLoading,
-                )
-            ),)
-
+                ),
+              ),
+            ),
           ],
         ),
       ),
-
     );
   }
 }

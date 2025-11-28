@@ -1,5 +1,7 @@
 // ignore_for_file: must_be_immutable
 
+import 'dart:io';
+
 import 'package:event_ease/features/auth/presentation/controller/map/map_controller.dart';
 import 'package:event_ease/features/auth/presentation/utils/app_string.dart';
 import 'package:flutter/material.dart';
@@ -17,24 +19,26 @@ class MapScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          Positioned(
-            top: 5,
-            left: 5,
-            child: IconButton(
-              onPressed: () {
-                Get.back();
-              },
-              icon: Icon(Icons.arrow_back),
+      body: SafeArea(
+        child: Stack(
+          children: [
+            Positioned(
+              top: 5,
+              left: 5,
+              child: IconButton(
+                onPressed: () {
+                  Get.back();
+                },
+                icon: Icon(Icons.arrow_back),
+              ),
             ),
-          ),
-          _buildGoogleMap(),
-          _buildSearchBar(context),
-          _buildLoadingIndicator(),
-          _buildMyLocationButton(), // ✅ added here
-          _buildZoomButtons(),
-        ],
+            _buildGoogleMap(),
+            _buildSearchBar(context),
+            _buildLoadingIndicator(),
+            _buildMyLocationButton(), // ✅ added here
+            _buildZoomButtons(),
+          ],
+        ),
       ),
     );
   }
@@ -149,7 +153,7 @@ class MapScreen extends StatelessWidget {
   /// Search Bar with Google Places Autocomplete
   Widget _buildSearchBar(BuildContext context) {
     return Positioned(
-      top: 30,
+      top: Platform.isIOS ? 70 : 30,
       left: 20,
       right: 20,
       child: Column(
