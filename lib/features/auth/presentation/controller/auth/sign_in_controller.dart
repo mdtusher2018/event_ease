@@ -20,10 +20,15 @@ class SignInController extends GetxController {
   RxBool isLoading = false.obs;
   AuthRepository authRepository = AuthRepository();
   final TextEditingController emailController = TextEditingController(
-    text: kDebugMode ? ((PrefsHelper.myRole=="user")? "cagaka9569@kwifa.com":"cicar23886@ishense.com") : "",
+    text:
+        kDebugMode
+            ? ((PrefsHelper.myRole == "user")
+                ? "wobodot766@besenica.com"
+                : "lepile1830@besenica.com")
+            : "",
   );
   final TextEditingController passwordController = TextEditingController(
-    text: kDebugMode ? "123456" : "",
+    text: kDebugMode ? "hello123" : "",
   );
 
   void toggleRememberMe() {
@@ -68,7 +73,7 @@ class SignInController extends GetxController {
           //     response.data['user']['parentBusiness'] == null) {
           //   Get.toNamed(RoutesName.signUpStep);
           // } else {
-            Get.offAllNamed(RoutesName.nav);
+          Get.offAllNamed(RoutesName.nav);
           // }
         } else if (await Permission.location.isGranted &&
             !await Permission.notification.isGranted) {
@@ -88,7 +93,7 @@ class SignInController extends GetxController {
       } else {
         log(">>>>>>>>>>>>>>> Error 200");
         log(">>>>>>>>>>>>>>> Error ${response.message}");
-        Get.snackbar("Error".tr,response.message);
+        Get.snackbar("Error".tr, response.message);
       }
     } catch (e, s) {
       log("Error E : $e");
