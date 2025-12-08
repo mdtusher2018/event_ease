@@ -75,7 +75,7 @@ class _GiveReviewScreenState extends State<GiveReviewScreen> {
               child: TextField(
                 controller: bioController,
                 maxLines: 3, // Maximum number of lines
-                maxLength: 100,
+               
 
                 decoration: InputDecoration(
                   counterText: "",

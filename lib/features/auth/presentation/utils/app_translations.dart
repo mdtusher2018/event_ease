@@ -505,8 +505,10 @@ class AppTranslations extends Translations {
       'transactionDate': 'Transaction Date: ',
       'usedCredits': 'Used Credits: ',
       'receivedCredits': 'Received Credits: ',
+      "Last Name": "Last Name",
     },
     'it_IT': {
+      "Last Name": "Cognome",
       'creditHistory': 'Storico dei Crediti',
       'noCreditHistory': 'Nessuna Cronologia dei Crediti Disponibile.',
       'type': 'Tipo',

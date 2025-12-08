@@ -27,7 +27,6 @@ class SignUpScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(14),
@@ -131,7 +130,7 @@ class SignUpScreen extends StatelessWidget {
                                 Text(
                                   controller.selectedDate.value != null
                                       ? DateFormat(
-                                        'dd-MM-yyyy'
+                                        'dd/MM/yyyy',
                                         // 'yyyy-MM-dd',
                                       ).format(controller.selectedDate.value!)
                                       : AppString.dateOfBirth,
@@ -320,7 +319,9 @@ class SignUpScreen extends StatelessWidget {
                               recognizer:
                                   TapGestureRecognizer()
                                     ..onTap = () {
-                                      Get.toNamed(RoutesName.signUpPrivacyPolicy);
+                                      Get.toNamed(
+                                        RoutesName.signUpPrivacyPolicy,
+                                      );
                                     },
                               text: AppString.privacyPolicy,
                               style: styleForBoldText.copyWith(
@@ -329,17 +330,15 @@ class SignUpScreen extends StatelessWidget {
                                 height: 1.56.h,
                               ),
                             ),
-                                  TextSpan(
-                       
+                            TextSpan(
                               text: " & ",
                               style: styleForBoldText.copyWith(
-                            color: AppColors.darkGrey,
+                                color: AppColors.darkGrey,
                                 fontSize: 18.sp,
                                 height: 1.56.h,
                               ),
-                              
                             ),
-                                  TextSpan(
+                            TextSpan(
                               recognizer:
                                   TapGestureRecognizer()
                                     ..onTap = () {
@@ -408,7 +407,7 @@ class SignUpScreen extends StatelessWidget {
                 ),
 
                 SizedBox(height: 42.h),
-          
+
                 Padding(
                   padding: const EdgeInsets.only(bottom: 20),
                   child: Row(
