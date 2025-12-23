@@ -1,3 +1,8 @@
+import 'dart:io';
+
+import 'package:event_ease/core/helper/prefs_helper.dart';
+import 'package:event_ease/features/auth/presentation/black_for_ios/block_controlller.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -11,7 +16,9 @@ class CustomPollWidget extends StatelessWidget {
   final String description;
   final String name;
   final String image;
+  final bool isMyPolls;
   final String time;
+  final String id;
   final List<Option> options;
   final int? selectedIndex; // optional, used for current selection
   final void Function(int index)? onOptionTap;
@@ -23,6 +30,8 @@ class CustomPollWidget extends StatelessWidget {
     required this.name,
     required this.image,
     required this.time,
+    required this.id,
+    this.isMyPolls = false,
     required this.options,
     this.selectedIndex,
     this.onOptionTap,
@@ -44,13 +53,35 @@ class CustomPollWidget extends StatelessWidget {
             blurRadius: 40,
             offset: Offset(0, 0),
             spreadRadius: 0,
-          )
+          ),
         ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-            // Creator info
+          if (PrefsHelper.token.isNotEmpty && !isMyPolls)
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                PopupMenuButton<String>(
+                  color: Colors.white,
+                  onSelected: (String value) async {
+                    if (value == 'block') {
+                      await blockAnything(id: id, type: "pollCommunity");
+                    }
+                  },
+                  itemBuilder:
+                      (BuildContext context) => <PopupMenuEntry<String>>[
+                        if (Platform.isIOS || kDebugMode)
+                          PopupMenuItem<String>(
+                            value: 'block',
+                            child: Text('Block'),
+                          ),
+                      ],
+                ),
+              ],
+            ),
+
           Row(
             children: [
               CommonImage(
@@ -62,7 +93,6 @@ class CustomPollWidget extends StatelessWidget {
               ),
               SizedBox(width: 10.w),
               Expanded(
-                
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -85,7 +115,7 @@ class CustomPollWidget extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: 8,),
+          SizedBox(height: 8),
           // Question
           Text(
             question,
@@ -126,16 +156,20 @@ class CustomPollWidget extends StatelessWidget {
                   }
                 },
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 10,
+                  ),
                   margin: const EdgeInsets.only(bottom: 8),
                   decoration: ShapeDecoration(
                     color: Colors.white,
                     shape: RoundedRectangleBorder(
                       side: BorderSide(
                         width: 2,
-                        color: isSelected
-                            ? AppColors.primary
-                            : const Color(0xFFE1E1E1),
+                        color:
+                            isSelected
+                                ? AppColors.primary
+                                : const Color(0xFFE1E1E1),
                       ),
                       borderRadius: BorderRadius.circular(12),
                     ),
@@ -199,8 +233,6 @@ class CustomPollWidget extends StatelessWidget {
           ),
 
           SizedBox(height: 12.h),
-
-        
         ],
       ),
     );

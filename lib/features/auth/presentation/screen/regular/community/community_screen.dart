@@ -355,6 +355,8 @@ class _CommunityScreenState extends State<CommunityScreen>
                               padding: const EdgeInsets.only(bottom: 10),
                               child: CustomPollWidget(
                                 question: pollData.title,
+                                id: pollData.id,
+                                isMyPolls: true,
                                 description: pollData.description,
                                 name: pollData.creator.name,
                                 image: pollData.creator.profileImage,
@@ -451,6 +453,7 @@ class _CommunityScreenState extends State<CommunityScreen>
                               padding: const EdgeInsets.only(bottom: 10),
                               child: CustomPollWidget(
                                 question: pollData.title,
+                                id: pollData.id,
                                 description: pollData.description,
                                 name: pollData.creator.name,
                                 image: pollData.creator.profileImage,
