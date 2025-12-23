@@ -1,6 +1,9 @@
 import 'package:event_ease/features/auth/presentation/utils/app_url.dart';
 import 'package:event_ease/services/api_service.dart';
 import 'package:get/get.dart';
+import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
+
+import '../screen/common/nav_screen.dart';
 
 Future<bool> blockAnything({required String type, required String id}) async {
   final String endpoint = "${AppUrl.baseUrl}/$type/block/$id";
@@ -9,7 +12,7 @@ Future<bool> blockAnything({required String type, required String id}) async {
     final ApiResponse response = await ApiService.to.patchApi(endpoint, {});
 
     if (response.success) {
-      Get.back();
+      Get.offAll(NavScreen());
       Get.snackbar(
         "Success".tr,
         "Blocked successfully, You will not see this in Future".tr,
