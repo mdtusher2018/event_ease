@@ -1,14 +1,17 @@
 // ignore_for_file: must_be_immutable
 
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:event_ease/core/helper/prefs_helper.dart';
 import 'package:event_ease/core/routers/routes_name.dart';
+import 'package:event_ease/features/auth/presentation/black_for_ios/block_controlller.dart';
 import 'package:event_ease/features/auth/presentation/screen/common/home/widgets/fullimage.dart';
 import 'package:event_ease/features/auth/presentation/screen/common/inspiration/business/edit_post_block_screen.dart';
 import 'package:event_ease/features/auth/presentation/utils/app_string.dart';
 import 'package:event_ease/features/auth/presentation/utils/app_url.dart';
 import 'package:event_ease/services/api_service.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -82,9 +85,18 @@ class PostScreen extends StatelessWidget {
                     Navigator.pop(context);
                   }
                 }
+
+                if (value == 'block') {
+                  await blockAnything(id: id, type: "inspiration");
+                }
               },
               itemBuilder:
                   (BuildContext context) => <PopupMenuEntry<String>>[
+                    if (Platform.isIOS || kDebugMode)
+                      PopupMenuItem<String>(
+                        value: 'block',
+                        child: Text('Block'),
+                      ),
                     if (!isMyPost)
                       PopupMenuItem<String>(
                         value: "report",

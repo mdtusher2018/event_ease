@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:event_ease/engagment%20handle/comment_bottomsheet.dart';
+import 'package:event_ease/features/auth/presentation/black_for_ios/block_controlller.dart';
 import 'package:event_ease/features/auth/presentation/screen/common/home/widgets/fullimage.dart';
 import 'package:event_ease/features/auth/presentation/utils/app_colors.dart';
 import 'package:event_ease/features/auth/presentation/utils/app_icons.dart';
@@ -6,6 +9,7 @@ import 'package:event_ease/features/auth/presentation/utils/app_icons.dart';
 import 'package:event_ease/features/auth/presentation/utils/app_string.dart';
 import 'package:event_ease/features/auth/presentation/utils/styles.dart';
 import 'package:event_ease/features/auth/presentation/widgets/custom_button.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -260,7 +264,13 @@ class _JobDetailScreenState extends State<JobDetailScreen> {
                     children: [
                       PopupMenuButton<String>(
                         icon: Icon(Icons.more_vert_outlined),
-                        onSelected: (value) {
+                        onSelected: (value) async {
+                          if (value == 'block') {
+                            await blockAnything(
+                              id: controller.jobDetailModel.value!.id,
+                              type: "job",
+                            );
+                          }
                           if (value == 'report') {
                             Get.toNamed(
                               RoutesName.report,
@@ -273,6 +283,11 @@ class _JobDetailScreenState extends State<JobDetailScreen> {
                         },
                         itemBuilder:
                             (BuildContext context) => [
+                              if (Platform.isIOS || kDebugMode)
+                                PopupMenuItem<String>(
+                                  value: 'block',
+                                  child: Text('Block'),
+                                ),
                               PopupMenuItem<String>(
                                 value: 'report',
                                 child: Text('Report'),
