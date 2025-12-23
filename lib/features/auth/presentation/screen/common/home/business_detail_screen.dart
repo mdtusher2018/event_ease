@@ -319,19 +319,19 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen> {
                   PopupMenuButton<String>(
                     icon: Icon(Icons.more_vert_outlined),
                     onSelected: (value) async {
+                      log("value $value");
                       if (value == 'report') {
-                        if (value == 'block') {
-                          await blockAnything(
-                            id: controller.businessDetail.value!.id,
-                            type: "business",
-                          );
-                        }
                         Get.toNamed(
                           RoutesName.report,
                           arguments: {
                             'id': controller.businessDetail.value!.id,
                             'type': "Business",
                           },
+                        );
+                      }else if (value == 'block') {
+                        await blockAnything(
+                          id: controller.businessDetail.value!.id,
+                          type: "business",
                         );
                       }
                     },
