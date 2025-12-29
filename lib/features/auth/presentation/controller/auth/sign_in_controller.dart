@@ -132,6 +132,7 @@ class SignInController extends GetxController {
       final response = await authRepository.loginWithGoogle(body);
       if (response.statusCode == 200) {
         if (response.data['user']['role'] != PrefsHelper.myRole) {
+          await GoogleSignIn().signOut();
           Get.snackbar(
             "Access Denied",
             "You're trying to log in as a ${response.data['user']['role']}, but this portal is intended for ${PrefsHelper.myRole} access.",

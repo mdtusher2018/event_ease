@@ -12,7 +12,28 @@
           "package_name": "it.pianofesta.app"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "981731840955-jmcl2ah2etfsfvcu1hmnl1dlkd5u6q60.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "it.pianofesta.app",
+            "certificate_hash": "9655fc28fec501e04008d6e52382e15f8223a381"
+          }
+        },
+        {
+          "client_id": "981731840955-vmoj9klke5s10acnr1p5dfg1ljm80d6t.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "it.pianofesta.app",
+            "certificate_hash": "8884a241854086b2a720bfe7d78564a3742d9be7"
+          }
+        },
+        {
+          "client_id": "981731840955-1ebdtqg31ti0uns69ff3dl124b99es0q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyCc3VZbBqxv_tKtF3UjjeHA6Oyd2L5gte8"
@@ -20,7 +41,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "981731840955-1ebdtqg31ti0uns69ff3dl124b99es0q.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "981731840955-k93h0i6s46lndtpm257ngujkr84cuii9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "it.pianofesta.app"
+              }
+            }
+          ]
         }
       }
     }
