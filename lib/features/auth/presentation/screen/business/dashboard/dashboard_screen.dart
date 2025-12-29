@@ -65,12 +65,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
     return Scaffold(
       body: SafeArea(
         child: Obx(() {
-          
-             if (DashboardScreen.deshBoardController.isLoading.value ||
-              DashboardScreen.deshBoardController.stats.value == null) {
-            return const Center(child: CircularProgressIndicator());
-          }
-
           if (parentBusinessId.value.isEmpty) {
             return Center(
               child: Column(
@@ -118,7 +112,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
             );
           }
 
-       
+          if (DashboardScreen.deshBoardController.isLoading.value ||
+              DashboardScreen.deshBoardController.stats.value == null) {
+            return const Center(child: CircularProgressIndicator());
+          }
 
           return SingleChildScrollView(
             padding: const EdgeInsets.only(
@@ -140,13 +137,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         shape: BoxShape.circle,
                       ),
                       child: CommonImage(
-  imageSrc: (PrefsHelper.myImage.isNotEmpty) 
-      ? PrefsHelper.myImage 
-      : "https://tse4.mm.bing.net/th/id/OIP.tvaMwK3QuFxhTYg4PSNNVAHaHa?rs=1&pid=ImgDetMain&o=7&rm=3", // or local asset
-  imageType: ImageType.network,
-  borderRadius: 100,
-),
-
+                        imageSrc:
+                            (PrefsHelper.myImage.isNotEmpty)
+                                ? PrefsHelper.myImage
+                                : "https://tse4.mm.bing.net/th/id/OIP.tvaMwK3QuFxhTYg4PSNNVAHaHa?rs=1&pid=ImgDetMain&o=7&rm=3", // or local asset
+                        imageType: ImageType.network,
+                        borderRadius: 100,
+                      ),
                     ),
                     SizedBox(width: 10.w),
                     Text(
@@ -921,11 +918,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                   .toString(),
 
                           name:
-                            controller.filterValue.value.isNotEmpty
-    ? controller.filterValue.value
-    : (controller.businessList.isNotEmpty 
-        ? controller.businessList.first.name 
-        : "N/A"),
+                              controller.filterValue.value.isNotEmpty
+                                  ? controller.filterValue.value
+                                  : (controller.businessList.isNotEmpty
+                                      ? controller.businessList.first.name
+                                      : "N/A"),
                         ),
                       );
                     },

@@ -6,6 +6,7 @@ import 'package:event_ease/features/auth/presentation/utils/app_string.dart';
 import 'package:event_ease/features/auth/presentation/widgets/common_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 
 import 'package:get/get.dart';
 
@@ -122,38 +123,38 @@ class SignInScreen extends StatelessWidget {
                 ),
               ),
 
-              // SizedBox(height: 26.h,),
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              //   children: [
-              //     Container(
-              //       height: 1.h,
-              //       width: 102.w,
-              //       color: Color(0xFFEEEEEE),
-              //     ),
-              //     Text(AppString.orContinueWith, style: styleForBoldText.copyWith(color: AppColors.grey, fontSize: 18.sp),),
-              //     Container(
-              //       height: 1.h,
-              //       width: 102.w,
-              //       color: Color(0xFFEEEEEE),
-              //     ),
-              //   ],
-              // ),
-              //  SizedBox(height: 20.h,),
-              // InkWell(
-              //   onTap: (){
-              //     controller.loginWithGoogle();
-              //   },
-              //   child: Container(
-              //     padding: EdgeInsets.symmetric(horizontal: 31.w, vertical: 18.h),
-              //     decoration: BoxDecoration(
-              //         borderRadius: BorderRadius.circular(16),
-              //         color: Colors.white,
-              //         border: Border.all(color: Colors.grey, width: 0.2)
-              //     ),
-              //     child: SvgPicture.asset(AppIcons.googleIcon, height: 24.h, width: 24.w,),
-              //   ),
-              // ),
+              SizedBox(height: 26.h,),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Container(
+                    height: 1.h,
+                    width: 102.w,
+                    color: Color(0xFFEEEEEE),
+                  ),
+                  Text(AppString.orContinueWith, style: styleForBoldText.copyWith(color: AppColors.grey, fontSize: 18.sp),),
+                  Container(
+                    height: 1.h,
+                    width: 102.w,
+                    color: Color(0xFFEEEEEE),
+                  ),
+                ],
+              ),
+               SizedBox(height: 20.h,),
+              InkWell(
+                onTap: (){
+                  controller.loginWithGoogle();
+                },
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 31.w, vertical: 18.h),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16),
+                      color: Colors.white,
+                      border: Border.all(color: Colors.grey, width: 0.2)
+                  ),
+                  child: SvgPicture.asset(AppIcons.googleIcon, height: 24.h, width: 24.w,),
+                ),
+              ),
               SizedBox(height: 40.h),
               Padding(
                 padding: const EdgeInsets.only(bottom: 20),

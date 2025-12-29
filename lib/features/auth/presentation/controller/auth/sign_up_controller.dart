@@ -5,10 +5,12 @@ import 'dart:developer';
 
 import 'package:event_ease/core/helper/prefs_helper.dart';
 import 'package:event_ease/features/auth/data/repository/auth_repository.dart';
+import 'package:event_ease/features/auth/presentation/screen/common/auth/location_permission_screen.dart';
 import 'package:event_ease/services/socket_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import '../../../../../core/helper/other_helper.dart';
 import '../../../../../core/routers/routes_name.dart';
 
@@ -29,7 +31,8 @@ class SignUpController extends GetxController {
   final TextEditingController sureNameController = TextEditingController();
   final TextEditingController userNameController = TextEditingController();
   final TextEditingController birthDayController = TextEditingController();
-  final TextEditingController confirmPasswordController = TextEditingController();
+  final TextEditingController confirmPasswordController =
+      TextEditingController();
   final TextEditingController referralController = TextEditingController();
 
   var genderItem = ["male", "female", "others"];
@@ -65,7 +68,7 @@ class SignUpController extends GetxController {
         "gender": selectedGender.value,
         "role": PrefsHelper.myRole,
         "termsAndConditions": isAgree.value,
-        "customId": referralController.text
+        "customId": referralController.text,
       };
 
       final response = await authRepository.createUser(body: body);
@@ -75,26 +78,28 @@ class SignUpController extends GetxController {
         PrefsHelper.setString("token", PrefsHelper.token);
         Get.offAllNamed(RoutesName.otp, arguments: {'isSignUp': true});
       } else {
-        Get.snackbar("Error".tr,response.message);
+        Get.snackbar("Error".tr, response.message);
         log(">>>>>>>>>>>>>>> Error 200");
       }
     } catch (e, s) {
       log("Error E : $e");
       log("Error S : $s");
-      Get.snackbar("Error".tr,"$e $s");
+      Get.snackbar("Error".tr, "$e $s");
     } finally {
       isLoading.value = false;
     }
   }
 
-  Future<void>getPrivacyPolicySignUp()async{
+  Future<void> getPrivacyPolicySignUp() async {
     isLoading.value = true;
     try {
-      var response = PrefsHelper.myRole=="user"? await authRepository.getPrivacyPolicySignUpUser(): await authRepository.getPrivacyPolicySignUpBusiness();
+      var response =
+          PrefsHelper.myRole == "user"
+              ? await authRepository.getPrivacyPolicySignUpUser()
+              : await authRepository.getPrivacyPolicySignUpBusiness();
 
-      var policyData = response is String
-          ? jsonDecode(response.data)
-          : response.data;
+      var policyData =
+          response is String ? jsonDecode(response.data) : response.data;
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         if (policyData != null) {
@@ -102,7 +107,7 @@ class SignUpController extends GetxController {
           privacyPolicySignUp.value = policyData["content"] ?? "";
         }
       } else {
-        Get.snackbar("Error".tr,"Privacy policy not found");
+        Get.snackbar("Error".tr, "Privacy policy not found");
       }
     } catch (e, s) {
       debugPrint("Error====$e");
@@ -112,59 +117,57 @@ class SignUpController extends GetxController {
     }
   }
 
-  // Future<void> loginWithGoogle() async {
-  //   isLoading.value = true;
-  //   final GoogleSignIn googleSignIn = GoogleSignIn();
-  //   try {
-  //     final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
-  //     if (googleUser == null) return; // user canceled
-  //
-  //     var name = googleUser.displayName;
-  //     var image = googleUser.photoUrl;
-  //     var email = googleUser.email;
-  //     var role = PrefsHelper.myRole;
-  //
-  //     log(">>>>>>>>>> Name : $name");
-  //     log(">>>>>>>>>> email : $email");
-  //     log(">>>>>>>>>> image : $image");
-  //     log(">>>>>>>>>> role : $role");
-  //
-  //     var body = {
-  //       "email": email,
-  //       "name": name ,
-  //       "profileImage": image,
-  //       "role": role,
-  //     };
-  //
-  //     final response = await authRepository.loginWithGoogle(body);
-  //     if (response.statusCode == 200) {
-  //       if (response.data['user']['role'] != PrefsHelper.myRole) {
-  //         Get.snackbar(
-  //           "Access Denied",
-  //           "You're trying to log in as a ${response.data['user']['role']}, but this portal is intended for ${PrefsHelper.myRole} access.",
-  //         );
-  //         return;
-  //       }
-  //
-  //       _handleSuccessfulLogin(response);
-  //        Get.to(
-  //         LocationPermissionScreen(
-  //
-  //           parentBusiness: response.data['user']['parentBusiness'],
-  //         ),
-  //       );
-  //     } else {
-  //       Get.snackbar("Error".tr,response.message);
-  //     }
-  //   } catch (e, s) {
-  //     log("Google Sign-In Error: $e");
-  //     log("StackTrace: $s");
-  //     Get.snackbar("Google Sign-In Failed", e.toString());
-  //   } finally {
-  //     isLoading.value = false;
-  //   }
-  // }
+  Future<void> loginWithGoogle() async {
+    isLoading.value = true;
+    final GoogleSignIn googleSignIn = GoogleSignIn();
+    try {
+      final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
+      if (googleUser == null) return; // user canceled
 
+      var name = googleUser.displayName;
+      var image = googleUser.photoUrl;
+      var email = googleUser.email;
+      var role = PrefsHelper.myRole;
+
+      log(">>>>>>>>>> Name : $name");
+      log(">>>>>>>>>> email : $email");
+      log(">>>>>>>>>> image : $image");
+      log(">>>>>>>>>> role : $role");
+
+      var body = {
+        "email": email,
+        "name": name,
+        "profileImage": image,
+        "role": role,
+      };
+
+      final response = await authRepository.loginWithGoogle(body);
+      if (response.statusCode == 200) {
+        if (response.data['user']['role'] != PrefsHelper.myRole) {
+          Get.snackbar(
+            "Access Denied",
+            "You're trying to log in as a ${response.data['user']['role']}, but this portal is intended for ${PrefsHelper.myRole} access.",
+          );
+          return;
+        }
+
+        _handleSuccessfulLogin(response);
+        Get.to(
+          LocationPermissionScreen(
+            parentBusiness: response.data['user']['parentBusiness'],
+          ),
+        );
+      } else {
+        Get.snackbar("Error".tr, response.message);
+      }
+    } catch (e, s) {
+      log("Google Sign-In Error: $e");
+      log("StackTrace: $s");
+      Get.snackbar("Google Sign-In Failed", e.toString());
+    } finally {
+      isLoading.value = false;
+    }
+  }
 
   void _handleSuccessfulLogin(dynamic response) {
     SocketServices.connectToSocket(token: response.data['accessToken']);
@@ -180,7 +183,5 @@ class SignUpController extends GetxController {
     PrefsHelper.setString("myName", PrefsHelper.myName);
     PrefsHelper.setString("myRole", PrefsHelper.myRole);
     PrefsHelper.setString("myImage", PrefsHelper.myImage);
-
-    
   }
 }
