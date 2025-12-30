@@ -116,6 +116,7 @@ class AppUrl {
 
   static const newCommunityPoll = "$baseUrl/pollCommunity/add";
   static const googleLogin = "$baseUrl/auth/google-login";
+  static const appleLogin = "$baseUrl/auth/apple-login";
   static const mapData = "$baseUrl/business/map";
   static const createBlog = "$baseUrl/inspiration/create";
   static const checkList = "$baseUrl/checkList";

@@ -7,8 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-// import 'package:google_sign_in/google_sign_in.dart';
-
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import '../../../../../core/helper/prefs_helper.dart';
 // import '../../../../../core/routers/routes_name.dart';
 import '../../../../../services/socket_service.dart';
@@ -153,6 +152,70 @@ class SignInController extends GetxController {
       log("Google Sign-In Error: $e");
       log("StackTrace: $s");
       Get.snackbar("Google Sign-In Failed", e.toString());
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  Future<void> loginWithApple() async {
+    isLoading.value = true;
+
+    try {
+      final credential = await SignInWithApple.getAppleIDCredential(
+        scopes: [
+          AppleIDAuthorizationScopes.email,
+          AppleIDAuthorizationScopes.fullName,
+        ],
+        webAuthenticationOptions: WebAuthenticationOptions(
+          clientId: "com.your.bundle.id.service", // Apple Service ID
+          redirectUri: Uri.parse(
+            "https://yourdomain.com/callbacks/sign_in_with_apple",
+          ),
+        ),
+      );
+
+      var name = "${credential.givenName ?? ''} ${credential.familyName ?? ''}";
+      var email = credential.email;
+      var role = PrefsHelper.myRole;
+
+      log(">>>>>>>>>> Name : $name");
+      log(">>>>>>>>>> email : $email");
+      log(">>>>>>>>>> role : $role");
+
+      var body = {
+        "identityToken": credential.identityToken,
+        "authorizationCode": credential.authorizationCode,
+        "email": credential.email,
+        "name": name,
+        "role": role,
+      };
+
+      final response = await authRepository.loginWithGoogle(
+        body,
+      ); // Changed to loginWithApple
+
+      if (response.statusCode == 200) {
+        if (response.data['user']['role'] != PrefsHelper.myRole) {
+          Get.snackbar(
+            "Access Denied",
+            "You're trying to log in as a ${response.data['user']['role']}, but this portal is intended for ${PrefsHelper.myRole} access.",
+          );
+          return;
+        }
+
+        _handleSuccessfulLogin(response);
+        Get.to(
+          LocationPermissionScreen(
+            parentBusiness: response.data['user']['parentBusiness'],
+          ),
+        );
+      } else {
+        Get.snackbar("Error".tr, response.message);
+      }
+    } catch (e, s) {
+      log("Apple Sign-In Error: $e");
+      log("StackTrace: $s");
+      Get.snackbar("Apple Sign-In Failed", e.toString());
     } finally {
       isLoading.value = false;
     }

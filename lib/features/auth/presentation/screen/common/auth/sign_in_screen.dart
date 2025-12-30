@@ -1,5 +1,7 @@
 // ignore_for_file: must_be_immutable
 
+import 'dart:io';
+
 import 'package:event_ease/core/helper/other_helper.dart';
 import 'package:event_ease/core/routers/routes_name.dart';
 import 'package:event_ease/features/auth/presentation/utils/app_string.dart';
@@ -9,6 +11,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'package:get/get.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 import '../../../controller/auth/sign_in_controller.dart';
 import '../../../utils/app_colors.dart';
@@ -123,7 +126,7 @@ class SignInScreen extends StatelessWidget {
                 ),
               ),
 
-              SizedBox(height: 26.h,),
+              SizedBox(height: 26.h),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -132,7 +135,13 @@ class SignInScreen extends StatelessWidget {
                     width: 102.w,
                     color: Color(0xFFEEEEEE),
                   ),
-                  Text(AppString.orContinueWith, style: styleForBoldText.copyWith(color: AppColors.grey, fontSize: 18.sp),),
+                  Text(
+                    AppString.orContinueWith,
+                    style: styleForBoldText.copyWith(
+                      color: AppColors.grey,
+                      fontSize: 18.sp,
+                    ),
+                  ),
                   Container(
                     height: 1.h,
                     width: 102.w,
@@ -140,21 +149,46 @@ class SignInScreen extends StatelessWidget {
                   ),
                 ],
               ),
-               SizedBox(height: 20.h,),
+              SizedBox(height: 20.h),
               InkWell(
-                onTap: (){
+                onTap: () {
                   controller.loginWithGoogle();
                 },
                 child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 31.w, vertical: 18.h),
+                  height: 50,
+                  width: 80,
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(16),
-                      color: Colors.white,
-                      border: Border.all(color: Colors.grey, width: 0.2)
+                    borderRadius: BorderRadius.circular(8),
+                    color: Colors.white,
+                    border: Border.all(color: Colors.grey, width: 1),
                   ),
-                  child: SvgPicture.asset(AppIcons.googleIcon, height: 24.h, width: 24.w,),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    spacing: 8.w,
+                    children: [
+                      SvgPicture.asset(
+                        AppIcons.googleIcon,
+                        height: 24.h,
+                        width: 24.w,
+                      ),
+                    ],
+                  ),
                 ),
               ),
+              SizedBox(height: 20.h),
+              if (Platform.isIOS)
+                SizedBox(
+                  width: 80,
+                  child: SignInWithAppleButton(
+                    height: 50,
+                    text: "",
+
+                    onPressed: () async {
+                      controller.loginWithApple();
+                    },
+                  ),
+                ),
+
               SizedBox(height: 40.h),
               Padding(
                 padding: const EdgeInsets.only(bottom: 20),
