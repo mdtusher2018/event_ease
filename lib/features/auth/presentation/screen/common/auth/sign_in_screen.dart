@@ -182,7 +182,6 @@ class SignInScreen extends StatelessWidget {
                   child: SignInWithAppleButton(
                     height: 50,
                     text: "",
-
                     onPressed: () async {
                       controller.loginWithApple();
                     },
