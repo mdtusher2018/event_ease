@@ -506,6 +506,7 @@ class AppTranslations extends Translations {
       'usedCredits': 'Used Credits: ',
       'receivedCredits': 'Received Credits: ',
       "Last Name": "Last Name",
+      'search': 'search',
     },
     'it_IT': {
       "Last Name": "Cognome",
@@ -1035,6 +1036,7 @@ class AppTranslations extends Translations {
       "Are you sure you want to logout?": "Sei sicuro di voler uscire?",
       "Cancel": "Annulla",
       "continue_as_a_guest": "Continua come ospite",
+      'search': 'cerca',
     },
   };
 }

@@ -21,12 +21,12 @@ class SignInController extends GetxController {
     text:
         kDebugMode
             ? ((PrefsHelper.myRole == "user")
-                ? "cagaka9569@kwifa.com"
+                ? "yepesej669@cameltok.com"
                 : "cicar23886@ishense.com")
             : "",
   );
   final TextEditingController passwordController = TextEditingController(
-    text: kDebugMode ? "123456" : "",
+    text: kDebugMode ? "hello123" : "",
   );
 
   void toggleRememberMe() {
@@ -106,10 +106,16 @@ class SignInController extends GetxController {
 
   Future<void> loginWithGoogle() async {
     isLoading.value = true;
+
     final GoogleSignIn googleSignIn = GoogleSignIn();
     try {
+      await googleSignIn.signOut();
+
       final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
-      if (googleUser == null) return; // user canceled
+      if (googleUser == null) {
+        Get.snackbar("Failed", "Google Sign-In Failed");
+        return;
+      }
 
       var name = googleUser.displayName;
       var image = googleUser.photoUrl;
@@ -131,7 +137,7 @@ class SignInController extends GetxController {
       final response = await authRepository.loginWithGoogle(body);
       if (response.statusCode == 200) {
         if (response.data['user']['role'] != PrefsHelper.myRole) {
-          await GoogleSignIn().signOut();
+          await googleSignIn.signOut();
           Get.snackbar(
             "Access Denied",
             "You're trying to log in as a ${response.data['user']['role']}, but this portal is intended for ${PrefsHelper.myRole} access.",
