@@ -156,20 +156,23 @@ class _GuestRootPageState extends State<GuestRootPage> {
   List<PersistentBottomNavBarItem> _navBarsItems() {
     return [
       _buildNavBarItem(
-        icon: SvgPicture.asset(
-          AppIcons.activeHomeIcon,
+        icon: SizedBox(
           height: 24,
           width: 24,
-          color:
-              _controller.index == 0
-                  ? AppColors.primary
-                  : AppColors.greTab, // Active color for home
+          child: SvgPicture.asset(
+            AppIcons.activeHomeIcon,
+            height: 24,
+            width: 24,
+          ),
         ),
-        inactiveIcon: SvgPicture.asset(
-          AppIcons.nonActiveHomeIcon,
+        inactiveIcon: SizedBox(
           height: 24,
           width: 24,
-          color: AppColors.greTab, // Inactive color for home
+          child: SvgPicture.asset(
+            AppIcons.nonActiveHomeIcon,
+            height: 24,
+            width: 24,
+          ),
         ),
         title: AppString.home,
       ),

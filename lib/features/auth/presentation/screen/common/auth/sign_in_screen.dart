@@ -152,7 +152,7 @@ class SignInScreen extends StatelessWidget {
               SizedBox(height: 20.h),
               InkWell(
                 onTap: () {
-                  controller.loginWithGoogle();
+                  controller.loginWithGoogle(context);
                 },
                 child: Container(
                   height: 50,
