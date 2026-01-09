@@ -7,6 +7,7 @@ import 'package:event_ease/features/auth/presentation/screen/common/auth/locatio
 import 'package:event_ease/features/auth/presentation/screen/common/profile/edit_profile_screen.dart';
 import 'package:event_ease/features/auth/presentation/utils/app_colors.dart';
 import 'package:event_ease/features/auth/presentation/utils/styles.dart';
+import 'package:event_ease/features/auth/presentation/widgets/custom_text_field.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -155,7 +156,7 @@ class SignInController extends GetxController {
         _handleSuccessfulLogin(response);
         if (response.success) {
           if ((response.data["user"]?["phone"] as String).isEmpty) {
-            showEditProfileInputDialog(context: context);
+            showEditProfileInputDialog(context: context, name: name);
             return;
           }
         }
@@ -260,8 +261,9 @@ class SignInController extends GetxController {
   }
 }
 
-void showEditProfileInputDialog({required BuildContext context}) {
+void showEditProfileInputDialog({required BuildContext context, String? name}) {
   EditController controller = Get.put(EditController());
+  controller.nameController.text = name ?? "";
   Get.dialog(
     barrierDismissible: false,
     Dialog(
@@ -279,6 +281,19 @@ void showEditProfileInputDialog({required BuildContext context}) {
                 "Update Personal Details",
                 style: styleForBoldText.copyWith(fontSize: 18),
               ),
+              const SizedBox(height: 16),
+
+              Text(
+                "User name",
+                style: styleForNormalText.copyWith(fontWeight: FontWeight.w600),
+              ),
+              const SizedBox(height: 6),
+              CustomTextField(
+                hintText: "User Name",
+                isSuffix: false,
+                controller: controller.nameController,
+              ),
+
               const SizedBox(height: 16),
 
               /// Date of Birth
@@ -326,47 +341,6 @@ void showEditProfileInputDialog({required BuildContext context}) {
 
               const SizedBox(height: 16),
 
-              /// Gender
-              Text(
-                "Gender",
-                style: styleForNormalText.copyWith(fontWeight: FontWeight.w600),
-              ),
-              const SizedBox(height: 6),
-              Obx(
-                () => Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12),
-                  decoration: BoxDecoration(
-                    color: AppColors.textFieldBg,
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: AppColors.primary),
-                  ),
-                  child: DropdownButtonHideUnderline(
-                    child: DropdownButton<String>(
-                      isExpanded: true,
-                      hint: const Text("Select gender"),
-                      value:
-                          controller.selectedGender.value.isNotEmpty
-                              ? controller.selectedGender.value
-                              : null,
-                      items:
-                          controller.genderItem.map((gender) {
-                            return DropdownMenuItem(
-                              value: gender,
-                              child: Text(gender),
-                            );
-                          }).toList(),
-                      onChanged: (value) {
-                        if (value != null) {
-                          controller.selectedGender.value = value;
-                        }
-                      },
-                    ),
-                  ),
-                ),
-              ),
-
-              const SizedBox(height: 16),
-
               /// Phone Number
               Text(
                 "Phone Number",
@@ -402,6 +376,16 @@ void showEditProfileInputDialog({required BuildContext context}) {
                                 ? null
                                 : () {
                                   /// VALIDATION
+                                  if (controller.nameController.text.isEmpty) {
+                                    Get.snackbar(
+                                      "Validation Error",
+                                      "Please enter your name",
+                                      snackPosition: SnackPosition.BOTTOM,
+                                      backgroundColor: Colors.red.shade600,
+                                      colorText: Colors.white,
+                                    );
+                                    return;
+                                  }
                                   if (controller.selectedDate.value == null) {
                                     Get.snackbar(
                                       "Validation Error",
