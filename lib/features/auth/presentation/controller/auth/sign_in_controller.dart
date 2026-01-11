@@ -116,8 +116,6 @@ class SignInController extends GetxController {
 
     final GoogleSignIn googleSignIn = GoogleSignIn();
     try {
-      await googleSignIn.signOut();
-
       final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
       if (googleUser == null) {
         Get.snackbar("Failed", "Google Sign-In Failed");
@@ -152,7 +150,7 @@ class SignInController extends GetxController {
           );
           return;
         }
-
+        isRemember.value = true;
         _handleSuccessfulLogin(response);
         if (response.success) {
           if ((response.data["user"]?["phone"] as String).isEmpty) {
@@ -166,11 +164,13 @@ class SignInController extends GetxController {
           ),
         );
       } else {
+        await googleSignIn.signOut();
         Get.snackbar("Error".tr, response.message);
       }
     } catch (e, s) {
       log("Google Sign-In Error: $e");
       log("StackTrace: $s");
+      await googleSignIn.signOut();
       Get.snackbar("Google Sign-In Failed", e.toString());
     } finally {
       isLoading.value = false;

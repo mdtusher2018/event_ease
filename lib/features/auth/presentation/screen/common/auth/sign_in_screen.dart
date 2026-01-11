@@ -150,45 +150,45 @@ class SignInScreen extends StatelessWidget {
                 ],
               ),
               SizedBox(height: 20.h),
-              InkWell(
-                onTap: () {
-                  controller.loginWithGoogle(context);
-                },
-                child: Container(
-                  height: 50,
-                  width: 80,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    color: Colors.white,
-                    border: Border.all(color: Colors.grey, width: 1),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    spacing: 8.w,
-                    children: [
-                      SvgPicture.asset(
-                        AppIcons.googleIcon,
-                        height: 24.h,
-                        width: 24.w,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(height: 20.h),
-              if (Platform.isIOS)
-                SizedBox(
-                  width: 80,
-                  child: SignInWithAppleButton(
+              if (Platform.isAndroid)
+                InkWell(
+                  onTap: () {
+                    controller.loginWithGoogle(context);
+                  },
+                  child: Container(
                     height: 50,
-                    text: "",
-
-                    onPressed: () async {
-                      controller.loginWithApple();
-                    },
+                    width: 80,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      color: Colors.white,
+                      border: Border.all(color: Colors.grey, width: 1),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      spacing: 8.w,
+                      children: [
+                        SvgPicture.asset(
+                          AppIcons.googleIcon,
+                          height: 24.h,
+                          width: 24.w,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
+              SizedBox(height: 20.h),
 
+              // if (Platform.isIOS)
+              // SizedBox(
+              //   width: 80,
+              //   child: SignInWithAppleButton(
+              //     height: 50,
+              //     text: "",
+              //     onPressed: () async {
+              //       controller.loginWithApple();
+              //     },
+              //   ),
+              // ),
               SizedBox(height: 40.h),
               Padding(
                 padding: const EdgeInsets.only(bottom: 20),
