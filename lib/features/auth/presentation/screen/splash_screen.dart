@@ -1,13 +1,14 @@
 import 'dart:async';
 
 import 'package:event_ease/core/helper/prefs_helper.dart';
+import 'package:event_ease/features/auth/presentation/screen/common/auth/location_permission_screen.dart';
 import 'package:event_ease/features/auth/presentation/screen/video_loader.dart';
 import 'package:event_ease/services/deep_link_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:permission_handler/permission_handler.dart';
 import '../../../../core/routers/routes_name.dart';
 import '../utils/app_icons.dart';
-
 
 class SplashScreen0 extends StatefulWidget {
   const SplashScreen0({super.key});
@@ -17,19 +18,11 @@ class SplashScreen0 extends StatefulWidget {
 }
 
 class _SplashScreen0State extends State<SplashScreen0> {
-
-
-
   @override
   Widget build(BuildContext context) {
-    return VideoPlayerView(
-        
-        );
+    return VideoPlayerView();
   }
 }
-
-
-
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -50,12 +43,17 @@ class _SplashScreenState extends State<SplashScreen> {
     });
 
     // Regular splash screen delay and navigation
-    Timer(const Duration(seconds: 1), () {
-      Get.offAllNamed(
-        PrefsHelper.isLogIn && PrefsHelper.token.isNotEmpty
-            ? RoutesName.nav
-            : RoutesName.onboarding,
-      );
+    Timer(const Duration(seconds: 1), () async {
+      final havepermission = await Permission.location.isGranted;
+      (PrefsHelper.isLogIn && PrefsHelper.token.isNotEmpty)
+          ? havepermission
+              ? Get.offAllNamed(RoutesName.nav)
+              : Get.offAll(
+                () => LocationPermissionScreen(
+                  parentBusiness: PrefsHelper.parentBusinessId,
+                ),
+              )
+          : Get.offAllNamed(RoutesName.onboarding);
     });
   }
 

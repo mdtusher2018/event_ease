@@ -11,7 +11,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'package:get/get.dart';
-import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 import '../../../controller/auth/sign_in_controller.dart';
 import '../../../utils/app_colors.dart';
