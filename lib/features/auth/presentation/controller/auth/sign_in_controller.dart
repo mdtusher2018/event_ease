@@ -116,11 +116,6 @@ class SignInController extends GetxController {
   Future<void> loginWithGoogle(BuildContext context) async {
     isLoading.value = true;
 
-    if (kDebugMode) {
-      showEditProfileInputDialog(context: context);
-      return;
-    }
-
     final GoogleSignIn googleSignIn = GoogleSignIn();
     try {
       final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
