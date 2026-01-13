@@ -18,7 +18,9 @@ import '../../utils/app_url.dart';
 
 class EditController extends GetxController {
   RxBool isRemember = false.obs;
+  RxBool isAgree = false.obs;
   RxBool isLoading = false.obs;
+  final RxBool isCode = false.obs;
   RxString profileImage = "".obs;
   AuthRepository authRepository = AuthRepository();
   String initialCountryCode = 'BD';
@@ -31,9 +33,14 @@ class EditController extends GetxController {
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController firstNameController = TextEditingController();
   final TextEditingController lastNameController = TextEditingController();
+  final TextEditingController referralController = TextEditingController();
 
   void imagePick() async {
     profileImage.value = await OtherHelper.pickImage(ImageSource.gallery);
+  }
+
+  void toggleRememberMe() {
+    isAgree.value = !isAgree.value;
   }
 
   ///>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Edit Profile >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -48,6 +55,8 @@ class EditController extends GetxController {
           "lastName": lastNameController.text,
           "dateOfBirth": selectedDate.value.toString(),
           "gender": selectedGender.value,
+          "termsAndConditions": isAgree.value,
+          "customId": referralController.text,
         }),
       };
 

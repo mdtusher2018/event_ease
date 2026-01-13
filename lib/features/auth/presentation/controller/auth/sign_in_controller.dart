@@ -6,11 +6,13 @@ import 'package:event_ease/features/auth/presentation/controller/profile/edit_co
 import 'package:event_ease/features/auth/presentation/screen/common/auth/location_permission_screen.dart';
 import 'package:event_ease/features/auth/presentation/screen/common/profile/edit_profile_screen.dart';
 import 'package:event_ease/features/auth/presentation/utils/app_colors.dart';
+import 'package:event_ease/features/auth/presentation/utils/app_string.dart';
 import 'package:event_ease/features/auth/presentation/utils/styles.dart';
 import 'package:event_ease/features/auth/presentation/widgets/custom_text_field.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:intl/intl.dart';
@@ -113,6 +115,11 @@ class SignInController extends GetxController {
 
   Future<void> loginWithGoogle(BuildContext context) async {
     isLoading.value = true;
+
+    if (kDebugMode) {
+      showEditProfileInputDialog(context: context);
+      return;
+    }
 
     final GoogleSignIn googleSignIn = GoogleSignIn();
     try {
@@ -349,7 +356,112 @@ void showEditProfileInputDialog({required BuildContext context, String? name}) {
               const SizedBox(height: 6),
               CustomPhoneField(controller: controller.phoneController),
 
-              const SizedBox(height: 24),
+              const SizedBox(height: 12),
+
+              Obx(
+                () => Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          AppString.doYouHaveAnyReferral,
+                          style: styleForNormalText,
+                        ),
+                        Checkbox(
+                          side: BorderSide(color: AppColors.primary, width: 2),
+                          value: controller.isCode.value,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          onChanged: (value) {
+                            controller.isCode.value = value!;
+                          },
+                        ),
+                      ],
+                    ),
+                    if (controller.isCode.value)
+                      CustomTextField(
+                        hintText: AppString.referralCode,
+                        isSuffix: false,
+                        backgroundColor: AppColors.textFieldBg,
+                        controller: controller.referralController,
+                      ),
+                  ],
+                ),
+              ),
+
+              const SizedBox(height: 12),
+
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Obx(
+                    () => Checkbox(
+                      side: BorderSide(color: AppColors.primary, width: 2),
+                      value: controller.isAgree.value,
+                      activeColor: AppColors.primary,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      onChanged: (value) => controller.toggleRememberMe(),
+                    ),
+                  ),
+                  Flexible(
+                    child: RichText(
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                            text: "${AppString.iAcceptThe} ",
+                            style: styleForNormalText.copyWith(
+                              fontSize: 18.sp,
+                              height: 1.56.h,
+                              fontWeight: FontWeight.w600,
+                              color: AppColors.darkGrey,
+                            ),
+                          ),
+                          TextSpan(
+                            recognizer:
+                                TapGestureRecognizer()
+                                  ..onTap = () {
+                                    Get.toNamed(RoutesName.signUpPrivacyPolicy);
+                                  },
+                            text: AppString.privacyPolicy,
+                            style: styleForBoldText.copyWith(
+                              color: AppColors.primary,
+                              fontSize: 18.sp,
+                              height: 1.56.h,
+                            ),
+                          ),
+                          TextSpan(
+                            text: " & ",
+                            style: styleForBoldText.copyWith(
+                              color: AppColors.darkGrey,
+                              fontSize: 18.sp,
+                              height: 1.56.h,
+                            ),
+                          ),
+                          TextSpan(
+                            recognizer:
+                                TapGestureRecognizer()
+                                  ..onTap = () {
+                                    Get.toNamed(RoutesName.termsOfService);
+                                  },
+                            text: AppString.termsOfService,
+                            style: styleForBoldText.copyWith(
+                              color: AppColors.primary,
+                              fontSize: 18.sp,
+                              height: 1.56.h,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 12),
 
               /// Actions
               Row(
@@ -403,6 +515,16 @@ void showEditProfileInputDialog({required BuildContext context, String? name}) {
                                     Get.snackbar(
                                       "Validation Error",
                                       "Please enter your phone number",
+                                      snackPosition: SnackPosition.BOTTOM,
+                                      backgroundColor: Colors.red.shade600,
+                                      colorText: Colors.white,
+                                    );
+                                    return;
+                                  }
+                                  if (!controller.isAgree.value) {
+                                    Get.snackbar(
+                                      "Validation Error",
+                                      "Please accept the Privacy Policy",
                                       snackPosition: SnackPosition.BOTTOM,
                                       backgroundColor: Colors.red.shade600,
                                       colorText: Colors.white,
