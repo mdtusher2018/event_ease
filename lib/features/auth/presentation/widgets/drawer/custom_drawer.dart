@@ -4,6 +4,7 @@ import 'package:event_ease/core/helper/prefs_helper.dart';
 import 'package:event_ease/core/routers/routes_name.dart';
 import 'package:event_ease/features/auth/presentation/screen/common/creadit_history/creadit_history.dart';
 import 'package:event_ease/features/auth/presentation/screen/common/home/my_subscription_history.dart';
+import 'package:event_ease/features/auth/presentation/screen/common/profile/delete_google_account.dart';
 import 'package:event_ease/features/auth/presentation/screen/common/profile/delete_profile.dart';
 import 'package:event_ease/features/auth/presentation/screen/common/profile/pending_crdite_scareen_for_business.dart';
 import 'package:event_ease/features/auth/presentation/utils/app_colors.dart';
@@ -208,7 +209,11 @@ class _CustomDrawerState extends State<CustomDrawer> {
               title: "Delete Account".tr,
               leadingIcon: "assets/icons/delete.svg",
               onTabFunction: () {
-                Get.to(DeleteProfilePage());
+                Get.to(
+                  PrefsHelper.accountCreateWith == 'google'
+                      ? DeleteGoogleAccountPage()
+                      : DeleteProfilePage(),
+                );
               },
             ),
             Divider(),

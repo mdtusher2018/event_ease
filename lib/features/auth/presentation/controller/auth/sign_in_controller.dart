@@ -251,6 +251,7 @@ class SignInController extends GetxController {
     PrefsHelper.myName = response.data['user']['name'];
     PrefsHelper.myRole = response.data['user']['role'];
     PrefsHelper.myImage = "${response.data['user']['profileImage']}";
+    PrefsHelper.accountCreateWith = "${response.data['user']['loginWth']}";
 
     if (isRemember.value) {
       PrefsHelper.setString("userId", PrefsHelper.userId);
@@ -259,6 +260,7 @@ class SignInController extends GetxController {
       PrefsHelper.setString("myRole", PrefsHelper.myRole);
       PrefsHelper.setString("myImage", PrefsHelper.myImage);
       PrefsHelper.setBool("isLogIn", isRemember.value);
+      PrefsHelper.setString("accountCreateWith", PrefsHelper.accountCreateWith);
     }
   }
 }

@@ -15,6 +15,7 @@ class PrefsHelper extends GetxController {
   static String myEmail = "";
   static String myRole = "";
   static String accountStatus = "";
+  static String accountCreateWith = "";
   static String about = "";
   static String phone = "";
   static String phoneCountryCode = "";
@@ -58,6 +59,7 @@ class PrefsHelper extends GetxController {
     myName = preferences.getString("myName") ?? "";
     myEmail = preferences.getString("myEmail") ?? "";
     myRole = preferences.getString("myRole") ?? "";
+    accountCreateWith = preferences.getString("accountCreateWith") ?? "";
     isLogIn = preferences.getBool("isLogIn") ?? false;
     adminVerified = preferences.getBool("adminVerified") ?? false;
     subscription = preferences.getBool("subscription") ?? false;
@@ -175,6 +177,7 @@ class PrefsHelper extends GetxController {
     await preferences.remove("myName");
     await preferences.remove("myEmail");
     await preferences.remove("myRole");
+    await preferences.remove("accountCreateWith");
     await preferences.remove("isLogIn");
     await preferences.remove("adminVerified");
     await preferences.remove("subscription");
@@ -212,6 +215,7 @@ class PrefsHelper extends GetxController {
     myName = "";
     myEmail = "";
     myRole = "";
+    accountCreateWith = "";
     isLogIn = false;
     adminVerified = false;
     subscription = false;
