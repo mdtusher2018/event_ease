@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:event_ease/core/helper/prefs_helper.dart';
 import 'package:event_ease/features/auth/presentation/screen/common/role_screen.dart';
 import 'package:event_ease/features/auth/presentation/utils/app_url.dart';
 import 'package:event_ease/services/api_service.dart';
@@ -37,6 +38,7 @@ class _DeleteProfilePageState extends State<DeleteProfilePage> {
       );
 
       if (response.statusCode == 200) {
+        await PrefsHelper.removeAllPrefData();
         if (!mounted) return;
         Get.offAll(RoleScreen());
       } else {

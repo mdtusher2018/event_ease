@@ -1,8 +1,10 @@
+import 'package:event_ease/core/helper/prefs_helper.dart';
 import 'package:event_ease/features/auth/presentation/screen/common/role_screen.dart';
 import 'package:event_ease/features/auth/presentation/utils/app_url.dart';
 import 'package:event_ease/services/api_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class DeleteGoogleAccountPage extends StatefulWidget {
   const DeleteGoogleAccountPage({super.key});
@@ -39,6 +41,8 @@ class _DeleteGoogleAccountPageState extends State<DeleteGoogleAccountPage> {
       );
 
       if (response.statusCode == 200) {
+        await GoogleSignIn().signOut();
+        await PrefsHelper.removeAllPrefData();
         if (!mounted) return;
         Get.offAll(RoleScreen());
       } else {
