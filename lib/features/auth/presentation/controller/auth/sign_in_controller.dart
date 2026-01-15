@@ -2,11 +2,20 @@ import 'dart:developer';
 
 import 'package:event_ease/core/routers/routes_name.dart';
 import 'package:event_ease/features/auth/data/repository/auth_repository.dart';
+import 'package:event_ease/features/auth/presentation/controller/profile/edit_controller.dart';
 import 'package:event_ease/features/auth/presentation/screen/common/auth/location_permission_screen.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:event_ease/features/auth/presentation/screen/common/profile/edit_profile_screen.dart';
+import 'package:event_ease/features/auth/presentation/utils/app_colors.dart';
+import 'package:event_ease/features/auth/presentation/utils/app_string.dart';
+import 'package:event_ease/features/auth/presentation/utils/styles.dart';
+import 'package:event_ease/features/auth/presentation/widgets/custom_text_field.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:intl/intl.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import '../../../../../core/helper/prefs_helper.dart';
 // import '../../../../../core/routers/routes_name.dart';
@@ -21,12 +30,12 @@ class SignInController extends GetxController {
     text:
         kDebugMode
             ? ((PrefsHelper.myRole == "user")
-                ? "cagaka9569@kwifa.com"
+                ? "yepesej669@cameltok.com"
                 : "cicar23886@ishense.com")
             : "",
   );
   final TextEditingController passwordController = TextEditingController(
-    text: kDebugMode ? "123456" : "",
+    text: kDebugMode ? "hello123" : "",
   );
 
   void toggleRememberMe() {
@@ -104,12 +113,16 @@ class SignInController extends GetxController {
 
   /// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Google Login
 
-  Future<void> loginWithGoogle() async {
+  Future<void> loginWithGoogle(BuildContext context) async {
     isLoading.value = true;
+
     final GoogleSignIn googleSignIn = GoogleSignIn();
     try {
       final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
-      if (googleUser == null) return; // user canceled
+      if (googleUser == null) {
+        Get.snackbar("Failed", "Google Sign-In Failed");
+        return;
+      }
 
       var name = googleUser.displayName;
       var image = googleUser.photoUrl;
@@ -129,28 +142,37 @@ class SignInController extends GetxController {
       };
 
       final response = await authRepository.loginWithGoogle(body);
+
       if (response.statusCode == 200) {
         if (response.data['user']['role'] != PrefsHelper.myRole) {
-          await GoogleSignIn().signOut();
+          await googleSignIn.signOut();
           Get.snackbar(
             "Access Denied",
             "You're trying to log in as a ${response.data['user']['role']}, but this portal is intended for ${PrefsHelper.myRole} access.",
           );
           return;
         }
-
+        isRemember.value = true;
         _handleSuccessfulLogin(response);
+        if (response.success) {
+          if ((response.data["user"]?["phone"] as String).isEmpty) {
+            showEditProfileInputDialog(context: context, name: name);
+            return;
+          }
+        }
         Get.to(
           LocationPermissionScreen(
             parentBusiness: response.data['user']['parentBusiness'],
           ),
         );
       } else {
+        await googleSignIn.signOut();
         Get.snackbar("Error".tr, response.message);
       }
     } catch (e, s) {
       log("Google Sign-In Error: $e");
       log("StackTrace: $s");
+      await googleSignIn.signOut();
       Get.snackbar("Google Sign-In Failed", e.toString());
     } finally {
       isLoading.value = false;
@@ -229,6 +251,7 @@ class SignInController extends GetxController {
     PrefsHelper.myName = response.data['user']['name'];
     PrefsHelper.myRole = response.data['user']['role'];
     PrefsHelper.myImage = "${response.data['user']['profileImage']}";
+    PrefsHelper.accountCreateWith = "${response.data['user']['loginWth']}";
 
     if (isRemember.value) {
       PrefsHelper.setString("userId", PrefsHelper.userId);
@@ -237,6 +260,305 @@ class SignInController extends GetxController {
       PrefsHelper.setString("myRole", PrefsHelper.myRole);
       PrefsHelper.setString("myImage", PrefsHelper.myImage);
       PrefsHelper.setBool("isLogIn", isRemember.value);
+      PrefsHelper.setString("accountCreateWith", PrefsHelper.accountCreateWith);
     }
   }
+}
+
+void showEditProfileInputDialog({required BuildContext context, String? name}) {
+  EditController controller = Get.put(EditController());
+  controller.nameController.text = name ?? "";
+  Get.dialog(
+    barrierDismissible: false,
+    Dialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+
+      child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              /// Title
+              Text(
+                "Update Personal Details",
+                style: styleForBoldText.copyWith(fontSize: 18),
+              ),
+              const SizedBox(height: 16),
+
+              Text(
+                "User name",
+                style: styleForNormalText.copyWith(fontWeight: FontWeight.w600),
+              ),
+              const SizedBox(height: 6),
+              CustomTextField(
+                hintText: "User Name",
+                isSuffix: false,
+                controller: controller.nameController,
+              ),
+
+              const SizedBox(height: 16),
+
+              /// Date of Birth
+              Text(
+                "Date of Birth",
+                style: styleForNormalText.copyWith(fontWeight: FontWeight.w600),
+              ),
+              const SizedBox(height: 6),
+              Obx(
+                () => GestureDetector(
+                  onTap: () async {
+                    DateTime? date = await showDatePicker(
+                      context: context,
+                      initialDate:
+                          controller.selectedDate.value ?? DateTime.now(),
+                      firstDate: DateTime(1900),
+                      lastDate: DateTime.now(),
+                    );
+                    if (date != null) {
+                      controller.selectedDate.value = date;
+                    }
+                  },
+                  child: Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 14,
+                    ),
+                    decoration: BoxDecoration(
+                      color: AppColors.textFieldBg,
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(color: AppColors.primary),
+                    ),
+                    child: Text(
+                      controller.selectedDate.value != null
+                          ? DateFormat(
+                            'dd/MM/yyyy',
+                          ).format(controller.selectedDate.value!)
+                          : "Select date of birth",
+                      style: styleForNormalText.copyWith(color: AppColors.grey),
+                    ),
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 16),
+
+              /// Phone Number
+              Text(
+                "Phone Number",
+                style: styleForNormalText.copyWith(fontWeight: FontWeight.w600),
+              ),
+              const SizedBox(height: 6),
+              CustomPhoneField(controller: controller.phoneController),
+
+              const SizedBox(height: 12),
+
+              Obx(
+                () => Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          AppString.doYouHaveAnyReferral,
+                          style: styleForNormalText,
+                        ),
+                        Checkbox(
+                          side: BorderSide(color: AppColors.primary, width: 2),
+                          value: controller.isCode.value,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          onChanged: (value) {
+                            controller.isCode.value = value!;
+                          },
+                        ),
+                      ],
+                    ),
+                    if (controller.isCode.value)
+                      CustomTextField(
+                        hintText: AppString.referralCode,
+                        isSuffix: false,
+                        backgroundColor: AppColors.textFieldBg,
+                        controller: controller.referralController,
+                      ),
+                  ],
+                ),
+              ),
+
+              const SizedBox(height: 12),
+
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Obx(
+                    () => Checkbox(
+                      side: BorderSide(color: AppColors.primary, width: 2),
+                      value: controller.isAgree.value,
+                      activeColor: AppColors.primary,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      onChanged: (value) => controller.toggleRememberMe(),
+                    ),
+                  ),
+                  Flexible(
+                    child: RichText(
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                            text: "${AppString.iAcceptThe} ",
+                            style: styleForNormalText.copyWith(
+                              fontSize: 18.sp,
+                              height: 1.56.h,
+                              fontWeight: FontWeight.w600,
+                              color: AppColors.darkGrey,
+                            ),
+                          ),
+                          TextSpan(
+                            recognizer:
+                                TapGestureRecognizer()
+                                  ..onTap = () {
+                                    Get.toNamed(RoutesName.signUpPrivacyPolicy);
+                                  },
+                            text: AppString.privacyPolicy,
+                            style: styleForBoldText.copyWith(
+                              color: AppColors.primary,
+                              fontSize: 18.sp,
+                              height: 1.56.h,
+                            ),
+                          ),
+                          TextSpan(
+                            text: " & ",
+                            style: styleForBoldText.copyWith(
+                              color: AppColors.darkGrey,
+                              fontSize: 18.sp,
+                              height: 1.56.h,
+                            ),
+                          ),
+                          TextSpan(
+                            recognizer:
+                                TapGestureRecognizer()
+                                  ..onTap = () {
+                                    Get.toNamed(RoutesName.termsOfService);
+                                  },
+                            text: AppString.termsOfService,
+                            style: styleForBoldText.copyWith(
+                              color: AppColors.primary,
+                              fontSize: 18.sp,
+                              height: 1.56.h,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 12),
+
+              /// Actions
+              Row(
+                children: [
+                  Expanded(
+                    child: OutlinedButton(
+                      onPressed: () => Get.back(),
+                      style: OutlinedButton.styleFrom(
+                        side: BorderSide(color: AppColors.primary),
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                      ),
+                      child: Text(
+                        "Cancel",
+                        style: TextStyle(color: AppColors.primary),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Obx(
+                      () => ElevatedButton(
+                        onPressed:
+                            controller.isLoading.value
+                                ? null
+                                : () {
+                                  /// VALIDATION
+                                  if (controller.nameController.text.isEmpty) {
+                                    Get.snackbar(
+                                      "Validation Error",
+                                      "Please enter your name",
+                                      snackPosition: SnackPosition.BOTTOM,
+                                      backgroundColor: Colors.red.shade600,
+                                      colorText: Colors.white,
+                                    );
+                                    return;
+                                  }
+                                  if (controller.selectedDate.value == null) {
+                                    Get.snackbar(
+                                      "Validation Error",
+                                      "Please select your date of birth",
+                                      snackPosition: SnackPosition.BOTTOM,
+                                      backgroundColor: Colors.red.shade600,
+                                      colorText: Colors.white,
+                                    );
+                                    return;
+                                  }
+
+                                  if (controller.phoneController.text
+                                      .trim()
+                                      .isEmpty) {
+                                    Get.snackbar(
+                                      "Validation Error",
+                                      "Please enter your phone number",
+                                      snackPosition: SnackPosition.BOTTOM,
+                                      backgroundColor: Colors.red.shade600,
+                                      colorText: Colors.white,
+                                    );
+                                    return;
+                                  }
+                                  if (!controller.isAgree.value) {
+                                    Get.snackbar(
+                                      "Validation Error",
+                                      "Please accept the Privacy Policy",
+                                      snackPosition: SnackPosition.BOTTOM,
+                                      backgroundColor: Colors.red.shade600,
+                                      colorText: Colors.white,
+                                    );
+                                    return;
+                                  }
+
+                                  Get.back();
+                                  controller.editProfile(); // SAME API CALL
+                                },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.primary,
+                          padding: const EdgeInsets.symmetric(vertical: 12),
+                        ),
+                        child:
+                            controller.isLoading.value
+                                ? const SizedBox(
+                                  height: 18,
+                                  width: 18,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                    color: Colors.white,
+                                  ),
+                                )
+                                : const Text(
+                                  "Update",
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    ),
+  );
 }
