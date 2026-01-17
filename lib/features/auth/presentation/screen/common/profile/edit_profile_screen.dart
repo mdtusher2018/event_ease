@@ -2,6 +2,7 @@
 
 import 'dart:io';
 
+import 'package:event_ease/core/helper/prefs_helper.dart';
 import 'package:event_ease/features/auth/presentation/controller/profile/edit_controller.dart';
 import 'package:event_ease/features/auth/presentation/utils/app_icons.dart';
 import 'package:event_ease/features/auth/presentation/utils/styles.dart';
@@ -147,73 +148,74 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     isSuffix: false,
                     controller: controller.nameController,
                   ),
-                  const SizedBox(height: 20),
+                  if (PrefsHelper.myRole == 'user') const SizedBox(height: 20),
 
                   // Date of Birth
-                  Obx(
-                    () => GestureDetector(
-                      onTap: () async {
-                        DateTime? selectedDate = await showDatePicker(
-                          context: context,
-                          initialDate: DateTime.now(),
-                          firstDate: DateTime(1900),
-                          lastDate: DateTime.now(),
-                        );
-                        if (selectedDate != null) {
-                          controller.selectedDate.value = selectedDate;
-                        }
-                      },
-                      child: Container(
-                        padding: EdgeInsets.symmetric(horizontal: 8),
-                        decoration: BoxDecoration(
-                          color: AppColors.textFieldBg,
-                          border: Border.all(
-                            color: AppColors.primary,
-                            width: 2,
+                  if (PrefsHelper.myRole == 'user')
+                    Obx(
+                      () => GestureDetector(
+                        onTap: () async {
+                          // DateTime? selectedDate = await showDatePicker(
+                          //   context: context,
+                          //   initialDate: DateTime.now(),
+                          //   firstDate: DateTime(1900),
+                          //   lastDate: DateTime.now(),
+                          // );
+                          // if (selectedDate != null) {
+                          //   controller.selectedDate.value = selectedDate;
+                          // }
+                        },
+                        child: Container(
+                          padding: EdgeInsets.symmetric(horizontal: 8),
+                          decoration: BoxDecoration(
+                            color: AppColors.textFieldBg,
+                            border: Border.all(
+                              color: AppColors.lightGrey,
+                              width: 2,
+                            ),
+                            borderRadius: BorderRadius.circular(16.r),
                           ),
-                          borderRadius: BorderRadius.circular(16.r),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.symmetric(
-                                    vertical: 21.h,
-                                    horizontal: 20.w,
-                                  ),
-                                  child: SizedBox(
-                                    height: 16.h,
-                                    width: 16.w,
-                                    child: CommonImage(
-                                      imageSrc: AppIcons.calenderIcon,
-                                      imageType: ImageType.svg,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(
+                                      vertical: 21.h,
+                                      horizontal: 20.w,
+                                    ),
+                                    child: SizedBox(
+                                      height: 16.h,
+                                      width: 16.w,
+                                      child: CommonImage(
+                                        imageSrc: AppIcons.calenderIcon,
+                                        imageType: ImageType.svg,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                SizedBox(width: 8),
-                                Text(
-                                  controller.selectedDate.value != null
-                                      ? DateFormat(
-                                        'dd/MM/yyyy',
-                                        // 'yyyy-MM-dd',
-                                      ).format(controller.selectedDate.value!)
-                                      : AppString.dateOfBirth,
-                                  style: styleForNormalText.copyWith(
-                                    color: AppColors.grey,
-                                    fontSize: 14.sp,
-                                    fontWeight: FontWeight.w600,
+                                  SizedBox(width: 8),
+                                  Text(
+                                    controller.selectedDate.value != null
+                                        ? DateFormat(
+                                          'dd/MM/yyyy',
+                                          // 'yyyy-MM-dd',
+                                        ).format(controller.selectedDate.value!)
+                                        : AppString.dateOfBirth,
+                                    style: styleForNormalText.copyWith(
+                                      color: AppColors.grey,
+                                      fontSize: 14.sp,
+                                      fontWeight: FontWeight.w600,
+                                    ),
                                   ),
-                                ),
-                              ],
-                            ),
-                            Icon(Icons.arrow_drop_down, color: Colors.grey),
-                          ],
+                                ],
+                              ),
+                              Icon(Icons.arrow_drop_down, color: Colors.grey),
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
 
                   SizedBox(height: 20),
 
