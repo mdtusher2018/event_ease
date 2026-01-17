@@ -134,6 +134,7 @@ class OtherHelper {
             initialDate: initialDate ?? DateTime.now(),
             firstDate: DateTime(1900),
             lastDate: DateTime(2100),
+            initialEntryMode: DatePickerEntryMode.calendarOnly,
           )) ??
           DateTime.now();
 

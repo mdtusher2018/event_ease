@@ -340,6 +340,8 @@ void showEditProfileInputDialog({required BuildContext context, String? name}) {
                               controller.selectedDate.value ?? DateTime.now(),
                           firstDate: DateTime(1900),
                           lastDate: DateTime.now(),
+                         
+                          initialEntryMode: DatePickerEntryMode.calendarOnly,
                         );
                         if (date != null) {
                           controller.selectedDate.value = date;
