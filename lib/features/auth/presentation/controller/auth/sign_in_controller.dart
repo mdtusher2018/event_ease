@@ -265,297 +265,341 @@ class SignInController extends GetxController {
   }
 }
 
+@override
+void didChangeAppLifecycleState(AppLifecycleState state) async {
+  if ((state == AppLifecycleState.paused ||
+      state == AppLifecycleState.detached)) {
+    await GoogleSignIn().signOut();
+    log("logout.................................");
+    Get.back(result: true);
+    await PrefsHelper.removeAllPrefData();
+  }
+}
+
 void showEditProfileInputDialog({required BuildContext context, String? name}) {
   EditController controller = Get.put(EditController());
   controller.nameController.text = name ?? "";
   Get.dialog(
     barrierDismissible: false,
-    Dialog(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+    WillPopScope(
+      onWillPop: () async {
+        await GoogleSignIn().signOut();
+        log("logout.................................");
+        Get.back(result: true);
+        await PrefsHelper.removeAllPrefData();
+        return false;
+      },
+      child: Dialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
 
-      child: Padding(
-        padding: const EdgeInsets.all(20),
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              /// Title
-              Text(
-                "Update Personal Details",
-                style: styleForBoldText.copyWith(fontSize: 18),
-              ),
-              const SizedBox(height: 16),
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                /// Title
+                Text(
+                  "Update Personal Details",
+                  style: styleForBoldText.copyWith(fontSize: 18),
+                ),
+                const SizedBox(height: 16),
 
-              Text(
-                "User name",
-                style: styleForNormalText.copyWith(fontWeight: FontWeight.w600),
-              ),
-              const SizedBox(height: 6),
-              CustomTextField(
-                hintText: "User Name",
-                isSuffix: false,
-                controller: controller.nameController,
-              ),
-
-              const SizedBox(height: 16),
-
-              /// Date of Birth
-              Text(
-                "Date of Birth",
-                style: styleForNormalText.copyWith(fontWeight: FontWeight.w600),
-              ),
-              const SizedBox(height: 6),
-              Obx(
-                () => GestureDetector(
-                  onTap: () async {
-                    DateTime? date = await showDatePicker(
-                      context: context,
-                      initialDate:
-                          controller.selectedDate.value ?? DateTime.now(),
-                      firstDate: DateTime(1900),
-                      lastDate: DateTime.now(),
-                    );
-                    if (date != null) {
-                      controller.selectedDate.value = date;
-                    }
-                  },
-                  child: Container(
-                    width: double.infinity,
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 14,
-                    ),
-                    decoration: BoxDecoration(
-                      color: AppColors.textFieldBg,
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: AppColors.primary),
-                    ),
-                    child: Text(
-                      controller.selectedDate.value != null
-                          ? DateFormat(
-                            'dd/MM/yyyy',
-                          ).format(controller.selectedDate.value!)
-                          : "Select date of birth",
-                      style: styleForNormalText.copyWith(color: AppColors.grey),
-                    ),
+                Text(
+                  "User name",
+                  style: styleForNormalText.copyWith(
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
-              ),
-
-              const SizedBox(height: 16),
-
-              /// Phone Number
-              Text(
-                "Phone Number",
-                style: styleForNormalText.copyWith(fontWeight: FontWeight.w600),
-              ),
-              const SizedBox(height: 6),
-              CustomPhoneField(controller: controller.phoneController),
-
-              const SizedBox(height: 12),
-
-              Obx(
-                () => Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          AppString.doYouHaveAnyReferral,
-                          style: styleForNormalText,
-                        ),
-                        Checkbox(
-                          side: BorderSide(color: AppColors.primary, width: 2),
-                          value: controller.isCode.value,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                          onChanged: (value) {
-                            controller.isCode.value = value!;
-                          },
-                        ),
-                      ],
-                    ),
-                    if (controller.isCode.value)
-                      CustomTextField(
-                        hintText: AppString.referralCode,
-                        isSuffix: false,
-                        backgroundColor: AppColors.textFieldBg,
-                        controller: controller.referralController,
-                      ),
-                  ],
+                const SizedBox(height: 6),
+                CustomTextField(
+                  hintText: "User Name",
+                  isSuffix: false,
+                  controller: controller.nameController,
                 ),
-              ),
 
-              const SizedBox(height: 12),
+                const SizedBox(height: 16),
 
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+                /// Date of Birth
+                if (PrefsHelper.myRole == "user")
+                  Text(
+                    "Date of Birth",
+                    style: styleForNormalText.copyWith(
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                if (PrefsHelper.myRole == "user") const SizedBox(height: 6),
+                if (PrefsHelper.myRole == "user")
                   Obx(
-                    () => Checkbox(
-                      side: BorderSide(color: AppColors.primary, width: 2),
-                      value: controller.isAgree.value,
-                      activeColor: AppColors.primary,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5),
+                    () => GestureDetector(
+                      onTap: () async {
+                        DateTime? date = await showDatePicker(
+                          context: context,
+                          initialDate:
+                              controller.selectedDate.value ?? DateTime.now(),
+                          firstDate: DateTime(1900),
+                          lastDate: DateTime.now(),
+                        );
+                        if (date != null) {
+                          controller.selectedDate.value = date;
+                        }
+                      },
+                      child: Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 14,
+                        ),
+                        decoration: BoxDecoration(
+                          color: AppColors.textFieldBg,
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(color: AppColors.primary),
+                        ),
+                        child: Text(
+                          controller.selectedDate.value != null
+                              ? DateFormat(
+                                'dd/MM/yyyy',
+                              ).format(controller.selectedDate.value!)
+                              : "Select date of birth",
+                          style: styleForNormalText.copyWith(
+                            color: AppColors.grey,
+                          ),
+                        ),
                       ),
-                      onChanged: (value) => controller.toggleRememberMe(),
                     ),
                   ),
-                  Flexible(
-                    child: RichText(
-                      text: TextSpan(
+
+                const SizedBox(height: 16),
+
+                /// Phone Number
+                Text(
+                  "Phone Number",
+                  style: styleForNormalText.copyWith(
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                const SizedBox(height: 6),
+                CustomPhoneField(controller: controller.phoneController),
+
+                const SizedBox(height: 12),
+
+                Obx(
+                  () => Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          TextSpan(
-                            text: "${AppString.iAcceptThe} ",
-                            style: styleForNormalText.copyWith(
-                              fontSize: 18.sp,
-                              height: 1.56.h,
-                              fontWeight: FontWeight.w600,
-                              color: AppColors.darkGrey,
-                            ),
+                          Text(
+                            AppString.doYouHaveAnyReferral,
+                            style: styleForNormalText,
                           ),
-                          TextSpan(
-                            recognizer:
-                                TapGestureRecognizer()
-                                  ..onTap = () {
-                                    Get.toNamed(RoutesName.signUpPrivacyPolicy);
-                                  },
-                            text: AppString.privacyPolicy,
-                            style: styleForBoldText.copyWith(
+                          Checkbox(
+                            side: BorderSide(
                               color: AppColors.primary,
-                              fontSize: 18.sp,
-                              height: 1.56.h,
+                              width: 2,
                             ),
-                          ),
-                          TextSpan(
-                            text: " & ",
-                            style: styleForBoldText.copyWith(
-                              color: AppColors.darkGrey,
-                              fontSize: 18.sp,
-                              height: 1.56.h,
+                            value: controller.isCode.value,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5),
                             ),
-                          ),
-                          TextSpan(
-                            recognizer:
-                                TapGestureRecognizer()
-                                  ..onTap = () {
-                                    Get.toNamed(RoutesName.termsOfService);
-                                  },
-                            text: AppString.termsOfService,
-                            style: styleForBoldText.copyWith(
-                              color: AppColors.primary,
-                              fontSize: 18.sp,
-                              height: 1.56.h,
-                            ),
+                            onChanged: (value) {
+                              controller.isCode.value = value!;
+                            },
                           ),
                         ],
                       ),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 12),
-
-              /// Actions
-              Row(
-                children: [
-                  Expanded(
-                    child: OutlinedButton(
-                      onPressed: () => Get.back(),
-                      style: OutlinedButton.styleFrom(
-                        side: BorderSide(color: AppColors.primary),
-                        padding: const EdgeInsets.symmetric(vertical: 12),
-                      ),
-                      child: Text(
-                        "Cancel",
-                        style: TextStyle(color: AppColors.primary),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: Obx(
-                      () => ElevatedButton(
-                        onPressed:
-                            controller.isLoading.value
-                                ? null
-                                : () {
-                                  /// VALIDATION
-                                  if (controller.nameController.text.isEmpty) {
-                                    Get.snackbar(
-                                      "Validation Error",
-                                      "Please enter your name",
-                                      snackPosition: SnackPosition.BOTTOM,
-                                      backgroundColor: Colors.red.shade600,
-                                      colorText: Colors.white,
-                                    );
-                                    return;
-                                  }
-                                  if (controller.selectedDate.value == null) {
-                                    Get.snackbar(
-                                      "Validation Error",
-                                      "Please select your date of birth",
-                                      snackPosition: SnackPosition.BOTTOM,
-                                      backgroundColor: Colors.red.shade600,
-                                      colorText: Colors.white,
-                                    );
-                                    return;
-                                  }
-
-                                  if (controller.phoneController.text
-                                      .trim()
-                                      .isEmpty) {
-                                    Get.snackbar(
-                                      "Validation Error",
-                                      "Please enter your phone number",
-                                      snackPosition: SnackPosition.BOTTOM,
-                                      backgroundColor: Colors.red.shade600,
-                                      colorText: Colors.white,
-                                    );
-                                    return;
-                                  }
-                                  if (!controller.isAgree.value) {
-                                    Get.snackbar(
-                                      "Validation Error",
-                                      "Please accept the Privacy Policy",
-                                      snackPosition: SnackPosition.BOTTOM,
-                                      backgroundColor: Colors.red.shade600,
-                                      colorText: Colors.white,
-                                    );
-                                    return;
-                                  }
-
-                                  Get.back();
-                                  controller.editProfile(); // SAME API CALL
-                                },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.primary,
-                          padding: const EdgeInsets.symmetric(vertical: 12),
+                      if (controller.isCode.value)
+                        CustomTextField(
+                          hintText: AppString.referralCode,
+                          isSuffix: false,
+                          backgroundColor: AppColors.textFieldBg,
+                          controller: controller.referralController,
                         ),
-                        child:
-                            controller.isLoading.value
-                                ? const SizedBox(
-                                  height: 18,
-                                  width: 18,
-                                  child: CircularProgressIndicator(
-                                    strokeWidth: 2,
-                                    color: Colors.white,
-                                  ),
-                                )
-                                : const Text(
-                                  "Update",
-                                  style: TextStyle(color: Colors.white),
-                                ),
+                    ],
+                  ),
+                ),
+
+                const SizedBox(height: 12),
+
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Obx(
+                      () => Checkbox(
+                        side: BorderSide(color: AppColors.primary, width: 2),
+                        value: controller.isAgree.value,
+                        activeColor: AppColors.primary,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        onChanged: (value) => controller.toggleRememberMe(),
                       ),
                     ),
-                  ),
-                ],
-              ),
-            ],
+                    Flexible(
+                      child: RichText(
+                        text: TextSpan(
+                          children: [
+                            TextSpan(
+                              text: "${AppString.iAcceptThe} ",
+                              style: styleForNormalText.copyWith(
+                                fontSize: 18.sp,
+                                height: 1.56.h,
+                                fontWeight: FontWeight.w600,
+                                color: AppColors.darkGrey,
+                              ),
+                            ),
+                            TextSpan(
+                              recognizer:
+                                  TapGestureRecognizer()
+                                    ..onTap = () {
+                                      Get.toNamed(
+                                        RoutesName.signUpPrivacyPolicy,
+                                      );
+                                    },
+                              text: AppString.privacyPolicy,
+                              style: styleForBoldText.copyWith(
+                                color: AppColors.primary,
+                                fontSize: 18.sp,
+                                height: 1.56.h,
+                              ),
+                            ),
+                            TextSpan(
+                              text: " & ",
+                              style: styleForBoldText.copyWith(
+                                color: AppColors.darkGrey,
+                                fontSize: 18.sp,
+                                height: 1.56.h,
+                              ),
+                            ),
+                            TextSpan(
+                              recognizer:
+                                  TapGestureRecognizer()
+                                    ..onTap = () {
+                                      Get.toNamed(RoutesName.termsOfService);
+                                    },
+                              text: AppString.termsOfService,
+                              style: styleForBoldText.copyWith(
+                                color: AppColors.primary,
+                                fontSize: 18.sp,
+                                height: 1.56.h,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 12),
+
+                /// Actions
+                Row(
+                  children: [
+                    // Expanded(
+                    //   child: OutlinedButton(
+                    //     onPressed: () async {
+                    //       await GoogleSignIn().signOut();
+                    //       log("logout.................................");
+                    //       Get.back();
+                    //       await PrefsHelper.removeAllPrefData();
+                    //     },
+                    //     style: OutlinedButton.styleFrom(
+                    //       side: BorderSide(color: AppColors.primary),
+                    //       padding: const EdgeInsets.symmetric(vertical: 12),
+                    //     ),
+                    //     child: Text(
+                    //       "Cancel",
+                    //       style: TextStyle(color: AppColors.primary),
+                    //     ),
+                    //   ),
+                    // ),
+                    // const SizedBox(width: 12),
+                    Expanded(
+                      child: Obx(
+                        () => ElevatedButton(
+                          onPressed:
+                              controller.isLoading.value
+                                  ? null
+                                  : () {
+                                    /// VALIDATION
+                                    if (controller
+                                        .nameController
+                                        .text
+                                        .isEmpty) {
+                                      Get.snackbar(
+                                        "Validation Error",
+                                        "Please enter your name",
+                                        snackPosition: SnackPosition.BOTTOM,
+                                        backgroundColor: Colors.red.shade600,
+                                        colorText: Colors.white,
+                                      );
+                                      return;
+                                    }
+                                    if (controller.selectedDate.value == null &&
+                                        PrefsHelper.myRole == "user") {
+                                      Get.snackbar(
+                                        "Validation Error",
+                                        "Please select your date of birth",
+                                        snackPosition: SnackPosition.BOTTOM,
+                                        backgroundColor: Colors.red.shade600,
+                                        colorText: Colors.white,
+                                      );
+                                      return;
+                                    }
+
+                                    if (controller.phoneController.text
+                                        .trim()
+                                        .isEmpty) {
+                                      Get.snackbar(
+                                        "Validation Error",
+                                        "Please enter your phone number",
+                                        snackPosition: SnackPosition.BOTTOM,
+                                        backgroundColor: Colors.red.shade600,
+                                        colorText: Colors.white,
+                                      );
+                                      return;
+                                    }
+                                    if (!controller.isAgree.value) {
+                                      Get.snackbar(
+                                        "Validation Error",
+                                        "Please accept the Privacy Policy",
+                                        snackPosition: SnackPosition.BOTTOM,
+                                        backgroundColor: Colors.red.shade600,
+                                        colorText: Colors.white,
+                                      );
+                                      return;
+                                    }
+
+                                    Get.back();
+                                    controller.editProfile(); // SAME API CALL
+                                  },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.primary,
+                            padding: const EdgeInsets.symmetric(vertical: 12),
+                          ),
+                          child:
+                              controller.isLoading.value
+                                  ? const SizedBox(
+                                    height: 18,
+                                    width: 18,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                      color: Colors.white,
+                                    ),
+                                  )
+                                  : const Text(
+                                    "Update",
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
