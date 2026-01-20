@@ -120,7 +120,7 @@ class _LocationSelectionPageState extends State<LocationSelectionPage> {
                           child: ListView(
                             scrollDirection: Axis.horizontal,
                             children: [
-                              _buildTabButton("Rome ", 0),
+                              _buildTabButton("Rome", 0),
                               _buildTabButton("Milan", 1),
                               _buildTabButton("Florence", 2),
                               _buildTabButton("Venice", 3),
@@ -294,8 +294,8 @@ class _LocationSelectionPageState extends State<LocationSelectionPage> {
                               return Center(
                                 child: Text(
                                   selectedIndex != null
-                                      ? "Within ${wizardController.distance.toInt()} km of ${cities[selectedIndex!]}"
-                                      : "Within ${wizardController.distance.toInt()} ${(city.isNotEmpty) ? "km of ${city.value}" : ""}",
+                                      ? "${"Within".tr} ${wizardController.distance.toInt()} km ${"of".tr} ${cities[selectedIndex!]}"
+                                      : "${"Within".tr} ${wizardController.distance.toInt()} ${(city.isNotEmpty) ? "km ${"of".tr} ${city.value}" : ""}",
                                   style: styleForNormalText.copyWith(
                                     fontWeight: FontWeight.w600,
                                     fontSize: 14.sp,
@@ -381,10 +381,12 @@ class _LocationSelectionPageState extends State<LocationSelectionPage> {
                               log(
                                 "lat=======${wizardController.latitude.value}\nlng=============${wizardController.longitude.value}",
                               );
-                              log(wizardController.searchCtl.value.text+"=========>>>>>>>>> searchCtl");
+                              log(
+                                wizardController.searchCtl.value.text +
+                                    "=========>>>>>>>>> searchCtl",
+                              );
 
                               // getAddressFromLatLng(lat, lng);
-                              
                             },
                             itemClick: (prediction) {
                               FocusScope.of(context).requestFocus(FocusNode());
@@ -495,8 +497,6 @@ class _LocationSelectionPageState extends State<LocationSelectionPage> {
           final LatLng targetLatLng =
               wizardController.initialCameraPosition.value.target;
 
-          
-
           wizardController.markers.clear();
           wizardController.markers.add(
             Marker(
@@ -524,7 +524,7 @@ class _LocationSelectionPageState extends State<LocationSelectionPage> {
           padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 5.h),
         ),
         child: Text(
-          text,
+          text.tr,
           style: styleForBoldText.copyWith(
             fontSize: 14.sp,
             color: isSelected ? Colors.white : Colors.black,

@@ -77,7 +77,9 @@ class _AttendeeCountPageState extends State<AttendeeCountPage> {
                           onTap: () {
                             wizardController.peopleAttend.value =
                                 attendanceOptions[index];
-                            log("attendance option===============${wizardController.peopleAttend}");
+                            log(
+                              "attendance option===============${wizardController.peopleAttend}",
+                            );
 
                             setState(() {
                               selectedCount = option;
@@ -105,7 +107,7 @@ class _AttendeeCountPageState extends State<AttendeeCountPage> {
                                       : Colors.white,
                             ),
                             child: Text(
-                              option,
+                              option.tr,
                               style: styleForBoldText.copyWith(
                                 fontWeight:
                                     isSelected
