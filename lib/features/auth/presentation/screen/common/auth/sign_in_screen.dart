@@ -1,5 +1,7 @@
 // ignore_for_file: must_be_immutable
 
+import 'dart:io';
+
 import 'package:event_ease/core/helper/other_helper.dart';
 import 'package:event_ease/core/routers/routes_name.dart';
 import 'package:event_ease/features/auth/presentation/utils/app_string.dart';
@@ -9,6 +11,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'package:get/get.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 import '../../../controller/auth/sign_in_controller.dart';
 import '../../../utils/app_colors.dart';
@@ -175,17 +178,17 @@ class SignInScreen extends StatelessWidget {
               ),
               SizedBox(height: 20.h),
 
-              // if (Platform.isIOS)
-              // SizedBox(
-              //   width: 80,
-              //   child: SignInWithAppleButton(
-              //     height: 50,
-              //     text: "",
-              //     onPressed: () async {
-              //       controller.loginWithApple();
-              //     },
-              //   ),
-              // ),
+              if (Platform.isIOS)
+              SizedBox(
+                width: 80,
+                child: SignInWithAppleButton(
+                  height: 50,
+                  text: "",
+                  onPressed: () async {
+                    controller.loginWithApple();
+                  },
+                ),
+              ),
               SizedBox(height: 40.h),
               Padding(
                 padding: const EdgeInsets.only(bottom: 20),
