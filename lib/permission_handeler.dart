@@ -1,10 +1,8 @@
+import 'package:event_ease/features/auth/presentation/screen/common/auth/location_permission_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-
-
-
 
 Future<void> requestGalleryPermission() async {
   if (await Permission.phone.isGranted) {
@@ -62,6 +60,8 @@ Future<bool> requestLocationPermission() async {
       backgroundColor: Colors.red,
       colorText: Colors.white,
     );
+
+    Get.to(LocationPermissionScreen());
     // Close app if denied
     // Future.delayed(const Duration(seconds: 2), () {
     //   SystemNavigator.pop();
@@ -104,7 +104,6 @@ Future<bool> requestNotificationsPermission() async {
       colorText: Colors.white,
     );
 
-
     return false;
   }
 
@@ -114,13 +113,6 @@ Future<bool> requestNotificationsPermission() async {
   }
   return false;
 }
-
-
-
-
-
-
-
 
 /// Call this before `runApp()` to ensure all required permissions are requested
 Future<void> requestAppPermissions() async {

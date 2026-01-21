@@ -238,7 +238,7 @@ class _NavScreenState extends State<NavScreen> {
               color: AppColors.greTab,
             ),
           ),
-          title: AppString.community,
+          title: "Community",
         ),
       _buildNavBarItem(
         icon: Center(

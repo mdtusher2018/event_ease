@@ -301,20 +301,20 @@ void showEditProfileInputDialog({required BuildContext context, String? name}) {
               children: [
                 /// Title
                 Text(
-                  "Update Personal Details",
+                  "Update Personal Details".tr,
                   style: styleForBoldText.copyWith(fontSize: 18),
                 ),
                 const SizedBox(height: 16),
 
                 Text(
-                  "User name",
+                  AppString.userName,
                   style: styleForNormalText.copyWith(
                     fontWeight: FontWeight.w600,
                   ),
                 ),
                 const SizedBox(height: 6),
                 CustomTextField(
-                  hintText: "User Name",
+                  hintText: AppString.userName,
                   isSuffix: false,
                   controller: controller.nameController,
                 ),
@@ -324,7 +324,7 @@ void showEditProfileInputDialog({required BuildContext context, String? name}) {
                 /// Date of Birth
                 if (PrefsHelper.myRole == "user")
                   Text(
-                    "Date of Birth",
+                    AppString.dateOfBirth,
                     style: styleForNormalText.copyWith(
                       fontWeight: FontWeight.w600,
                     ),
@@ -340,6 +340,8 @@ void showEditProfileInputDialog({required BuildContext context, String? name}) {
                               controller.selectedDate.value ?? DateTime.now(),
                           firstDate: DateTime(1900),
                           lastDate: DateTime.now(),
+
+                          initialEntryMode: DatePickerEntryMode.calendarOnly,
                         );
                         if (date != null) {
                           controller.selectedDate.value = date;
@@ -361,7 +363,7 @@ void showEditProfileInputDialog({required BuildContext context, String? name}) {
                               ? DateFormat(
                                 'dd/MM/yyyy',
                               ).format(controller.selectedDate.value!)
-                              : "Select date of birth",
+                              : AppString.dateOfBirth,
                           style: styleForNormalText.copyWith(
                             color: AppColors.grey,
                           ),
@@ -374,7 +376,7 @@ void showEditProfileInputDialog({required BuildContext context, String? name}) {
 
                 /// Phone Number
                 Text(
-                  "Phone Number",
+                  AppString.phoneNumber,
                   style: styleForNormalText.copyWith(
                     fontWeight: FontWeight.w600,
                   ),

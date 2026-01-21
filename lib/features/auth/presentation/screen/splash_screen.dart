@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:event_ease/core/helper/helper.dart';
 import 'package:event_ease/core/helper/prefs_helper.dart';
 import 'package:event_ease/features/auth/presentation/screen/common/auth/location_permission_screen.dart';
 import 'package:event_ease/features/auth/presentation/screen/video_loader.dart';
@@ -47,7 +48,9 @@ class _SplashScreenState extends State<SplashScreen> {
       final havepermission = await Permission.location.isGranted;
       (PrefsHelper.isLogIn && PrefsHelper.token.isNotEmpty)
           ? havepermission
-              ? Get.offAllNamed(RoutesName.nav)
+              ? decodeJwtField(PrefsHelper.token, 'phone').isNotEmpty
+                  ? Get.offAllNamed(RoutesName.nav)
+                  : Get.offAllNamed(RoutesName.onboarding)
               : Get.offAll(
                 () => LocationPermissionScreen(
                   parentBusiness: PrefsHelper.parentBusinessId,

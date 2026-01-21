@@ -1,7 +1,5 @@
 // ignore_for_file: must_be_immutable
 
-import 'dart:io';
-
 import 'package:event_ease/core/helper/other_helper.dart';
 import 'package:event_ease/core/routers/routes_name.dart';
 import 'package:event_ease/features/auth/presentation/utils/app_string.dart';
@@ -149,32 +147,32 @@ class SignInScreen extends StatelessWidget {
                 ],
               ),
               SizedBox(height: 20.h),
-              if (Platform.isAndroid)
-                InkWell(
-                  onTap: () {
-                    controller.loginWithGoogle(context);
-                  },
-                  child: Container(
-                    height: 50,
-                    width: 80,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      color: Colors.white,
-                      border: Border.all(color: Colors.grey, width: 1),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      spacing: 8.w,
-                      children: [
-                        SvgPicture.asset(
-                          AppIcons.googleIcon,
-                          height: 24.h,
-                          width: 24.w,
-                        ),
-                      ],
-                    ),
+
+              InkWell(
+                onTap: () {
+                  controller.loginWithGoogle(context);
+                },
+                child: Container(
+                  height: 50,
+                  width: 80,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    color: Colors.white,
+                    border: Border.all(color: Colors.grey, width: 1),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    spacing: 8.w,
+                    children: [
+                      SvgPicture.asset(
+                        AppIcons.googleIcon,
+                        height: 24.h,
+                        width: 24.w,
+                      ),
+                    ],
                   ),
                 ),
+              ),
               SizedBox(height: 20.h),
 
               // if (Platform.isIOS)
