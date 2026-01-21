@@ -523,8 +523,10 @@ class AppTranslations extends Translations {
       "100-500 People": "100-500 People",
       "500-1000 People": "500-1000 People",
       "More Than People": "More Than People",
+      "Update Personal Details": "Update Personal Details",
     },
     'it_IT': {
+      "Update Personal Details": "Aggiornare i Dati Personali",
       "Fewer than 20 people": "Mene di 20 persone",
       "20-50 People": "20-50 persone",
       "50-100 People": "50-100 persone",

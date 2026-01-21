@@ -414,9 +414,9 @@ class _CustomPhoneFieldState extends State<CustomPhoneField> {
             child: TextField(
               controller: widget.controller,
               keyboardType: TextInputType.phone,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 border: InputBorder.none,
-                hintText: "Enter phone number",
+                hintText: AppString.phoneNumber,
               ),
               onChanged: (value) {
                 String fullNumber = "${selectedCountry["dial_code"]}$value";
