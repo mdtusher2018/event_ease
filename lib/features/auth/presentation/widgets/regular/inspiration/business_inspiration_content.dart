@@ -146,7 +146,7 @@ class _BusinessInspirationContentState
                       padding: const EdgeInsets.symmetric(vertical: 20),
                       child: Center(
                         child: Text(
-                          "No data found",
+                          "No data found".tr,
                           style: styleForNormalText.copyWith(fontSize: 14),
                         ),
                       ),

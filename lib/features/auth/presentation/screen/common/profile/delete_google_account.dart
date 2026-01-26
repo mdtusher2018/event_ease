@@ -1,5 +1,6 @@
 import 'package:event_ease/core/helper/prefs_helper.dart';
 import 'package:event_ease/features/auth/presentation/screen/common/role_screen.dart';
+import 'package:event_ease/features/auth/presentation/utils/app_string.dart';
 import 'package:event_ease/features/auth/presentation/utils/app_url.dart';
 import 'package:event_ease/services/api_service.dart';
 import 'package:flutter/material.dart';
@@ -98,6 +99,7 @@ class _DeleteGoogleAccountPageState extends State<DeleteGoogleAccountPage> {
             title: Text("Confirm Delete".tr),
             content: Text(
               "Are you sure you want to delete your account? This action cannot be undone."
+                  .tr
                   .tr,
             ),
             actions: [
@@ -123,7 +125,7 @@ class _DeleteGoogleAccountPageState extends State<DeleteGoogleAccountPage> {
     final theme = Theme.of(context);
 
     return Scaffold(
-      appBar: AppBar(title: const Text("Delete Account"), centerTitle: true),
+      appBar: AppBar(title: Text("Delete Account".tr), centerTitle: true),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(20),
@@ -140,7 +142,7 @@ class _DeleteGoogleAccountPageState extends State<DeleteGoogleAccountPage> {
 
               /// Title
               Text(
-                "Delete Your Account",
+                "Delete Your Account".tr,
                 textAlign: TextAlign.center,
                 style: theme.textTheme.headlineSmall?.copyWith(
                   fontWeight: FontWeight.bold,
@@ -151,8 +153,9 @@ class _DeleteGoogleAccountPageState extends State<DeleteGoogleAccountPage> {
 
               /// Description
               Text(
-                "Your account was created using Google Sign-In. "
-                "To delete your account permanently, please verify your identity using OTP.",
+                "Your account was created using Google Sign-In. To delete your account permanently, please verify your identity using OTP."
+                    .tr
+                    .tr,
                 textAlign: TextAlign.center,
                 style: theme.textTheme.bodyMedium?.copyWith(
                   color: Colors.grey[700],
@@ -164,7 +167,7 @@ class _DeleteGoogleAccountPageState extends State<DeleteGoogleAccountPage> {
               /// Send OTP Button
               ElevatedButton.icon(
                 icon: const Icon(Icons.sms),
-                label: Text(otpSent ? "Resend OTP" : "Send OTP"),
+                label: Text(otpSent ? AppString.resendOtp : "Send OTP".tr),
                 onPressed: () {
                   sendotp();
                 },
@@ -182,7 +185,7 @@ class _DeleteGoogleAccountPageState extends State<DeleteGoogleAccountPage> {
                   keyboardType: TextInputType.number,
                   maxLength: 6,
                   decoration: InputDecoration(
-                    labelText: "Enter OTP",
+                    labelText: AppString.enterOtp,
 
                     prefixIcon: const Icon(Icons.lock_outline),
                     border: OutlineInputBorder(
@@ -219,8 +222,8 @@ class _DeleteGoogleAccountPageState extends State<DeleteGoogleAccountPage> {
                             strokeWidth: 2,
                           ),
                         )
-                        : const Text(
-                          "Delete Account",
+                        : Text(
+                          "Delete Account".tr,
                           style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
@@ -233,7 +236,8 @@ class _DeleteGoogleAccountPageState extends State<DeleteGoogleAccountPage> {
 
               /// Disclaimer
               Text(
-                "This action is irreversible. All your data will be permanently deleted.",
+                "This action is irreversible. All your data will be permanently deleted."
+                    .tr,
                 textAlign: TextAlign.center,
                 style: theme.textTheme.bodySmall?.copyWith(
                   color: Colors.grey[600],

@@ -14,7 +14,7 @@ class TicketArchivePage extends StatelessWidget {
         if (controller.isLoading.value) {
           return const Center(child: CircularProgressIndicator());
         } else if (controller.ticketList.isEmpty) {
-          return const Center(child: Text("No tickets found"));
+          return  Center(child: Text("No tickets found".tr));
         } else {
           return ListView.builder(
             itemCount: controller.ticketList.length,

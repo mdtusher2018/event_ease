@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -62,7 +61,7 @@ class _SeeAllPostScreenState extends State<SeeAllPostScreen> {
               return Center(
                 child: Padding(
                   padding: const EdgeInsets.only(top: 50),
-                  child: Text("No data found", style: styleForNormalText),
+                  child: Text("No data found".tr, style: styleForNormalText),
                 ),
               );
             }
@@ -83,10 +82,14 @@ class _SeeAllPostScreenState extends State<SeeAllPostScreen> {
                     onTap: () {
                       Get.toNamed(
                         RoutesName.commentPost,
-                        arguments: {'id': post.id, 'type': "PostCommunity",'isMyPost': data == "myPost"},
+                        arguments: {
+                          'id': post.id,
+                          'type': "PostCommunity",
+                          'isMyPost': data == "myPost",
+                        },
                       )!.then((value) {
-                           controller.getMyPost();
-                      },);
+                        controller.getMyPost();
+                      });
                     },
                     isLiked: post.isLiked,
                     onTapLike: () {

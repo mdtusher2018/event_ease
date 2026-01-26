@@ -32,34 +32,40 @@ class IdeaAdviceScreen extends StatelessWidget {
         ),
       ),
       body: Obx(
-        () => (routeData == true && controller.groupCategoryViewAllList.isEmpty)?Center(child: Text("No data found")):(routeData == false && controller.specificCategoryList.isEmpty)? Center(child: Text("No data found")):  ListView.builder(
-          padding: EdgeInsets.all(10),
-          itemCount:
-              routeData == true
-                  ? controller.groupCategoryViewAllList.length
-                  : controller.specificCategoryList.length,
-          shrinkWrap: true,
-          itemBuilder: (context, index) {
-            var data =
-                routeData == true
-                    ? controller.groupCategoryViewAllList[index]
-                    : controller.specificCategoryList[index];
-            return Padding(
-              padding: const EdgeInsets.only(bottom: 20),
-              child: InkWell(
-                onTap: () {
-                  // Get.toNamed(RoutesName.post);
-                  controller.getCategoryDetails(data['_id']);
-                },
-                child: CustomIdeaContainer(
-                  image: "${data['coverImage']}",
-                  description: data['description'] ?? "",
-                  title: data['title'] ?? "",
+        () =>
+            (routeData == true && controller.groupCategoryViewAllList.isEmpty)
+                ? Center(child: Text("No data found".tr))
+                : (routeData == false &&
+                    controller.specificCategoryList.isEmpty)
+                ? Center(child: Text("No data found".tr))
+                : ListView.builder(
+                  padding: EdgeInsets.all(10),
+                  itemCount:
+                      routeData == true
+                          ? controller.groupCategoryViewAllList.length
+                          : controller.specificCategoryList.length,
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    var data =
+                        routeData == true
+                            ? controller.groupCategoryViewAllList[index]
+                            : controller.specificCategoryList[index];
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 20),
+                      child: InkWell(
+                        onTap: () {
+                          // Get.toNamed(RoutesName.post);
+                          controller.getCategoryDetails(data['_id']);
+                        },
+                        child: CustomIdeaContainer(
+                          image: "${data['coverImage']}",
+                          description: data['description'] ?? "",
+                          title: data['title'] ?? "",
+                        ),
+                      ),
+                    );
+                  },
                 ),
-              ),
-            );
-          },
-        ),
       ),
     );
   }

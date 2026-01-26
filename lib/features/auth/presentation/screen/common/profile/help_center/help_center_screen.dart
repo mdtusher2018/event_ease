@@ -17,7 +17,7 @@ import '../../../../controller/profile/help_center_controller.dart';
 import '../../../../utils/app_string.dart';
 
 class HelpCenterScreen extends StatefulWidget {
-  HelpCenterScreen({super.key,this.target=0});
+  HelpCenterScreen({super.key, this.target = 0});
   int target;
 
   @override
@@ -47,7 +47,7 @@ class _HelpCenterScreenState extends State<HelpCenterScreen>
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
-    _tabController.index=widget.target;
+    _tabController.index = widget.target;
   }
 
   @override
@@ -159,7 +159,7 @@ class _HelpCenterScreenState extends State<HelpCenterScreen>
               ),
             ],
           ),
-          // Contact Us Tab
+
           Center(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
@@ -202,7 +202,7 @@ class _HelpCenterScreenState extends State<HelpCenterScreen>
                           width: 24.w,
                         ),
                         title: Text(
-                          "Ticket Support",
+                          "Ticket Support".tr,
                           style: styleForBoldText.copyWith(fontSize: 18.sp),
                         ),
                       ),

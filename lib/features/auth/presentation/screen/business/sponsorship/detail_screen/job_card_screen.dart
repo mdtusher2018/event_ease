@@ -4,6 +4,7 @@ import 'package:event_ease/features/auth/presentation/screen/business/sponsorshi
 import 'package:event_ease/features/auth/presentation/screen/business/sponsorship/detail_screen/widgets/commonSubscriptionCardDesign.dart';
 import 'package:event_ease/features/auth/presentation/screen/business/sponsorship/payment_selection_page.dart';
 import 'package:event_ease/features/auth/presentation/screen/common/profile/help_center/help_center_screen.dart';
+import 'package:event_ease/features/auth/presentation/utils/app_string.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -11,106 +12,129 @@ import 'package:get/get.dart';
 import '../../../../utils/styles.dart';
 
 class JobCardScreen extends StatelessWidget {
-   JobCardScreen({super.key,required this.id,required this.jobName});
+  JobCardScreen({super.key, required this.id, required this.jobName});
   String id;
   String jobName;
-  final controller = Get.put(
-    JobSubscriptionProfileController());
+  final controller = Get.put(JobSubscriptionProfileController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: Text("Job Card", style: styleForBoldText.copyWith(fontSize: 24.sp),),
+        title: Text(
+          "Job Card",
+          style: styleForBoldText.copyWith(fontSize: 24.sp),
+        ),
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(10),
         child: Column(
           children: [
-            Text("Choose the Level of Visibility You Want!",  style: styleForBoldText.copyWith(fontSize: 30.sp),
-              textAlign: TextAlign.center,),
-            SizedBox(height: 10.h,),
-            Text("The higher the package, the more visibility you get in search results.", style: styleForNormalText.copyWith(
-              fontSize: 18.sp,
-              fontWeight: FontWeight.w600,
-              height: 1.50.h,
+            Text(
+              "Choose the Level of Visibility You Want!".tr,
+              style: styleForBoldText.copyWith(fontSize: 30.sp),
+              textAlign: TextAlign.center,
             ),
-              textAlign: TextAlign.center,),
-            SizedBox(height: 10.h,),
+            SizedBox(height: 10.h),
+            Text(
+              "The higher the package, the more visibility you get in search results.",
+              style: styleForNormalText.copyWith(
+                fontSize: 18.sp,
+                fontWeight: FontWeight.w600,
+                height: 1.50.h,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: 10.h),
             Text("Job Card", style: styleForBoldText.copyWith(fontSize: 24.sp)),
-            Text("Promote your business profile in search result", style: styleForNormalText.copyWith(
-              fontSize: 18.sp,
-              fontWeight: FontWeight.w600,
-              height: 1.56.h,
+            Text(
+              "Promote your business profile in search result".tr,
+              style: styleForNormalText.copyWith(
+                fontSize: 18.sp,
+                fontWeight: FontWeight.w600,
+                height: 1.56.h,
+              ),
+              textAlign: TextAlign.center,
             ),
-              textAlign: TextAlign.center,),
-       
 
+            Obx(() {
+              if (controller.isLoading.value) {
+                return Center(child: CircularProgressIndicator());
+              }
 
- Obx(() {
-        if (controller.isLoading.value) {
-          return Center(child: CircularProgressIndicator());
-        }
+              return ListView.builder(
+                padding: EdgeInsets.all(16.w),
+                physics: NeverScrollableScrollPhysics(),
 
-        return ListView.builder(
-          padding: EdgeInsets.all(16.w),
-          physics: NeverScrollableScrollPhysics(),
-          
-          shrinkWrap: true,
-          itemCount: controller.subscriptionPlans.length,
-          itemBuilder: (context, index) {
-            final model = controller.subscriptionPlans[index];
-            return SubscriptionCard(model: model,selectButtonOnTap: (){
-              Get.to(PaymentMethodScreen(amount: model.options.first.price.toDouble(),
-              duration: model.options.first.expirationDays as int,
-              subscriptionFor: id,
-              subscriptionForType: "Job",subscriptionId: model.id,
-              subscriptionOptionIndex: 0,
-              subscriptionName: model.title,
-              name: jobName,
-              ));
-            },onOptionTap: (i){
-                Get.to(PaymentMethodScreen(amount: model.options[i].price.toDouble(),
-              duration: model.options[i].expirationDays as int,
-              subscriptionFor: id,
-              subscriptionForType: "Job",subscriptionId: model.id,
-              subscriptionOptionIndex: i,
-              subscriptionName: model.title,
-              name: jobName,
-              ));
-            },indexFonExpantion: index,);
-            
-          },
-        );
-      }),
+                shrinkWrap: true,
+                itemCount: controller.subscriptionPlans.length,
+                itemBuilder: (context, index) {
+                  final model = controller.subscriptionPlans[index];
+                  return SubscriptionCard(
+                    model: model,
+                    selectButtonOnTap: () {
+                      Get.to(
+                        PaymentMethodScreen(
+                          amount: model.options.first.price.toDouble(),
+                          duration: model.options.first.expirationDays as int,
+                          subscriptionFor: id,
+                          subscriptionForType: "Job",
+                          subscriptionId: model.id,
+                          subscriptionOptionIndex: 0,
+                          subscriptionName: model.title,
+                          name: jobName,
+                        ),
+                      );
+                    },
+                    onOptionTap: (i) {
+                      Get.to(
+                        PaymentMethodScreen(
+                          amount: model.options[i].price.toDouble(),
+                          duration: model.options[i].expirationDays as int,
+                          subscriptionFor: id,
+                          subscriptionForType: "Job",
+                          subscriptionId: model.id,
+                          subscriptionOptionIndex: i,
+                          subscriptionName: model.title,
+                          name: jobName,
+                        ),
+                      );
+                    },
+                    indexFonExpantion: index,
+                  );
+                },
+              );
+            }),
 
-
-
-           
-           
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 RichText(
                   textAlign: TextAlign.center,
                   text: TextSpan(
-                    text: 'Want customized visibility?',
+                    text: 'Want customized visibility?'.tr,
                     style: styleForNormalText.copyWith(
-                        color: Colors.black,
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w500
+                      color: Colors.black,
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w500,
                     ),
                     children: [
-                      TextSpan(recognizer:  TapGestureRecognizer()
-          ..onTap = () {
-            // TODO: Add your navigation or action
-            Get.to(() => HelpCenterScreen(target: 1,)); 
-          },
-                        text: ' Contact Us ',
-                        style: styleForBoldText.copyWith(fontSize: 16.sp,decoration: TextDecoration.underline,
-                            height: 1.50),),
                       TextSpan(
-                        text: 'for a personalized package!',
+                        recognizer:
+                            TapGestureRecognizer()
+                              ..onTap = () {
+                                // TODO: Add your navigation or action
+                                Get.to(() => HelpCenterScreen(target: 1));
+                              },
+                        text: ' ${AppString.contactUs} ',
+                        style: styleForBoldText.copyWith(
+                          fontSize: 16.sp,
+                          decoration: TextDecoration.underline,
+                          height: 1.50,
+                        ),
+                      ),
+                      TextSpan(
+                        text: 'for a personalized package!'.tr,
                         style: styleForNormalText.copyWith(
                           color: Colors.black,
                           fontWeight: FontWeight.w500,
@@ -122,8 +146,7 @@ class JobCardScreen extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 30.h,),
-
+            SizedBox(height: 30.h),
           ],
         ),
       ),

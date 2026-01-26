@@ -83,65 +83,78 @@ class JobApplicationScreen extends StatelessWidget {
               }
 
               return Expanded(
-                child: controller.applicants.isNotEmpty
-                    ?SingleChildScrollView(
-                  padding: EdgeInsets.symmetric(vertical: 10),
-                  child: ListView.builder(
-                    itemCount: controller.applicants.length,
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.only(bottom: 10),
-                        child: ListTile(
-                          leading: CommonImage(
-                            imageSrc:
-                                controller.applicants[index].user.profileImage,
-                            imageType: ImageType.network,
-                            borderRadius: 100,
-                            size: 45,
-                          ),
-                          title: Text(
-                            controller.applicants[index].user.name,
-                            style: styleForBoldText.copyWith(
-                              color: Colors.black,
-                              fontSize: 19,
-                            ),
-                          ),
-                          trailing: GestureDetector(
-                            onTap: () {
-                              log(">>>>>>>>>> Cv : ==============${controller.applicants[index].viewCvImage} ");
-                              Get.to(
-                                CVImageView(
-                                  imageUrl:
-                                      controller.applicants[index].viewCvImage,
+                child:
+                    controller.applicants.isNotEmpty
+                        ? SingleChildScrollView(
+                          padding: EdgeInsets.symmetric(vertical: 10),
+                          child: ListView.builder(
+                            itemCount: controller.applicants.length,
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemBuilder: (context, index) {
+                              return Padding(
+                                padding: const EdgeInsets.only(bottom: 10),
+                                child: ListTile(
+                                  leading: CommonImage(
+                                    imageSrc:
+                                        controller
+                                            .applicants[index]
+                                            .user
+                                            .profileImage,
+                                    imageType: ImageType.network,
+                                    borderRadius: 100,
+                                    size: 45,
+                                  ),
+                                  title: Text(
+                                    controller.applicants[index].user.name,
+                                    style: styleForBoldText.copyWith(
+                                      color: Colors.black,
+                                      fontSize: 19,
+                                    ),
+                                  ),
+                                  trailing: GestureDetector(
+                                    onTap: () {
+                                      log(
+                                        ">>>>>>>>>> Cv : ==============${controller.applicants[index].viewCvImage} ",
+                                      );
+                                      Get.to(
+                                        CVImageView(
+                                          imageUrl:
+                                              controller
+                                                  .applicants[index]
+                                                  .viewCvImage,
+                                        ),
+                                      );
+                                    },
+                                    child: Container(
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 10,
+                                        vertical: 8,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(12),
+                                        color: AppColors.primary,
+                                      ),
+                                      child: Text(
+                                        AppString.viewCv,
+                                        style: styleForBoldText.copyWith(
+                                          fontSize: 16,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
                                 ),
                               );
                             },
-                            child: Container(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 10,
-                                vertical: 8,
-                              ),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(12),
-                                color: AppColors.primary,
-                              ),
-                              child: Text(
-                                AppString.viewCv,
-                                style: styleForBoldText.copyWith(
-                                  fontSize: 16,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
+                          ),
+                        )
+                        : Center(
+                          child: Text(
+                            "No data found".tr.tr,
+                            style: styleForNormalText,
                           ),
                         ),
-                      );
-                    },
-                  ),
-                )
-                    :Center(child: Text("No data found", style: styleForNormalText,)),
               );
             }),
           ],

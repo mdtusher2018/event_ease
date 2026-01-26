@@ -141,7 +141,7 @@ class SeeAllMyPollScreen extends StatelessWidget {
                   },
                 )
                 : Center(
-                  child: Text("No data found", style: styleForNormalText),
+                  child: Text("No data found".tr, style: styleForNormalText),
                 ),
       ),
     );

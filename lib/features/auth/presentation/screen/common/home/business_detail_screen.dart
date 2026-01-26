@@ -2134,8 +2134,8 @@ class BusinessCommentsSection extends StatelessWidget {
                                               },
                                               child: Text(
                                                 showReplies[comment.id]!
-                                                    ? "Hide Replies"
-                                                    : "View Replies (${comment.replies.length})",
+                                                    ? "Hide Replies".tr
+                                                    : "${"View Replies".tr} (${comment.replies.length})",
                                                 style: styleForNormalText
                                                     .copyWith(
                                                       fontSize: 12.sp,
@@ -2287,7 +2287,7 @@ class BusinessCommentsSection extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Text(
-                        "Replying to ${controller.replyToName.value}",
+                        "${"Replying to".tr} ${controller.replyToName.value}",
                         style: styleForNormalText.copyWith(
                           fontSize: 13.sp,
                           fontWeight: FontWeight.w500,

@@ -79,7 +79,7 @@ class MyReferralsScreen extends StatelessWidget {
                       final double value =
                           double.tryParse(controller.creditEarned.value) ?? 0.0;
                       return Text(
-                        "\$${value.toStringAsFixed(1)}", // 👉 1 digit after decimal
+                        "€${value.toStringAsFixed(1)}", // 👉 1 digit after decimal
                         style: styleForNormalText.copyWith(
                           fontSize: 20.sp,
                           fontWeight: FontWeight.w700,
@@ -241,7 +241,7 @@ class MyReferralsScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Use Credit",
+                      AppString.useCredit,
                       style: styleForBoldText.copyWith(
                         fontSize: 20,
                         color: AppColors.primary,
@@ -249,7 +249,7 @@ class MyReferralsScreen extends StatelessWidget {
                     ),
                     SizedBox(height: 15),
                     Text(
-                      "Select Amount",
+                      AppString.selectAmount,
                       style: styleForNormalText.copyWith(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
@@ -262,7 +262,7 @@ class MyReferralsScreen extends StatelessWidget {
                         decimal: true,
                       ),
                       decoration: InputDecoration(
-                        hintText: 'Enter amount',
+                        hintText: "Enter amount".tr,
                         contentPadding: EdgeInsets.symmetric(
                           horizontal: 12,
                           vertical: 14,
@@ -291,7 +291,7 @@ class MyReferralsScreen extends StatelessWidget {
                     ),
                     SizedBox(height: 15),
                     Text(
-                      "Select Supplier",
+                      AppString.selectSupplier,
                       style: styleForNormalText.copyWith(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
@@ -346,7 +346,7 @@ class MyReferralsScreen extends StatelessWidget {
                               controller: textController,
                               focusNode: focusNode,
                               decoration: InputDecoration(
-                                hintText: 'Type or select supplier',
+                                hintText: 'Type or select supplier'.tr,
                                 border: InputBorder.none,
                               ),
                               onChanged: (value) {
@@ -383,7 +383,7 @@ class MyReferralsScreen extends StatelessWidget {
 
                     SizedBox(height: 15),
                     Text(
-                      "Upload Receipt",
+                      AppString.uploadReceipt,
                       style: styleForNormalText.copyWith(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
@@ -446,7 +446,7 @@ class MyReferralsScreen extends StatelessWidget {
                     SizedBox(height: 25),
                     Obx(() {
                       return CustomButton(
-                        text: "Submit",
+                        text: AppString.submit,
                         borderRadius: 16,
                         isLoading: controller.isSubmitting.value,
                         fontSize: 16,

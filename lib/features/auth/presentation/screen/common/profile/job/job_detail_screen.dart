@@ -345,7 +345,7 @@ class _JobDetailScreenState extends State<JobDetailScreen> {
                                   ),
                                   SizedBox(height: 5),
                                   Text(
-                                    "\$${controller.jobDetailModel.value!.salery}",
+                                    "€${controller.jobDetailModel.value!.salery}",
                                     style: styleForBoldText.copyWith(
                                       fontSize: 18,
                                     ),
@@ -796,7 +796,7 @@ class _JobDetailScreenState extends State<JobDetailScreen> {
                                   )
                                   : Center(
                                     child: Text(
-                                      "No data found",
+                                      "No data found".tr,
                                       style: styleForNormalText,
                                     ),
                                   ),
@@ -899,7 +899,7 @@ class _JobDetailScreenState extends State<JobDetailScreen> {
                                       );
                                     },
                                   )
-                                  : Center(child: Text("No Data Found")),
+                                  : Center(child: Text("No data found".tr)),
 
                               SizedBox(height: 10),
 
@@ -966,7 +966,7 @@ class _JobDetailScreenState extends State<JobDetailScreen> {
                                       },
                                     ),
                                   )
-                                  : Center(child: Text("No Data Found")),
+                                  : Center(child: Text("No data found".tr)),
 
                               SizedBox(height: 130.h),
                             ],

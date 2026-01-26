@@ -22,18 +22,20 @@ class InterestedUsersController extends GetxController {
     errorMessage = null;
 
     try {
-      final ApiResponse response = await ApiService.to.getApi(AppUrl.getInterestedUsers(id));
- log(response.data+".........................");
+      final ApiResponse response = await ApiService.to.getApi(
+        AppUrl.getInterestedUsers(id),
+      );
+      log(response.data + ".........................");
       if (response.success && response.data != null) {
         final dataJson = response.data;
-       
+
         final InterestedUsersData data = InterestedUsersData.fromJson(dataJson);
         interestedUsers.assignAll(data.interestUsers);
         log("Fetched ${interestedUsers.length} interested users");
       } else {
-        errorMessage = response.message ;
+        errorMessage = response.message;
         log("API Error: $errorMessage");
-        Get.snackbar("Error".tr,"No Data Found");
+        Get.snackbar("Error".tr, "No data found".tr);
       }
     } catch (e) {
       errorMessage = 'Something went wrong';

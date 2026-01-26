@@ -4,20 +4,19 @@ import 'package:event_ease/features/auth/presentation/screen/business/sponsorshi
 import 'package:event_ease/features/auth/presentation/screen/business/sponsorship/detail_screen/widgets/commonSubscriptionCardDesign.dart';
 import 'package:event_ease/features/auth/presentation/screen/business/sponsorship/payment_selection_page.dart';
 import 'package:event_ease/features/auth/presentation/screen/common/profile/help_center/help_center_screen.dart';
+import 'package:event_ease/features/auth/presentation/utils/app_string.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import '../../../../utils/styles.dart';
 
-
 class EventCardScreen extends StatelessWidget {
-   EventCardScreen({super.key,required this.id,required this.eventName});
+  EventCardScreen({super.key, required this.id, required this.eventName});
 
-
-  String id;String eventName;
-  final controller = Get.put(
-    EventSubscriptionProfileController());
+  String id;
+  String eventName;
+  final controller = Get.put(EventSubscriptionProfileController());
 
   @override
   Widget build(BuildContext context) {
@@ -34,13 +33,14 @@ class EventCardScreen extends StatelessWidget {
         child: Column(
           children: [
             Text(
-              "Choose the Level of Visibility You Want!",
+              "Choose the Level of Visibility You Want!".tr,
               style: styleForBoldText.copyWith(fontSize: 30.sp),
               textAlign: TextAlign.center,
             ),
-            SizedBox(height: 10.h,),
+            SizedBox(height: 10.h),
             Text(
-              "The higher the package, the more visibility you get in search results.",
+              "The higher the package, the more visibility you get in search results."
+                  .tr,
               style: styleForNormalText.copyWith(
                 fontSize: 18.sp,
                 fontWeight: FontWeight.w600,
@@ -49,9 +49,12 @@ class EventCardScreen extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             SizedBox(height: 10.h),
-            Text("Event Card", style: styleForBoldText.copyWith(fontSize: 24.sp)),
             Text(
-              "Promote your business profile in search result",
+              "Event Card",
+              style: styleForBoldText.copyWith(fontSize: 24.sp),
+            ),
+            Text(
+              "Promote your Event profile in search result".tr,
               style: styleForNormalText.copyWith(
                 fontSize: 18.sp,
                 fontWeight: FontWeight.w600,
@@ -60,71 +63,81 @@ class EventCardScreen extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             SizedBox(height: 10.h),
-        
 
- Obx(() {
-        if (controller.isLoading.value) {
-          return Center(child: CircularProgressIndicator());
-        }
+            Obx(() {
+              if (controller.isLoading.value) {
+                return Center(child: CircularProgressIndicator());
+              }
 
-        return ListView.builder(
-          padding: EdgeInsets.all(16.w),
-          physics: NeverScrollableScrollPhysics(),
-          
-          shrinkWrap: true,
-          itemCount: controller.subscriptionPlans.length,
-          itemBuilder: (context, index) {
-            final model = controller.subscriptionPlans[index];
-            return SubscriptionCard(model: model,selectButtonOnTap: (){
-              // Get.to(PaymentMethodScreen(amount: model.options.first.price.toDouble(),
-              // duration: model.options.first.expirationDays as int,
-              // subscriptionFor: id,
-              // subscriptionForType: "Event",subscriptionId: model.id,
-              // subscriptionOptionIndex: 0,
-              // subscriptionName: model.title,
-              // name: eventName,
-              // ));
-            },onOptionTap: (i){
-                Get.to(PaymentMethodScreen(amount: model.options[i].price.toDouble(),
-              duration: model.options[i].expirationDays as int,
-              subscriptionFor: id,
-              subscriptionForType: "Event",subscriptionId: model.id,
-              subscriptionOptionIndex: i,
-              subscriptionName: model.title,
-              name: eventName,
-              ));
-            },indexFonExpantion: index,);
-            
-          },
-        );
-      }),
+              return ListView.builder(
+                padding: EdgeInsets.all(16.w),
+                physics: NeverScrollableScrollPhysics(),
 
-           
-           
+                shrinkWrap: true,
+                itemCount: controller.subscriptionPlans.length,
+                itemBuilder: (context, index) {
+                  final model = controller.subscriptionPlans[index];
+                  return SubscriptionCard(
+                    model: model,
+                    selectButtonOnTap: () {
+                      // Get.to(PaymentMethodScreen(amount: model.options.first.price.toDouble(),
+                      // duration: model.options.first.expirationDays as int,
+                      // subscriptionFor: id,
+                      // subscriptionForType: "Event",subscriptionId: model.id,
+                      // subscriptionOptionIndex: 0,
+                      // subscriptionName: model.title,
+                      // name: eventName,
+                      // ));
+                    },
+                    onOptionTap: (i) {
+                      Get.to(
+                        PaymentMethodScreen(
+                          amount: model.options[i].price.toDouble(),
+                          duration: model.options[i].expirationDays as int,
+                          subscriptionFor: id,
+                          subscriptionForType: "Event",
+                          subscriptionId: model.id,
+                          subscriptionOptionIndex: i,
+                          subscriptionName: model.title,
+                          name: eventName,
+                        ),
+                      );
+                    },
+                    indexFonExpantion: index,
+                  );
+                },
+              );
+            }),
+
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 RichText(
                   textAlign: TextAlign.center,
                   text: TextSpan(
-                    text: 'Want customized visibility?',
+                    text: 'Want customized visibility?'.tr,
                     style: styleForNormalText.copyWith(
-                        color: Colors.black,
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w500
+                      color: Colors.black,
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w500,
                     ),
                     children: [
                       TextSpan(
-                        recognizer:  TapGestureRecognizer()
-          ..onTap = () {
-            // TODO: Add your navigation or action
-            Get.to(() => HelpCenterScreen(target: 1,)); 
-          },
-                        text: ' Contact Us ',
-                        style: styleForBoldText.copyWith(fontSize: 16.sp,decoration: TextDecoration.underline,
-                            height: 1.50),),
+                        recognizer:
+                            TapGestureRecognizer()
+                              ..onTap = () {
+                                // TODO: Add your navigation or action
+                                Get.to(() => HelpCenterScreen(target: 1));
+                              },
+                        text: ' ${AppString.contactUs} ',
+                        style: styleForBoldText.copyWith(
+                          fontSize: 16.sp,
+                          decoration: TextDecoration.underline,
+                          height: 1.50,
+                        ),
+                      ),
                       TextSpan(
-                        text: 'for a personalized package!',
+                        text: 'for a personalized package!'.tr,
                         style: styleForNormalText.copyWith(
                           color: Colors.black,
                           fontWeight: FontWeight.w500,

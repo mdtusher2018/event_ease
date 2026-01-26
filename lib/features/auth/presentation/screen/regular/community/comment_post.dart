@@ -217,7 +217,7 @@ class CommentPost extends StatelessWidget {
                     ),
                     SizedBox(height: 10.h),
                     post.comments.isEmpty
-                        ? Text("No comments yet.", style: styleForNormalText)
+                        ? Text("No comments yet".tr, style: styleForNormalText)
                         : ListView.builder(
                           itemCount: post.comments.length,
                           shrinkWrap: true,
@@ -296,8 +296,8 @@ class CommentPost extends StatelessWidget {
                                                   },
                                                   child: Text(
                                                     showReplies.value
-                                                        ? "Hide Replies"
-                                                        : "View Replies (${comment.replies.length})",
+                                                        ? "Hide Replies".tr
+                                                        : "${"View Replies".tr} (${comment.replies.length})",
                                                     style: styleForNormalText
                                                         .copyWith(
                                                           fontSize: 12,
@@ -514,7 +514,7 @@ class CommentPost extends StatelessWidget {
                     children: [
                       Expanded(
                         child: Text(
-                          "Replying to ${controller.replyToName.value}",
+                          "${"Replying to".tr} ${controller.replyToName.value}",
                           style: styleForNormalText.copyWith(
                             fontSize: 14,
                             fontWeight: FontWeight.w500,

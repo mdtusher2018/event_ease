@@ -538,7 +538,6 @@ class _HomeScreenState extends State<HomeScreen>
                                                           );
                                                         }
                                                       },
-                                                      
                                                     ),
                                           ),
                                         );
@@ -603,7 +602,7 @@ class _HomeScreenState extends State<HomeScreen>
                   // Horizontal List of Events
                   (controller.subscriptionList.isEmpty)
                       ? Text(
-                        "No Data Found",
+                        "No data found".tr,
                         style: styleForNormalText.copyWith(color: Colors.black),
                       )
                       : SizedBox(
@@ -751,7 +750,6 @@ class _HomeScreenState extends State<HomeScreen>
                                       controller
                                           .subscriptionList[index]
                                           .isWishlisted,
-                                  
                                 ),
                               ),
                             );
@@ -1229,19 +1227,12 @@ class _HomeScreenState extends State<HomeScreen>
                                   "${event.averageRating}(${event.totalReviews})"
                                       .toString(),
                               doller:
-                                  event.priceRange
-                                              .toLowerCase() ==
-                                          "budget"
+                                  event.priceRange.toLowerCase() == "budget"
                                       ? "€"
-                                      : event
-                                              .priceRange
-                                              .toLowerCase() ==
+                                      : event.priceRange.toLowerCase() ==
                                           "medium"
                                       ? "€€"
-                                      : event
-                                              .priceRange
-                                              .toLowerCase() ==
-                                          "high"
+                                      : event.priceRange.toLowerCase() == "high"
                                       ? "€€€"
                                       : "€€€€",
                               imageHeight: 190,
@@ -1293,7 +1284,6 @@ class _HomeScreenState extends State<HomeScreen>
                                 }
                               },
                               isWishlisted: event.isWishlisted,
-                              
                             ),
                           ),
                         );

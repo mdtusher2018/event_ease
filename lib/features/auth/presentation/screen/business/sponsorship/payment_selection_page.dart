@@ -2,6 +2,7 @@ import 'package:event_ease/features/auth/presentation/screen/business/sponsorshi
 import 'package:event_ease/features/auth/presentation/screen/business/sponsorship/api/subscription_payment_controller.dart';
 import 'package:event_ease/features/auth/presentation/screen/common/nav_screen.dart';
 import 'package:event_ease/features/auth/presentation/utils/app_colors.dart';
+import 'package:event_ease/features/auth/presentation/utils/app_string.dart';
 import 'package:event_ease/features/auth/presentation/utils/styles.dart';
 import 'package:event_ease/features/auth/presentation/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
@@ -50,7 +51,7 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
             double.tryParse(creditsController.credits.value) ?? 0.0;
 
         if (userCredits < widget.amount) {
-          showPromotionCodeDialog(context,userCredits: userCredits);
+          showPromotionCodeDialog(context, userCredits: userCredits);
           return;
         }
 
@@ -74,7 +75,7 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
 
       // Navigate or submit as needed
     } else {
-      Get.snackbar("Error".tr,"Please select a payment option.");
+      Get.snackbar("Error".tr, "Please select a payment option.");
     }
   }
 
@@ -87,7 +88,7 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
         surfaceTintColor: Colors.transparent,
 
         title: Text(
-          "Payment",
+          "Payment".tr,
           style: styleForBoldText.copyWith(fontSize: 24.sp),
         ),
         backgroundColor: Colors.white,
@@ -104,14 +105,14 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Select a payment method",
+                    "Select a payment method".tr,
                     style: styleForBoldText.copyWith(fontSize: 20.sp),
                   ),
                   SizedBox(height: 20.h),
                   RadioListTile<PaymentOption>(
                     contentPadding: EdgeInsets.all(0),
                     title: Text(
-                      "Use Payments",
+                      "Use Payments".tr,
                       selectionColor: AppColors.primary,
 
                       style: styleForNormalText.copyWith(
@@ -131,7 +132,7 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
                   RadioListTile<PaymentOption>(
                     contentPadding: EdgeInsets.all(0),
                     title: Text(
-                      "Use Credits",
+                      "Use Credits".tr,
                       style: styleForNormalText.copyWith(
                         fontSize: 16.sp,
                         color: AppColors.primary,
@@ -149,7 +150,9 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
 
                   SizedBox(height: 16.h),
                   Obx(
-                    () => Text("Credits: ${creditsController.credits.value}"),
+                    () => Text(
+                      "${"Credits".tr}: ${creditsController.credits.value}",
+                    ),
                   ),
                   SizedBox(height: 16.h),
                   Spacer(),
@@ -172,7 +175,7 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Summary",
+                          "Summary".tr,
                           style: styleForBoldText.copyWith(
                             fontSize: 18.sp,
                             color: AppColors.primary,
@@ -180,7 +183,7 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
                         ),
                         SizedBox(height: 12.h),
                         _buildSummaryRow(
-                          "Plan for:",
+                          "Plan for:".tr,
                           widget.subscriptionForType,
                         ),
                         _buildSummaryRow(
@@ -188,16 +191,16 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
                           widget.name,
                         ),
                         _buildSummaryRow(
-                          "Subscription:",
+                          "Subscription:".tr,
                           widget.subscriptionName,
                         ),
                         _buildSummaryRow(
-                          "Duration:",
+                          "Duration:".tr,
                           "${widget.duration} days",
                         ),
                         _buildSummaryRow(
-                          "Amount:",
-                          "\$${widget.amount.toStringAsFixed(2)}",
+                          "Amount:".tr,
+                          "€${widget.amount.toStringAsFixed(2)}",
                         ),
                       ],
                     ),
@@ -208,7 +211,7 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
             SizedBox(height: 16),
             Obx(() {
               return CustomButton(
-                text: "Next",
+                text: AppString.next,
                 borderRadius: 50,
                 onTap: _onNext,
                 isLoading: controller.isLoading.value,
@@ -283,12 +286,12 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
   }
 
   // Step 1: Confirmation dialog
-  void showPromotionCodeDialog(BuildContext context,{num? userCredits}) {
+  void showPromotionCodeDialog(BuildContext context, {num? userCredits}) {
     Get.dialog(
       AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         title: Text(
-          "Do you have a promotion code?",
+          "Do you have a promotion code?".tr,
           style: styleForBoldText.copyWith(
             color: AppColors.primary,
             fontSize: 18,
@@ -307,10 +310,10 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
             ),
             onPressed: () {
               Navigator.pop(context);
-              _showEnterPromoCodeDialog(context,userCredits:userCredits);
+              _showEnterPromoCodeDialog(context, userCredits: userCredits);
             },
             child: Text(
-              "Yes",
+              "Yes".tr,
               style: styleForBoldText.copyWith(color: Colors.white),
             ),
           ),
@@ -336,11 +339,11 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
                 subscriptionOptionIndex: widget.subscriptionOptionIndex,
                 amount: widget.amount,
                 duration: widget.duration,
-                userCredits:userCredits
+                userCredits: userCredits,
               );
             },
             child: Text(
-              "No",
+              "No".tr,
               style: styleForBoldText.copyWith(color: AppColors.primary),
             ),
           ),
@@ -350,7 +353,7 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
   }
 
   // Step 2: Input dialog for entering code
-  void _showEnterPromoCodeDialog(BuildContext context,{num? userCredits}) {
+  void _showEnterPromoCodeDialog(BuildContext context, {num? userCredits}) {
     final TextEditingController promoController = TextEditingController();
 
     Get.dialog(
@@ -393,7 +396,7 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
               ),
               onPressed: () {
                 if (promoController.text.trim().isEmpty) {
-                  Get.snackbar("Error".tr,"Please enter a promotion code");
+                  Get.snackbar("Error".tr, "Please enter a promotion code");
                   return;
                 }
                 Navigator.pop(context);
@@ -407,7 +410,7 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
                   amount: widget.amount,
                   duration: widget.duration,
                   promocode: promoController.text,
-                  userCredits:userCredits
+                  userCredits: userCredits,
                 );
               },
               child: Text(

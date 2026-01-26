@@ -36,23 +36,24 @@ class _ListingScreenState extends State<ListingScreen> {
         // Get.toNamed(RoutesName.createNewOption, arguments: {'create': "business"});
         Get.to(CreateNewBusiness())!.then((value) {
           listingController.fetchMyBusinesses();
-        },);
+        });
         break;
       case 'event':
         // Get.toNamed(RoutesName.createNewOption, arguments: {'create': "event"});
         Get.to(CreateNewEvent())!.then((value) {
           listingController.fetchMyEvents();
-        },);
+        });
         break;
       case 'job':
         // Get.toNamed(RoutesName.createNewOption, arguments: {'create': "job"});
         Get.to(CreateNewJob())!.then((value) {
           listingController.fetchMyJobs();
-        },);
+        });
         break;
     }
   }
-ListingController listingController = Get.put(ListingController()); 
+
+  ListingController listingController = Get.put(ListingController());
   @override
   void initState() {
     // TODO: implement initState
@@ -66,16 +67,19 @@ ListingController listingController = Get.put(ListingController());
     parentBusinessId.value = await PrefsHelper.getParentBusinessId() ?? "";
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-appBar: AppBar(title:     Text(
-  AppString.listings,
-  style: styleForBoldText.copyWith(color: AppColors.darkGrey, fontSize: 24.sp),
-),
-centerTitle: true,
-),
+      appBar: AppBar(
+        title: Text(
+          AppString.listings,
+          style: styleForBoldText.copyWith(
+            color: AppColors.darkGrey,
+            fontSize: 24.sp,
+          ),
+        ),
+        centerTitle: true,
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
         backgroundColor: AppColors.primary,
@@ -84,97 +88,115 @@ centerTitle: true,
         child: PopupMenuButton<String>(
           color: Colors.white,
           onSelected: _handleMenuSelection,
-          itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-            PopupMenuItem<String>(
-              value: 'business',
-              child: Text(AppString.business,
-                  style: styleForBoldText.copyWith(fontSize: 14, color: AppColors.darkGrey)),
-            ),
-            PopupMenuItem<String>(
-              value: 'event',
-              child: Text(AppString.event,
-                  style: styleForBoldText.copyWith(fontSize: 14, color: AppColors.darkGrey)),
-            ),
-            PopupMenuItem<String>(
-              value: 'job',
-              child: Text('Job',
-                  style: styleForBoldText.copyWith(fontSize: 14, color: AppColors.darkGrey)),
-            ),
-          ],
+          itemBuilder:
+              (BuildContext context) => <PopupMenuEntry<String>>[
+                PopupMenuItem<String>(
+                  value: 'business',
+                  child: Text(
+                    AppString.business,
+                    style: styleForBoldText.copyWith(
+                      fontSize: 14,
+                      color: AppColors.darkGrey,
+                    ),
+                  ),
+                ),
+                PopupMenuItem<String>(
+                  value: 'event',
+                  child: Text(
+                    AppString.event,
+                    style: styleForBoldText.copyWith(
+                      fontSize: 14,
+                      color: AppColors.darkGrey,
+                    ),
+                  ),
+                ),
+                PopupMenuItem<String>(
+                  value: 'job',
+                  child: Text(
+                    'Job',
+                    style: styleForBoldText.copyWith(
+                      fontSize: 14,
+                      color: AppColors.darkGrey,
+                    ),
+                  ),
+                ),
+              ],
           child: const Icon(Icons.add, color: Colors.white),
         ),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(10),
-          child: Obx(
-            () {
-        
-        
-               if (parentBusinessId.value.isEmpty) {
-            return Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        child: Text(
-          "Create Your 1st business to access the your Listing",
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            color: AppColors.primary,
-            fontSize: 21,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-              ),
-              const SizedBox(height: 20),
-              SizedBox(
-        width: 220,
-        height: 48,
-        child: ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: AppColors.primary,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
-            elevation: 3,
-          ),
-          onPressed: () {
-            Get.toNamed(RoutesName.signUpStep);
-          },
-          child: const Text(
-            "Complete Profile",
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
-          ),
-        ),
-              ),
-            ],
-          ),
-        );
-        
-          }
-              if(listingController.isLoading.value) {
-                return Center(
-                  child: CircularProgressIndicator(color: AppColors.primary),
-                );
-              }
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-              
-                  SizedBox(height: 10.h),
-                  if(listingController.businessList.isNotEmpty)Text(
+          child: Obx(() {
+            if (parentBusinessId.value.isEmpty) {
+              return Center(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: Text(
+                        "Create Your 1st business to access the your Listing"
+                            .tr,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: AppColors.primary,
+                          fontSize: 21,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    SizedBox(
+                      width: 220,
+                      height: 48,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.primary,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          elevation: 3,
+                        ),
+                        onPressed: () {
+                          Get.toNamed(RoutesName.signUpStep);
+                        },
+                        child: Text(
+                          "Complete Profile".tr,
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            }
+            if (listingController.isLoading.value) {
+              return Center(
+                child: CircularProgressIndicator(color: AppColors.primary),
+              );
+            }
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: 10.h),
+                if (listingController.businessList.isNotEmpty)
+                  Text(
                     AppString.businessListings,
-                    style: styleForBoldText.copyWith(color: AppColors.darkGrey, fontSize: 24.sp),
+                    style: styleForBoldText.copyWith(
+                      color: AppColors.darkGrey,
+                      fontSize: 24.sp,
+                    ),
                   ),
-                  if(listingController.businessList.isNotEmpty)  SizedBox(height: 5.h),
-                  if(listingController.businessList.isNotEmpty)SizedBox(
+                if (listingController.businessList.isNotEmpty)
+                  SizedBox(height: 5.h),
+                if (listingController.businessList.isNotEmpty)
+                  SizedBox(
                     height: 365,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
@@ -187,224 +209,320 @@ centerTitle: true,
                             padding: const EdgeInsets.all(5),
                             child: CustomListingFeatureEventContainer(
                               onTap: () {
-                                Get.toNamed(RoutesName.businessDetail, arguments: 
-                                                  listingController.businessList[index].id,);
+                                Get.toNamed(
+                                  RoutesName.businessDetail,
+                                  arguments:
+                                      listingController.businessList[index].id,
+                                );
                               },
-                              type: listingController.businessList[index].categoryName,
+                              type:
+                                  listingController
+                                      .businessList[index]
+                                      .categoryName,
                               typeImage: AppIcons.businessIcon,
                               name: listingController.businessList[index].name,
-                              location: listingController.businessList[index].address,image: listingController.businessList[index].coverImage,
-                              peopleCount: listingController.businessList[index].maxGuest.toString(),
-                              rating:  "${listingController.businessList[index].averageRating}(${listingController.businessList[index].totalReviews})",
-                              doller:   listingController.businessList[index]
-                                                        .priceRange
-                                                        .toLowerCase() ==
-                                                    "budget"
-                                                ? "€"
-                                                : listingController.businessList[index]
-                                                        .priceRange
-                                                        .toLowerCase() ==
-                                                    "medium"
-                                                ? "€€"
-                                                : listingController
-                                                        .businessList[index]
-                                                        .priceRange
-                                                        .toLowerCase() ==
-                                                    "high"
-                                                ? "€€€"
-                                                : "€€€€",
+                              location:
+                                  listingController.businessList[index].address,
+                              image:
+                                  listingController
+                                      .businessList[index]
+                                      .coverImage,
+                              peopleCount:
+                                  listingController.businessList[index].maxGuest
+                                      .toString(),
+                              rating:
+                                  "${listingController.businessList[index].averageRating}(${listingController.businessList[index].totalReviews})",
+                              doller:
+                                  listingController
+                                              .businessList[index]
+                                              .priceRange
+                                              .toLowerCase() ==
+                                          "budget"
+                                      ? "€"
+                                      : listingController
+                                              .businessList[index]
+                                              .priceRange
+                                              .toLowerCase() ==
+                                          "medium"
+                                      ? "€€"
+                                      : listingController
+                                              .businessList[index]
+                                              .priceRange
+                                              .toLowerCase() ==
+                                          "high"
+                                      ? "€€€"
+                                      : "€€€€",
                               verificationIcon: Icons.verified,
-                              likeCount: listingController.businessList[index].totalLikes.toString(),
-                              commentCount: listingController.businessList[index].totalComments.toString(),
-                              switchValue: listingController.businessList[index].isActive??false,
+                              likeCount:
+                                  listingController
+                                      .businessList[index]
+                                      .totalLikes
+                                      .toString(),
+                              commentCount:
+                                  listingController
+                                      .businessList[index]
+                                      .totalComments
+                                      .toString(),
+                              switchValue:
+                                  listingController
+                                      .businessList[index]
+                                      .isActive ??
+                                  false,
                               switchOnChanged: (val) {
-                        
-                                  switchBusinessActivity(businessId: listingController.businessList[index].id).then((value) {
-                                    listingController.businessList[index].isActive = val;
-                                    listingController.businessList.refresh();
-        
-                               
-                                 
+                                switchBusinessActivity(
+                                  businessId:
+                                      listingController.businessList[index].id,
+                                ).then((value) {
+                                  listingController
+                                      .businessList[index]
+                                      .isActive = val;
+                                  listingController.businessList.refresh();
                                 });
                               },
                               onDelete: () {
-                             
-                                deleteItem(type: "business", id: listingController.businessList[index].id).then((value) {
+                                deleteItem(
+                                  type: "business",
+                                  id: listingController.businessList[index].id,
+                                ).then((value) {
                                   listingController.fetchMyBusinesses();
-                                },);
+                                });
                               },
-                              onAnnouncementTap: (){
-                                    Get.toNamed(RoutesName.sponsorshipScreen);
+                              onAnnouncementTap: () {
+                                Get.toNamed(RoutesName.sponsorshipScreen);
                               },
                               onEdit: () {
                                 // Get.toNamed(RoutesName.createNewOption, arguments: {'create': "business"});
-                                    Get.to(EditNewBusiness(data: listingController.businessList[index],))!.then((value) {
-                                      listingController.fetchMyBusinesses();
-                                    },);
-                                },
-                       
+                                Get.to(
+                                  EditNewBusiness(
+                                    data: listingController.businessList[index],
+                                  ),
+                                )!.then((value) {
+                                  listingController.fetchMyBusinesses();
+                                });
+                              },
+
                               likeOnPressed: () {
                                 // Your like logic here
                               },
                               commentOnPressed: () {},
                               bookmarkOnPressed: () {},
-                              
                             ),
                           ),
                         );
                       },
                     ),
                   ),
-                  SizedBox(height: 20.h),
-                 if(listingController.eventList.isNotEmpty) Text(
+                SizedBox(height: 20.h),
+                if (listingController.eventList.isNotEmpty)
+                  Text(
                     AppString.eventListings,
-                    style: styleForBoldText.copyWith(color: AppColors.darkGrey, fontSize: 24.sp),
+                    style: styleForBoldText.copyWith(
+                      color: AppColors.darkGrey,
+                      fontSize: 24.sp,
+                    ),
                   ),
-                 if(listingController.eventList.isNotEmpty)   SizedBox(height: 5.h),
-                 if(listingController.eventList.isNotEmpty)   SizedBox(
+                if (listingController.eventList.isNotEmpty)
+                  SizedBox(height: 5.h),
+                if (listingController.eventList.isNotEmpty)
+                  SizedBox(
                     height: 365,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       shrinkWrap: true,
                       itemCount: listingController.eventList.length,
                       itemBuilder: (context, index) {
-                         String formatDate(String isoDate) {
+                        String formatDate(String isoDate) {
                           final date = DateTime.parse(isoDate);
                           return "${date.day}-${date.month}-${date.year % 100}";
                         }
+
                         return SizedBox(
                           width: 288,
                           child: Padding(
                             padding: const EdgeInsets.all(5),
                             child: CustomListingFeatureEventContainer(
-                              image: listingController.eventList[index].coverImage,
+                              image:
+                                  listingController.eventList[index].coverImage,
                               onTap: () {
-                                Get.toNamed(RoutesName.eventDetailScreen, arguments:     
-                                                  listingController.eventList[index].id,);
+                                Get.toNamed(
+                                  RoutesName.eventDetailScreen,
+                                  arguments:
+                                      listingController.eventList[index].id,
+                                );
                               },
                               type: listingController.eventList[index].category,
                               typeImage: AppIcons.eventIcon,
                               name: listingController.eventList[index].name,
-                              location: listingController.eventList[index].address,
-                              peopleCount: formatDate(listingController.eventList[index].startDate.toString()),
-                              rating:  "${listingController.eventList[index].averageRating}(${listingController.eventList[index].totalReviews})",
+                              location:
+                                  listingController.eventList[index].address,
+                              peopleCount: formatDate(
+                                listingController.eventList[index].startDate
+                                    .toString(),
+                              ),
+                              rating:
+                                  "${listingController.eventList[index].averageRating}(${listingController.eventList[index].totalReviews})",
                               doller: "€€€",
                               verificationIcon: Icons.verified,
-                              verification: listingController.eventList[index].blueVerifiedBadge,
-                              likeCount: listingController.eventList[index].totalLikes.toString(),
-                              commentCount:listingController.eventList[index].totalComments.toString(),
-                              peopleCountIcon: SvgPicture.asset(AppIcons.calenderIcon),
+                              verification:
+                                  listingController
+                                      .eventList[index]
+                                      .blueVerifiedBadge,
+                              likeCount:
+                                  listingController.eventList[index].totalLikes
+                                      .toString(),
+                              commentCount:
+                                  listingController
+                                      .eventList[index]
+                                      .totalComments
+                                      .toString(),
+                              peopleCountIcon: SvgPicture.asset(
+                                AppIcons.calenderIcon,
+                              ),
                               likeOnPressed: () {},
                               commentOnPressed: () {},
                               bookmarkOnPressed: () {},
-                              
-                               switchValue: listingController.eventList[index].isActive??false,
+
+                              switchValue:
+                                  listingController.eventList[index].isActive ??
+                                  false,
                               switchOnChanged: (val) {
-                                
-                                  switchEventActivity(businessId: listingController.eventList[index].id).then((value) {
-                                     listingController.eventList[index].isActive = val;
-                                     listingController.eventList.refresh();
-                                  
-                                 
+                                switchEventActivity(
+                                  businessId:
+                                      listingController.eventList[index].id,
+                                ).then((value) {
+                                  listingController.eventList[index].isActive =
+                                      val;
+                                  listingController.eventList.refresh();
                                 });
                               },
-                              onDelete: () async{
-        
-                              // final response = await ApiService.to.deleteApi(
-                              //   AppUrl.geEventDetailsById(listingController.eventList[index].id),
-                              // );
-                              // if(response.success){
-                              //   Get.snackbar("Successfull", response.message);
-                              //   listingController.fetchMyEvents();
-                              // }else{
-                              //   Get.snackbar("Failed".tr,response.message);
-                              // } 
-        
-                                deleteItem(type: "event", id: listingController.eventList[index].id).then((value) {
+                              onDelete: () async {
+                                // final response = await ApiService.to.deleteApi(
+                                //   AppUrl.geEventDetailsById(listingController.eventList[index].id),
+                                // );
+                                // if(response.success){
+                                //   Get.snackbar("Successfull", response.message);
+                                //   listingController.fetchMyEvents();
+                                // }else{
+                                //   Get.snackbar("Failed".tr,response.message);
+                                // }
+
+                                deleteItem(
+                                  type: "event",
+                                  id: listingController.eventList[index].id,
+                                ).then((value) {
                                   listingController.fetchMyEvents();
-                                },);
+                                });
                               },
-              
+
                               onEdit: () {
-                       
-                                Get.to(EditEvent(data: listingController.eventList[index],),arguments:     
-                                                  listingController.eventList[index].id,)!.then((value) {
-                                                    listingController.fetchMyEvents();
-                                                  },);
+                                Get.to(
+                                  EditEvent(
+                                    data: listingController.eventList[index],
+                                  ),
+                                  arguments:
+                                      listingController.eventList[index].id,
+                                )!.then((value) {
+                                  listingController.fetchMyEvents();
+                                });
                               },
                               onAnnouncementTap: () {
-                                    // Get.toNamed(RoutesName.eventCardScreen);
-                                     Get.toNamed(RoutesName.sponsorshipScreen);
+                                // Get.toNamed(RoutesName.eventCardScreen);
+                                Get.toNamed(RoutesName.sponsorshipScreen);
                               },
-              
                             ),
                           ),
                         );
                       },
                     ),
                   ),
-                  SizedBox(height: 20.h),
-                 if(listingController.jobList.isNotEmpty) Text(
+                SizedBox(height: 20.h),
+                if (listingController.jobList.isNotEmpty)
+                  Text(
                     AppString.jobListings,
-                    style: styleForBoldText.copyWith(color: AppColors.darkGrey, fontSize: 24.sp),
+                    style: styleForBoldText.copyWith(
+                      color: AppColors.darkGrey,
+                      fontSize: 24.sp,
+                    ),
                   ),
-                if(listingController.jobList.isNotEmpty)   SizedBox(height: 5.h),
-                 if(listingController.jobList.isNotEmpty)  SizedBox(
+                if (listingController.jobList.isNotEmpty) SizedBox(height: 5.h),
+                if (listingController.jobList.isNotEmpty)
+                  SizedBox(
                     height: 380,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       shrinkWrap: true,
-                      itemCount:  listingController.jobList.length,
+                      itemCount: listingController.jobList.length,
                       itemBuilder: (context, index) {
                         return SizedBox(
                           width: 288,
                           child: Padding(
                             padding: const EdgeInsets.all(5),
                             child: CustomJobListWidget(
-                              type:  listingController.jobList[index].category,
-                              image: listingController.jobList[index].coverImage,
+                              type: listingController.jobList[index].category,
+                              image:
+                                  listingController.jobList[index].coverImage,
                               onTap: () {
-                                Get.toNamed(RoutesName.jobDetailScreen, arguments: 
-                                                  listingController.jobList[index].id,);
-                              
+                                Get.toNamed(
+                                  RoutesName.jobDetailScreen,
+                                  arguments:
+                                      listingController.jobList[index].id,
+                                );
                               },
                               typeImage: AppIcons.jobIcon,
                               imageType: ImageType.network,
                               name: listingController.jobList[index].title,
-                              location:  listingController.jobList[index].address,
+                              location:
+                                  listingController.jobList[index].address,
                               verificationIcon: Icons.verified,
-                              
+
                               bookmarkOnPressed: () {},
                               shareOnPressed: () {
-                                  // final String shareText =
-                                  //   "Check out this awesome business on EventEase!";
-                         
-                               Share.share(AppUrl.shareJob(listingController.jobList[index].id));
+                                // final String shareText =
+                                //   "Check out this awesome business on EventEase!";
+
+                                Share.share(
+                                  AppUrl.shareJob(
+                                    listingController.jobList[index].id,
+                                  ),
+                                );
                               },
-                             switchValue: listingController.jobList[index].isActive,
+                              switchValue:
+                                  listingController.jobList[index].isActive,
                               switchOnChanged: (val) {
                                 setState(() {
-                                  switchjobActivity(businessId: listingController.jobList[index].id).then((value) {
-                                    listingController.jobList[index].isActive = val;
+                                  switchjobActivity(
+                                    businessId:
+                                        listingController.jobList[index].id,
+                                  ).then((value) {
+                                    listingController.jobList[index].isActive =
+                                        val;
                                     listingController.jobList.refresh();
-                                  },);
-                                 
+                                  });
                                 });
                               },
                               onDelete: () {
-                                deleteItem(type: "job", id: listingController.jobList[index].id).then((value) {
+                                deleteItem(
+                                  type: "job",
+                                  id: listingController.jobList[index].id,
+                                ).then((value) {
                                   listingController.fetchMyJobs();
-                                },);
+                                });
                               },
-                              onAnnouncementTap: (){
+                              onAnnouncementTap: () {
                                 // Get.toNamed(RoutesName.jobCardScreen);
-                                 Get.toNamed(RoutesName.sponsorshipScreen);
+                                Get.toNamed(RoutesName.sponsorshipScreen);
                               },
                               onEdit: () {
                                 // Get.toNamed(RoutesName.createNewOption, arguments: {'create': "job"});
-                                Get.to(EditJob(data: listingController.jobList[index],), arguments: listingController.jobList[index].id)!.then((value) {
+                                Get.to(
+                                  EditJob(
+                                    data: listingController.jobList[index],
+                                  ),
+                                  arguments:
+                                      listingController.jobList[index].id,
+                                )!.then((value) {
                                   listingController.fetchMyJobs();
-                                },);
+                                });
                               },
                             ),
                           ),
@@ -412,11 +530,10 @@ centerTitle: true,
                       },
                     ),
                   ),
-                  SizedBox(height: 10),
-                ],
-              );
-            }
-          ),
+                SizedBox(height: 10),
+              ],
+            );
+          }),
         ),
       ),
     );

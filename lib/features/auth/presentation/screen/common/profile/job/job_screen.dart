@@ -41,7 +41,7 @@ class JobScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             CustomSearchField(
-              hintText: "Search Job",
+              hintText: "Search Job".tr,
               prefixIcon: SizedBox(
                 width: 18.w,
                 height: 18.h,
@@ -136,7 +136,7 @@ class JobScreen extends StatelessWidget {
                 }
                 if (controller.jobSubCategoryList.isEmpty &&
                     controller.jobUnSubCategoryList.isEmpty) {
-                  return const Center(child: Text("No job listings found."));
+                  return Center(child: Text("No job listings found.".tr));
                 }
                 return TabBarView(
                   controller: controller.tabController,
@@ -234,7 +234,7 @@ class JobScreen extends StatelessWidget {
                         name: job['title'],
                         isSponsorShipTrue: job['subscriptionType'] != "none",
                         location: snapshot.data ?? "Loading...",
-               
+
                         bookmarkOnPressed: () {},
                       );
                     },

@@ -286,7 +286,7 @@ class ChattingScreen extends StatelessWidget {
                                       ? null
                                       : OtherHelper.validator(value),
                           decoration: InputDecoration(
-                            hintText: "Type a message",
+                            hintText: "Type a message".tr,
                             hintStyle: styleForNormalText.copyWith(
                               fontSize: 15,
                               color: AppColors.grey,

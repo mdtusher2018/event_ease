@@ -30,12 +30,12 @@ class SignInController extends GetxController {
     text:
         kDebugMode
             ? ((PrefsHelper.myRole == "user")
-                ? "yepesej669@cameltok.com"
-                : "cicar23886@ishense.com")
+                ? "raseldev847@gmail.com"
+                : "rasel.chowdhury0001@gmail.com")
             : "",
   );
   final TextEditingController passwordController = TextEditingController(
-    text: kDebugMode ? "hello123" : "",
+    text: kDebugMode ? "123456" : "",
   );
 
   void toggleRememberMe() {
@@ -179,61 +179,64 @@ class SignInController extends GetxController {
     }
   }
 
-  Future<void> loginWithApple() async {
+  Future<void> loginWithApple(BuildContext context) async {
     isLoading.value = true;
 
     try {
       final credential = await SignInWithApple.getAppleIDCredential(
-        scopes: [
+        scopes: const [
           AppleIDAuthorizationScopes.email,
           AppleIDAuthorizationScopes.fullName,
         ],
-        webAuthenticationOptions: WebAuthenticationOptions(
-          clientId: "com.your.bundle.id.service", // Apple Service ID
-          redirectUri: Uri.parse(
-            "https://yourdomain.com/callbacks/sign_in_with_apple",
-          ),
-        ),
       );
 
-      var name = "${credential.givenName ?? ''} ${credential.familyName ?? ''}";
-      var email = credential.email;
-      var role = PrefsHelper.myRole;
+      final name =
+          "${credential.givenName ?? ''} ${credential.familyName ?? ''}".trim();
+      final email = credential.email;
+      final role = PrefsHelper.myRole;
 
       log(">>>>>>>>>> Name : $name");
       log(">>>>>>>>>> email : $email");
       log(">>>>>>>>>> role : $role");
 
-      var body = {
-        "identityToken": credential.identityToken,
-        "authorizationCode": credential.authorizationCode,
-        "email": credential.email,
-        "name": name,
+      final body = {
+        "appleId": credential.userIdentifier, // always available
+        if (email != null) "email": email,
+        if (name.isNotEmpty) "name": name,
         "role": role,
       };
 
-      final response = await authRepository.loginWithGoogle(
-        body,
-      ); // Changed to loginWithApple
+      final response = await authRepository.loginWithApple(body);
 
-      if (response.statusCode == 200) {
-        if (response.data['user']['role'] != PrefsHelper.myRole) {
-          Get.snackbar(
-            "Access Denied",
-            "You're trying to log in as a ${response.data['user']['role']}, but this portal is intended for ${PrefsHelper.myRole} access.",
-          );
-          return;
-        }
-
-        _handleSuccessfulLogin(response);
-        Get.to(
-          LocationPermissionScreen(
-            parentBusiness: response.data['user']['parentBusiness'],
-          ),
-        );
-      } else {
+      if (response.statusCode != 200) {
         Get.snackbar("Error".tr, response.message);
+        return;
       }
+
+      final user = response.data['user'];
+
+      // Role mismatch check
+      if (user['role'] != PrefsHelper.myRole) {
+        Get.snackbar(
+          "Access Denied",
+          "You're trying to log in as a ${user['role']}, "
+              "but this portal is intended for ${PrefsHelper.myRole} access.",
+        );
+        return;
+      }
+
+      isRemember.value = true;
+      _handleSuccessfulLogin(response);
+
+      final phone = user['phone'] as String?;
+
+      // Ask for phone if missing
+      if (phone == null || phone.isEmpty) {
+        showEditProfileInputDialog(context: context, name: name);
+        return;
+      }
+
+      Get.to(LocationPermissionScreen(parentBusiness: user['parentBusiness']));
     } catch (e, s) {
       log("Apple Sign-In Error: $e");
       log("StackTrace: $s");

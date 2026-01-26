@@ -15,6 +15,7 @@ import 'package:event_ease/services/api_service.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -192,7 +193,7 @@ class _NavScreenState extends State<NavScreen> {
                     ? AppColors.primary
                     : AppColors.greTab,
           ),
-          title: AppString.dashboard,
+          title: "Dashboard",
         ),
       _buildNavBarItem(
         icon: Center(
@@ -318,7 +319,7 @@ class _NavScreenState extends State<NavScreen> {
               color: AppColors.greTab,
             ),
           ),
-          title: AppString.listing,
+          title: "Listing",
         ),
     ];
 
@@ -424,9 +425,9 @@ class _NavScreenState extends State<NavScreen> {
           if (_controller.index == 0 &&
               !_isDrawerOpen) // Add this condition to hide when drawer is open
             Positioned(
-              bottom: 80,
-              left: 130,
-              right: 130,
+              bottom: 80.h,
+              left: 130.w,
+              right: 130.w,
               child: _buildFloatingActionButton(),
             ),
         ],

@@ -210,7 +210,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
               leadingIcon: "assets/icons/delete.svg",
               onTabFunction: () {
                 Get.to(
-                  PrefsHelper.accountCreateWith == 'google'
+                  PrefsHelper.accountCreateWith != 'google'
                       ? DeleteGoogleAccountPage()
                       : DeleteProfilePage(),
                 );
