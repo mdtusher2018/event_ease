@@ -547,6 +547,8 @@ class AppTranslations extends Translations {
           "Your account was created using Google Sign-In. To delete your account permanently, please verify your identity using OTP.",
     },
     'it_IT': {
+      "No Chat Found": "Nessuna chat trovata",
+
       "Work Hours": "orari di lavoro",
       "Add Work Hrs": "aggiungi ore di lavoro",
       "Question": "domanda",
@@ -649,7 +651,7 @@ class AppTranslations extends Translations {
           "Crea il tuo primo annuncio per accedere alla Sponsorship",
 
       "Create Your 1st business to access the your Listing":
-          "Crea il tuo primo annuncio per sbloccare la tua Listing",
+          "crea il tuo primo annuncio per accedere alla Listing",
       "Create Your 1st business to access the Dashboard":
           " crea il tuo primo annuncio per accedere alla dashboard",
       "Complete Profile": " completa il profilo",

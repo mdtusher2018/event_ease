@@ -137,8 +137,7 @@ class _ListingScreenState extends State<ListingScreen> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
                       child: Text(
-                        "Create Your 1st business to access the your Listing"
-                            .tr,
+                        "Create Your 1st business to access the Dashboard".tr,
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: AppColors.primary,
