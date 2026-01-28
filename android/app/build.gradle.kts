@@ -33,7 +33,7 @@ android {
         applicationId = "it.pianofesta.app"
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
-        versionCode = 27
+        versionCode = 29
         versionName = "1.0.0"
     }
     signingConfigs {
