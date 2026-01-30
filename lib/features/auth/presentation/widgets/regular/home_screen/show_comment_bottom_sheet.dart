@@ -155,8 +155,8 @@ Future<void> showCommentBottomSheet(
                                                       },
                                                       child: Text(
                                                         showReplies[comment.id]!
-                                                            ? "Hide Replies"
-                                                            : "View Replies (${comment.replies.length})",
+                                                            ? "Hide Replies".tr
+                                                            : "${"View Replies".tr} (${comment.replies.length})",
                                                         style:
                                                             styleForNormalText.copyWith(
                                                           fontSize: 12.sp,
@@ -333,7 +333,7 @@ Future<void> showCommentBottomSheet(
                       children: [
                         Expanded(
                           child: Text(
-                            "Replying to ${controller.replyToName.value}",
+                            "${"Replying to".tr} ${controller.replyToName.value}",
                             style: styleForNormalText.copyWith(
                               fontSize: 14.sp,
                               fontWeight: FontWeight.w500,

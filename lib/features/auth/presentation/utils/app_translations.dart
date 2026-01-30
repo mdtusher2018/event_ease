@@ -4,6 +4,8 @@ class AppTranslations extends Translations {
   @override
   Map<String, Map<String, String>> get keys => {
     'en_US': {
+      "Create Your 1st business to access":
+          "Create Your 1st business to access the Dashboard",
       "continue_as_a_guest": "Continue as a Guest",
       "Password is required": "Password is required",
       "Delete failed": "Delete failed",
@@ -417,7 +419,7 @@ class AppTranslations extends Translations {
       'new_post': 'New Post',
       'most_comment': 'Most Comment',
       'most_viewed': 'Most Viewed',
-      'no_comments_yet.': 'No comments yet.',
+      'no_comments_yet': 'No comments yet.',
       'version.': 'Version',
       'back': 'back',
       'select_listings': 'Select Listings',
@@ -524,10 +526,137 @@ class AppTranslations extends Translations {
       "500-1000 People": "500-1000 People",
       "More Than People": "More Than People",
       "Update Personal Details": "Update Personal Details",
+      "Complete Profile": "Complete Profile",
+      "Create Your 1st business to access the your Listing":
+          "Create Your 1st business to access the your Listing",
+      "Create Your 1st business to access the Sponsorship":
+          "Create Your 1st business to access the Sponsorship",
+      "Add to Wishlist": "Add to Wishlist",
+      "Type": "Type",
+      "Close": "Close",
+      "No comments yet": "No comments yet",
+      "Write a comment...": "Write a comment...",
+      "Search job": "Search job",
+      "No job listings found.": "No job listings found.",
+      "Type a message": "Type a message",
+      "Enter amount": "Enter amount",
+      'Type or select supplier': 'Type or select supplier',
+      "No tickets found": "No tickets found",
+      "Ticket Support": "Ticket Support",
+      "Your account was created using Google Sign-In. To delete your account permanently, please verify your identity using OTP.":
+          "Your account was created using Google Sign-In. To delete your account permanently, please verify your identity using OTP.",
     },
     'it_IT': {
+      "No Chat Found": "Nessuna chat trovata",
+
+      "Work Hours": "orari di lavoro",
+      "Add Work Hrs": "aggiungi ore di lavoro",
+      "Question": "domanda",
+      "Answer": "risposta",
+      "Add Question": "aggiungi domanda",
+      "Publish Job": "pubblica",
+
+      'immediate': "Immediata",
+      '15 days': "15 giorni",
+      '1 week': "1 settimana",
+      '1 month': "1 mese",
+
+      'No Experience': "Nessuna esperienza",
+      '1-2 Years': "1-2 anni",
+      '3+ Years': "3+ anni",
+
+      "Job details": "dettagli offerta",
+      "Job categories": "categoria offerta",
+      "Select business": "seleziona business",
+      "Job role": "ruolo del lavoro",
+      "Contract type": "tipo di contratto",
+      "Salary": "compenso",
+      "Requered experienxe": "Esperieza richiesta",
+      "Availabily required": "disponibilità richiesta",
+
+      "Create New Job": "crea offerta di lavoro",
+      "Job Name": "titolo offerta di lavoro",
+      "Payment": "pagamento",
+      "Select a payment method": "seleziona il metodo di pagamento",
+      "Use Payments": "usa un metodo di pagamento",
+      "Use Credits": "usa crediti",
+      "Credits": "crediti",
+      "Summary": "riepilogo",
+      "Plan for:": "piano per:",
+      "Business name": "nome attività",
+      "Subscription:": "abbonamento:",
+      "Duration:": "durata:",
+      "Amount:": "importo:",
+      "Next": "avanti",
+      "Do you have a promotion code?": ": hai un codice sconto?",
+      "Yes": "si",
+      "No": "no",
+      "Event profile": "evento",
+      "Promote your Event profile in search result":
+          "promuovi il tuo evento nei risultato di ricerca",
+
+      "Want customized visibility?": ": vuoi una visibilità personalizzata?",
+      "for a personalized package!": "i per un pacchetto su Misura",
+      "Choose the Level of Visibility You Want!":
+          "scegli il livello di visibilità che desideri!",
+      "The higher the package, the more visibility you get in search results.":
+          "più alto è il pacchetto , maggiore sarà la visibilità che ottieni nei risultati di ricerca.",
+      "Business Profile": "profilo business.",
+      "Promote your business profile in search result":
+          "promuovi il tuo profilo business nei risultati di ricerca. Starting from: a partire da",
+
+      "No Purchased Pack Found":
+          " non ci sono pacchetti pubblicitari acquistati",
+
+      "By clicking this button, you will send a notification to all the followers of this listing:":
+          "Cliccando questo pulsante, invierai una notifica a tutti i follower di questo annuncio.",
+      "View Replies": "vedi risposte",
+      "Hide Replies": "Nascondi risposte",
+      "Replying to": "rispondi a",
+      "Reply": "rispondi",
+      "reply": "rispondi",
+      "New Poll": "nuovo sondaggio",
+      "No data found": "Non ci sono dati",
+      "Create a checklist folder": "crea una checklist",
+      "Checklist name": "Checklist name",
+      "Create a favourite folder": "crea un lista preferiti",
+      "Folder name": "nome della lista",
+      "Upload image": "carica immagine",
+      "Cancel": "cancella",
+      "Create": "crea",
+
+      "Your account was created using Google Sign-In. To delete your account permanently, please verify your identity using OTP.":
+          "il tuo account è stato creato utilizzando l'accesso con google. Per eliminare definitivamente il tuo account, verifica la tua identità utilizzando un codice OTP.",
+      "Delete account": "Cancella account",
+      "Delete your account": "Cancella il tuo account",
+      "Your account was created using Google sign-in. To permanently delete your account, verify your identity using an OTP code.":
+          "Il tuo account è stato creato utilizzando l’accesso con Google. Per eliminare definitivamente il tuo account, verifica la tua identità utilizzando un codice OTP.",
+      "Send OTP": "Ricevi OTP",
+      "This action is irreversible. All your data will be permanently deleted.":
+          "Questa azione è irreversibile. Tutti i tuoi dati verranno eliminati definitivamente.",
+
+      "Ticket Support": "apri un ticket di supporto",
+      "No tickets found": "non sono presenti ticket",
+      'Type or select supplier': 'scrivi o seleziona il fornitore',
+      "Enter amount": "scrivi importo",
+      "Type a message": " Scrivi un messaggio",
+      "No job listings found.": "Non ci sono offerte di lavoro",
+      "Search job": "cerca lavoro",
+      "Write a comment...": "scrivi un commento",
+      "No comments yet": "Non ci sono commenti",
+      "Add to Wishlist": "Aggiungi ai preferiti",
+      "Type": "Nome lista",
+      "Close": "chiudi",
+      "Create Your 1st business to access the Sponsorship":
+          "Crea il tuo primo annuncio per accedere alla Sponsorship",
+
+      "Create Your 1st business to access the your Listing":
+          "crea il tuo primo annuncio per accedere alla Listing",
+      "Create Your 1st business to access the Dashboard":
+          " crea il tuo primo annuncio per accedere alla dashboard",
+      "Complete Profile": " completa il profilo",
       "Update Personal Details": "Aggiornare i Dati Personali",
-      "Fewer than 20 people": "Mene di 20 persone",
+      "Fewer than 20 people": "Meno di 20 persone",
       "20-50 People": "20-50 persone",
       "50-100 People": "50-100 persone",
       "100-500 People": "100-500 persone",
@@ -537,7 +666,7 @@ class AppTranslations extends Translations {
       'i_do_not_have_a_specific_location': 'non ho un luogo specifico',
       "Rome": "Roma",
       "Milan": "Milano",
-      "Florence": "Firenza",
+      "Florence": "Firenze",
       "Venice": "Venezia",
       "Bologna": "Bologna",
       "Naples": "Napoli",
@@ -566,10 +695,10 @@ class AppTranslations extends Translations {
           'Tocca qui per farti ispirare o accedi per suggerimenti personalizzati.',
       'inspiration_button': 'Fatti ispirare',
 
-      'community_title': 'Comunità',
+      'community_title': 'Community',
       'community_subtitle':
-          'Unisciti alla comunità o accedi per interagire con gli altri.',
-      'community_button': 'Esplora la comunità',
+          'Unisciti alla community o accedi per interagire con gli altri.',
+      'community_button': 'Esplora la community',
 
       'chat_title': 'Chat',
       'chat_subtitle':
@@ -619,7 +748,7 @@ class AppTranslations extends Translations {
       'already_have_an_account': 'Hai già un account',
       'continue': 'Continua',
       'enter_your_email': 'Inserisci la tua email',
-      'enter_otp': 'Inserisci OTP',
+      'enter_otp': 'inserisci il codice OTP',
       'code_has_been_sent_to': 'Il codice è stato inviato a',
       'resend_otp': 'Reinvia OTP',
       'resend_otp_in': 'Reinvia codice in',
@@ -809,7 +938,7 @@ class AppTranslations extends Translations {
       'inspirations': 'Ispirazioni',
       'let_yourself_be_inspired_to_create_your_perfect_event':
           'Lasciati ispirare per creare il tuo evento perfetto',
-      'community': 'Comunità',
+      'community': 'Community',
       'connect_with_other_user': 'Connettiti con altri utenti',
       'tailor_made_solutions_for_your_event':
           'Soluzioni su misura per il tuo evento: scegli, personalizza e noi pensiamo a tutto',
@@ -928,7 +1057,7 @@ class AppTranslations extends Translations {
       'submit': 'Invia',
       'apply': 'Applica',
       'send_now': 'Invia ora',
-      'select_amount': 'Seleziona importo',
+      'select_amount': 'seleziona importo',
       'select_supplier': 'Seleziona fornitore',
       'upload_receipt': 'Carica ricevuta',
       'click_to_upload': 'Clicca per caricare',
@@ -945,7 +1074,7 @@ class AppTranslations extends Translations {
       'new_post': 'Nuovo post',
       'most_comment': 'Più commentati',
       'most_viewed': 'Più visti',
-      'no_comments_yet.': 'Ancora nessun commento.',
+      'no_comments_yet': 'non ci sono commenti',
       'version.': 'Versione',
       'back': 'Indietro',
       'select_listings': 'Seleziona inserzioni',
@@ -1015,12 +1144,12 @@ class AppTranslations extends Translations {
       'Empty Comment': 'Empty Comment',
       'Please write something before sending.':
           'Please write something before sending.',
-      'Reply': 'Reply',
+
       'Successful': 'Successful',
       'Unfollowed successfully': 'Unfollowed successfully',
       'Followed successfully': 'Followed successfully',
       'Exception': 'Exception',
-      "Delete Account": "Elimina account",
+      "Delete Account": "cancella account",
       "My Subscription": "Il mio abbonamento",
 
       "Getting Started Ideas": "Idee per Iniziare",
@@ -1066,13 +1195,13 @@ class AppTranslations extends Translations {
       "Delete": "Elimina",
 
       // Page Texts
-      "Delete Your Account": "Elimina il tuo Account",
+      "Delete Your Account": "cancella il tuo account",
       "This action is permanent and cannot be undone.\nPlease enter your password to confirm.":
           "Questa azione è permanente e non può essere annullata.\nInserisci la password per confermare.",
       "Password": "Password",
       "Logout": "Esci",
       "Are you sure you want to logout?": "Sei sicuro di voler uscire?",
-      "Cancel": "Annulla",
+
       "continue_as_a_guest": "Continua come ospite",
       'search': 'cerca',
     },

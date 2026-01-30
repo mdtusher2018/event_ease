@@ -60,7 +60,7 @@ class _SponsorshipScreenState extends State<SponsorshipScreen> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: Text(
-                    "Create Your 1st business to access the Sponsorship",
+                    "Create Your 1st business to access the Sponsorship".tr,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: AppColors.primary,
@@ -84,8 +84,8 @@ class _SponsorshipScreenState extends State<SponsorshipScreen> {
                     onPressed: () {
                       Get.toNamed(RoutesName.signUpStep);
                     },
-                    child: const Text(
-                      "Complete Profile",
+                    child: Text(
+                      "Complete Profile".tr,
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -248,72 +248,75 @@ class _SponsorshipScreenState extends State<SponsorshipScreen> {
                 ),
               ),
 
-         Obx(() {
-  if (controller.subscriptions.isEmpty) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.only(top: 16.0, bottom: 16),
-        child: Text(
-          "No Purchased Pack Found",
-          style: TextStyle(
-            fontSize: 18,
-            color: AppColors.primary,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
-    );
-  }
+              Obx(() {
+                if (controller.subscriptions.isEmpty) {
+                  return Center(
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 16.0, bottom: 16),
+                      child: Text(
+                        "No Purchased Pack Found",
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: AppColors.primary,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  );
+                }
 
-  return ListView.builder(
-    shrinkWrap: true,
-    physics: const NeverScrollableScrollPhysics(),
-    itemCount: controller.subscriptions.length,
-    itemBuilder: (context, index) {
-      final subscriptionWrapper = controller.subscriptions[index];
-      final subscription = subscriptionWrapper.subscription;
-      final option = subscription.options[subscriptionWrapper.subscriptionOptionIndex];
-//  ${remainingCredits.toStringAsFixed(2)} 
-      String footerText =
-          (subscriptionWrapper.status == "notActivate")
-              ? "The pack must be activated within ${option.refoundDays.toInt()} days; otherwise, it will be removed, and the amount will be converted into advertising credits."
-              : "By blocking the pack, the remaining amount will be converted into advertising credits. You will receive ${subscriptionWrapper.potentialCredits.toStringAsFixed(2)} credits.";
+                return ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: controller.subscriptions.length,
+                  itemBuilder: (context, index) {
+                    final subscriptionWrapper = controller.subscriptions[index];
+                    final subscription = subscriptionWrapper.subscription;
+                    final option =
+                        subscription.options[subscriptionWrapper
+                            .subscriptionOptionIndex];
+                    //  ${remainingCredits.toStringAsFixed(2)}
+                    String footerText =
+                        (subscriptionWrapper.status == "notActivate")
+                            ? "The pack must be activated within ${option.refoundDays.toInt()} days; otherwise, it will be removed, and the amount will be converted into advertising credits."
+                            : "By blocking the pack, the remaining amount will be converted into advertising credits. You will receive ${subscriptionWrapper.potentialCredits.toStringAsFixed(2)} credits.";
 
-      return SubscriptionCard(
-        businessName: subscriptionWrapper.subscriptionFor.name,
-        title: subscription.title,
-        subtitle: subscription.subTitle,
-        features: subscription.feature,
-        buttonText:
-            (subscriptionWrapper.status == "notActivate")
-                ? "Activate"
-                : (subscriptionWrapper.status == "activate")
-                    ? "Stop"
-                    : "Got Credits",
-                    controller: controller,
-        onButtonPressed: () {
-          final id = subscriptionWrapper.id;
+                    return SubscriptionCard(
+                      businessName: subscriptionWrapper.subscriptionFor.name,
+                      title: subscription.title,
+                      subtitle: subscription.subTitle,
+                      features: subscription.feature,
+                      buttonText:
+                          (subscriptionWrapper.status == "notActivate")
+                              ? "Activate"
+                              : (subscriptionWrapper.status == "activate")
+                              ? "Stop"
+                              : "Got Credits",
+                      controller: controller,
+                      onButtonPressed: () {
+                        final id = subscriptionWrapper.id;
 
-          if (subscriptionWrapper.status == "notActivate") {
-            controller.activateSubscription(id);
-          } else if (subscriptionWrapper.status == "activate") {
-            controller.stopSubscription(id);
-          } else {
-            log("No API call needed (status: ${subscriptionWrapper.status})");
-            Get.snackbar(
-              "Info",
-              "No action required. Subscription already stopped or converted to credits.",
-              backgroundColor: Colors.blue,
-              colorText: Colors.white,
-            );
-          }
-        },
-        footerNote: footerText,
-      );
-    },
-  );
-})
-
+                        if (subscriptionWrapper.status == "notActivate") {
+                          controller.activateSubscription(id);
+                        } else if (subscriptionWrapper.status == "activate") {
+                          controller.stopSubscription(id);
+                        } else {
+                          log(
+                            "No API call needed (status: ${subscriptionWrapper.status})",
+                          );
+                          Get.snackbar(
+                            "Info",
+                            "No action required. Subscription already stopped or converted to credits.",
+                            backgroundColor: Colors.blue,
+                            colorText: Colors.white,
+                          );
+                        }
+                      },
+                      footerNote: footerText,
+                    );
+                  },
+                );
+              }),
             ],
           ),
         );
@@ -340,7 +343,8 @@ class SubscriptionCard extends StatelessWidget {
     required this.features,
     required this.buttonText,
     required this.onButtonPressed,
-    required this.footerNote,required this.controller
+    required this.footerNote,
+    required this.controller,
   });
 
   @override
@@ -418,16 +422,14 @@ class SubscriptionCard extends StatelessWidget {
               SizedBox(height: 10.h),
 
               /// Button
-              Obx(
-                 () {
-                  return CustomButton(
-                    text: buttonText,
-                    borderRadius: 12.r,
-                    isLoading: controller.buttonLoading.value,
-                    onTap: onButtonPressed,
-                  );
-                }
-              ),
+              Obx(() {
+                return CustomButton(
+                  text: buttonText,
+                  borderRadius: 12.r,
+                  isLoading: controller.buttonLoading.value,
+                  onTap: onButtonPressed,
+                );
+              }),
 
               SizedBox(height: 10.h),
 

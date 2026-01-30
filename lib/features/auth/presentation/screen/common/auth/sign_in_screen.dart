@@ -179,16 +179,16 @@ class SignInScreen extends StatelessWidget {
               SizedBox(height: 20.h),
 
               if (Platform.isIOS)
-              SizedBox(
-                width: 80,
-                child: SignInWithAppleButton(
-                  height: 50,
-                  text: "",
-                  onPressed: () async {
-                    controller.loginWithApple();
-                  },
+                SizedBox(
+                  width: 80,
+                  child: SignInWithAppleButton(
+                    height: 50,
+                    text: "",
+                    onPressed: () async {
+                      controller.loginWithApple(context);
+                    },
+                  ),
                 ),
-              ),
               SizedBox(height: 40.h),
               Padding(
                 padding: const EdgeInsets.only(bottom: 20),

@@ -6,18 +6,24 @@ import 'package:event_ease/features/auth/presentation/screen/business/sponsorshi
 import 'package:event_ease/features/auth/presentation/screen/business/sponsorship/detail_screen/widgets/commonSubscriptionCardDesign.dart';
 import 'package:event_ease/features/auth/presentation/screen/business/sponsorship/payment_selection_page.dart';
 import 'package:event_ease/features/auth/presentation/screen/common/profile/help_center/help_center_screen.dart';
+import 'package:event_ease/features/auth/presentation/utils/app_string.dart';
 import 'package:event_ease/features/auth/presentation/utils/styles.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-
 class BusinessProfileCardScreen extends StatelessWidget {
-  String id;String? selectedPlan;String businessName;
-   BusinessProfileCardScreen({super.key,required this.id,this.selectedPlan,required this.businessName});
+  String id;
+  String? selectedPlan;
+  String businessName;
+  BusinessProfileCardScreen({
+    super.key,
+    required this.id,
+    this.selectedPlan,
+    required this.businessName,
+  });
   final controller = Get.put(BusinessSubscriptionProfileController());
-
 
   @override
   Widget build(BuildContext context) {
@@ -34,13 +40,14 @@ class BusinessProfileCardScreen extends StatelessWidget {
         child: Column(
           children: [
             Text(
-              "Choose the Level of Visibility You Want!",
+              "Choose the Level of Visibility You Want!".tr,
               style: styleForBoldText.copyWith(fontSize: 30.sp),
               textAlign: TextAlign.center,
             ),
-            SizedBox(height: 10.h,),
+            SizedBox(height: 10.h),
             Text(
-              "The higher the package, the more visibility you get in search results.",
+              "The higher the package, the more visibility you get in search results."
+                  .tr,
               style: styleForNormalText.copyWith(
                 fontSize: 20.sp,
                 fontWeight: FontWeight.w600,
@@ -50,58 +57,64 @@ class BusinessProfileCardScreen extends StatelessWidget {
             ),
             SizedBox(height: 10.h),
             Text(
-              "Business Profile",
+              "Business Profile".tr,
               style: styleForBoldText.copyWith(fontSize: 24.sp),
             ),
             Text(
-              "Promote your business profile in search result",
+              "Promote your business profile in search result".tr,
               style: styleForNormalText.copyWith(
                 fontSize: 18.sp,
                 fontWeight: FontWeight.w600,
                 height: 1.56.h,
               ),
               textAlign: TextAlign.center,
-            ),          
+            ),
 
- Obx(() {
-        if (controller.isLoading.value) {
-          return Center(child: CircularProgressIndicator());
-        }
+            Obx(() {
+              if (controller.isLoading.value) {
+                return Center(child: CircularProgressIndicator());
+              }
 
-        return ListView.builder(
-          padding: EdgeInsets.all(16.w),
-          physics: NeverScrollableScrollPhysics(),
-          
-          shrinkWrap: true,
-          itemCount: controller.subscriptionPlans.length,
-          itemBuilder: (context, index) {
-            final model = controller.subscriptionPlans[index];
-            return SubscriptionCard(model: model,
-            targetedIndex: (model.title==selectedPlan)?index:null,
-            selectButtonOnTap: (){
-              // Get.to(PaymentMethodScreen(amount: model.options.first.price.toDouble(),
-              // duration: model.options.first.expirationDays as int,
-              // subscriptionFor: id,
-              // subscriptionForType: "Business",subscriptionId: model.id,
-              // subscriptionOptionIndex: 0,
-              // name: businessName,
-              // subscriptionName: model.title,
-              // ));
-            },onOptionTap: (i){
-                Get.to(PaymentMethodScreen(amount: model.options[i].price.toDouble(),
-              duration: model.options[i].expirationDays as int,
-              subscriptionFor: id,
-              subscriptionForType: "Business",subscriptionId: model.id,
-              subscriptionOptionIndex: i,
-              subscriptionName: model.title,
-              name: businessName,
-              ));
-            },indexFonExpantion: index,);
-          },
-        );
-      }),
+              return ListView.builder(
+                padding: EdgeInsets.all(16.w),
+                physics: NeverScrollableScrollPhysics(),
 
-
+                shrinkWrap: true,
+                itemCount: controller.subscriptionPlans.length,
+                itemBuilder: (context, index) {
+                  final model = controller.subscriptionPlans[index];
+                  return SubscriptionCard(
+                    model: model,
+                    targetedIndex: (model.title == selectedPlan) ? index : null,
+                    selectButtonOnTap: () {
+                      // Get.to(PaymentMethodScreen(amount: model.options.first.price.toDouble(),
+                      // duration: model.options.first.expirationDays as int,
+                      // subscriptionFor: id,
+                      // subscriptionForType: "Business",subscriptionId: model.id,
+                      // subscriptionOptionIndex: 0,
+                      // name: businessName,
+                      // subscriptionName: model.title,
+                      // ));
+                    },
+                    onOptionTap: (i) {
+                      Get.to(
+                        PaymentMethodScreen(
+                          amount: model.options[i].price.toDouble(),
+                          duration: model.options[i].expirationDays as int,
+                          subscriptionFor: id,
+                          subscriptionForType: "Business",
+                          subscriptionId: model.id,
+                          subscriptionOptionIndex: i,
+                          subscriptionName: model.title,
+                          name: businessName,
+                        ),
+                      );
+                    },
+                    indexFonExpantion: index,
+                  );
+                },
+              );
+            }),
 
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -109,29 +122,35 @@ class BusinessProfileCardScreen extends StatelessWidget {
                 RichText(
                   textAlign: TextAlign.center,
                   text: TextSpan(
-                    text: 'Want customized visibility?',
+                    text: 'Want customized visibility?'.tr,
                     style: styleForNormalText.copyWith(
                       color: Colors.black,
                       fontSize: 16.sp,
-                        fontWeight: FontWeight.w500
+                      fontWeight: FontWeight.w500,
                     ),
                     children: [
-                      TextSpan(recognizer:  TapGestureRecognizer()
-          ..onTap = () {
-            // TODO: Add your navigation or action
-            Get.to(() => HelpCenterScreen(target: 1,)); 
-          },
-                        text: ' Contact Us ',
-                        style: styleForBoldText.copyWith(fontSize: 16.sp,decoration: TextDecoration.underline,
-                            height: 1.50),),
-                        TextSpan(
-                          text: 'for a personalized package!',
-                          style: styleForNormalText.copyWith(
-                            color: Colors.black,
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16.sp,
-                          ),
+                      TextSpan(
+                        recognizer:
+                            TapGestureRecognizer()
+                              ..onTap = () {
+                                // TODO: Add your navigation or action
+                                Get.to(() => HelpCenterScreen(target: 1));
+                              },
+                        text: ' ${AppString.contactUs} ',
+                        style: styleForBoldText.copyWith(
+                          fontSize: 16.sp,
+                          decoration: TextDecoration.underline,
+                          height: 1.50,
                         ),
+                      ),
+                      TextSpan(
+                        text: 'for a personalized package!'.tr,
+                        style: styleForNormalText.copyWith(
+                          color: Colors.black,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 16.sp,
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -143,7 +162,4 @@ class BusinessProfileCardScreen extends StatelessWidget {
       ),
     );
   }
-
-
-
 }

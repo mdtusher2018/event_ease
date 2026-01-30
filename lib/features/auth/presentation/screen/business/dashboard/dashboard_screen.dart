@@ -73,7 +73,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     child: Text(
-                      "Create Your 1st business to access the Dashboard",
+                      "Create Your 1st business to access the Dashboard".tr,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: AppColors.primary,
@@ -97,8 +97,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       onPressed: () {
                         Get.toNamed(RoutesName.signUpStep);
                       },
-                      child: const Text(
-                        "Complete Profile",
+                      child: Text(
+                        "Complete Profile".tr,
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -960,9 +960,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       color: Colors.grey[700],
                     ),
                     children: [
-                      const TextSpan(
+                       TextSpan(
                         text:
-                            "By clicking this button, you will send a notification to all the followers of this listing:\nLISTING: ",
+                            "${"By clicking this button, you will send a notification to all the followers of this listing:".tr}\nLISTING: ",
                       ),
                       TextSpan(
                         text:

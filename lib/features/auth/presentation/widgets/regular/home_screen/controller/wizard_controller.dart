@@ -50,7 +50,7 @@ class WizardController extends GetxController {
 
         log("event catagory====================$eventCatagory");
       } else {
-        Get.snackbar("Error".tr, "No Data Found");
+        Get.snackbar("Error".tr, "No data found".tr);
       }
     } catch (e) {
       log("Exception while fetching interested users: $e");
@@ -82,7 +82,7 @@ class WizardController extends GetxController {
 
         log("buissness name ====================$buissness");
       } else {
-        Get.snackbar("Error".tr, "No Data Found");
+        Get.snackbar("Error".tr, "No data found".tr);
       }
     } catch (e) {
       log("Exception while fetching interested users: $e");
@@ -106,7 +106,7 @@ class WizardController extends GetxController {
 
         log("event name ====================$event");
       } else {
-        Get.snackbar("Error".tr, "No Data Found");
+        Get.snackbar("Error".tr, "No data found".tr);
       }
     } catch (e) {
       log("Exception while fetching interested users: $e");
@@ -121,8 +121,7 @@ class WizardController extends GetxController {
   RxList filterData = [].obs;
   RxList<EventModel> eventFilterData = <EventModel>[].obs;
 
-RxString addressForWizad="".obs;
-
+  RxString addressForWizad = "".obs;
 
   getWizard() async {
     isFilter(true);
@@ -149,42 +148,43 @@ RxString addressForWizad="".obs;
         )
         .join("&");
 
-double long=  double.parse(longitude.value);
-        double lat=double.parse(latitude.value);
-            log(
-                              "lat=======${lat}\nlng=============${long}",
-                            );
-      List<Placemark> placemarks = await placemarkFromCoordinates(
-      lat,long
-      );
+    double long = double.parse(longitude.value);
+    double lat = double.parse(latitude.value);
+    log("lat=======${lat}\nlng=============${long}");
+    List<Placemark> placemarks = await placemarkFromCoordinates(lat, long);
 
-      String address = "Roma";
-      String city = "Lazio";
-      String town = "Italy";
-      String fullAddress="";
+    String address = "Roma";
+    String city = "Lazio";
+    String town = "Italy";
+    String fullAddress = "";
 
-      if (placemarks.isNotEmpty) {
-        Placemark place = placemarks.first;
-        address = "${place.street}, ${place.subLocality}";
-        city = "${place.locality}";
-        town = "${place.administrativeArea}";
-         fullAddress = [
-  if (place.street != null && place.street!.isNotEmpty) place.street,                // e.g. 12
-  if (place.subLocality != null && place.subLocality!.isNotEmpty) place.subLocality, // e.g. Quartiere
-  if (place.locality != null && place.locality!.isNotEmpty) place.locality,          // e.g. Roma
-  if (place.administrativeArea != null && place.administrativeArea!.isNotEmpty) place.administrativeArea, // e.g. Lazio
-  if (place.postalCode != null && place.postalCode!.isNotEmpty) place.postalCode,    // e.g. 00100
-  if (place.country != null && place.country!.isNotEmpty) place.country,             // e.g. Italy
-].join(", ");
-      }
+    if (placemarks.isNotEmpty) {
+      Placemark place = placemarks.first;
+      address = "${place.street}, ${place.subLocality}";
+      city = "${place.locality}";
+      town = "${place.administrativeArea}";
+      fullAddress = [
+        if (place.street != null && place.street!.isNotEmpty)
+          place.street, // e.g. 12
+        if (place.subLocality != null && place.subLocality!.isNotEmpty)
+          place.subLocality, // e.g. Quartiere
+        if (place.locality != null && place.locality!.isNotEmpty)
+          place.locality, // e.g. Roma
+        if (place.administrativeArea != null &&
+            place.administrativeArea!.isNotEmpty)
+          place.administrativeArea, // e.g. Lazio
+        if (place.postalCode != null && place.postalCode!.isNotEmpty)
+          place.postalCode, // e.g. 00100
+        if (place.country != null && place.country!.isNotEmpty)
+          place.country, // e.g. Italy
+      ].join(", ");
+    }
 
-      
+    log(
+      "Address: $address, City: $city, Town: $town, full address: $fullAddress",
+    );
 
-      log("Address: $address, City: $city, Town: $town, full address: $fullAddress");
-
-
-    log(searchCtl.value.text+"=========>>>>>>>>> searchCtl");
-
+    log(searchCtl.value.text + "=========>>>>>>>>> searchCtl");
 
     String createdUrl =
         "${AppUrl.getwizard}?$catagoryQuery&longitude=$longitude&latitude=$latitude&maxGuest=$peopleAttend&$serviceQuery&$additionalServiceQuery&priceRange=$selectedBudget&maxDistance=${distance.value}&city=$city&town=$town&address=${searchCtl.value.text}";
@@ -205,7 +205,7 @@ double long=  double.parse(longitude.value);
         log("wizard list====================$data");
         log("wizard list filterData ====================$filterData");
       } else {
-        Get.snackbar("Error".tr, "No Data Found");
+        Get.snackbar("Error".tr, "No data found".tr);
       }
     } catch (e) {
       log("Exception while fetching interested users: $e");
@@ -224,11 +224,10 @@ double long=  double.parse(longitude.value);
     String? customAddress,
     String? customFulladdress,
     String? customLongitude,
-    String? customLatitude
+    String? customLatitude,
   }) async {
     isFilter(true);
     try {
-   
       Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high,
       );
@@ -258,11 +257,20 @@ double long=  double.parse(longitude.value);
       var response = await ApiService.to.getApi(
         AppUrl.freeSearch(
           searchValue: searchValue,
-          address: (customLocation) ? (customFulladdress!=null && customFulladdress.isNotEmpty)? customFulladdress: customAddress : address,
+          address:
+              (customLocation)
+                  ? (customFulladdress != null && customFulladdress.isNotEmpty)
+                      ? customFulladdress
+                      : customAddress
+                  : address,
           city: (customLocation) ? customCity : city,
           town: (customLocation) ? customTown : town,
-          latitude:(customLocation)?customLatitude: position.latitude.toString(),
-          longitude:(customLocation)?customLongitude: position.longitude.toString(),
+          latitude:
+              (customLocation) ? customLatitude : position.latitude.toString(),
+          longitude:
+              (customLocation)
+                  ? customLongitude
+                  : position.longitude.toString(),
         ),
       );
       List data = response.data;
@@ -279,7 +287,7 @@ double long=  double.parse(longitude.value);
 
         log("Free search====================$data");
       } else {
-        Get.snackbar("Error".tr, "No Data Found");
+        Get.snackbar("Error".tr, "No data found".tr);
       }
     } catch (e) {
       log("Exception while fetching interested users: $e");
@@ -288,17 +296,18 @@ double long=  double.parse(longitude.value);
     }
   }
 
-  getFreeEventSearchData({String searchValue = "",    bool customLocation = false,
+  getFreeEventSearchData({
+    String searchValue = "",
+    bool customLocation = false,
     String? customCity,
     String? customTown,
     String? customAddress,
     String? customFulladdress,
     String? customLongitude,
-    String? customLatitude}) async {
+    String? customLatitude,
+  }) async {
     isEventFilter(true);
     try {
-
-
       Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high,
       );
@@ -324,15 +333,23 @@ double long=  double.parse(longitude.value);
 
       log("Address: $address, City: $city, Town: $town");
 
-
       var response = await ApiService.to.getApi(
-        AppUrl.freeEventSearch(          searchValue: searchValue,
-          address: (customLocation) ? (customFulladdress!=null && customFulladdress.isNotEmpty)? customFulladdress:  customAddress : address,
+        AppUrl.freeEventSearch(
+          searchValue: searchValue,
+          address:
+              (customLocation)
+                  ? (customFulladdress != null && customFulladdress.isNotEmpty)
+                      ? customFulladdress
+                      : customAddress
+                  : address,
           city: (customLocation) ? customCity : city,
           town: (customLocation) ? customTown : town,
-          latitude:(customLocation)?customLatitude: position.latitude.toString(),
-          longitude:(customLocation)?customLongitude: position.longitude.toString(),
-        
+          latitude:
+              (customLocation) ? customLatitude : position.latitude.toString(),
+          longitude:
+              (customLocation)
+                  ? customLongitude
+                  : position.longitude.toString(),
         ),
       );
       List data = response.data['data'];
@@ -349,7 +366,7 @@ double long=  double.parse(longitude.value);
 
         log("Free search====================$data");
       } else {
-        Get.snackbar("Error".tr, "No Data Found");
+        Get.snackbar("Error".tr, "No data found".tr);
       }
     } catch (e) {
       log("Exception while fetching interested users: $e");
@@ -375,33 +392,40 @@ double long=  double.parse(longitude.value);
   getFilteredBuissness() async {
     isBuissnessFilter(true);
     String sortByQuery = sortBy == "High to Low" ? "dsc" : "asc";
-    String categoryName = eventType.map((e) => "categoryName=${e.contains('&') ? e.replaceAll('&', '%26') : e}").join("&");
-    String budget = buissnessBudget.map((e) => "priceRange=${e.contains('&') ? e.replaceAll('&', '%26') : e}").join("&");
+    String categoryName = eventType
+        .map(
+          (e) =>
+              "categoryName=${e.contains('&') ? e.replaceAll('&', '%26') : e}",
+        )
+        .join("&");
+    String budget = buissnessBudget
+        .map(
+          (e) => "priceRange=${e.contains('&') ? e.replaceAll('&', '%26') : e}",
+        )
+        .join("&");
 
+    // 2️⃣ Convert lat/lng to address
+    List<Placemark> placemarks = await placemarkFromCoordinates(
+      double.parse(buissnessLat.value),
+      double.parse(buissnessLng.value),
+    );
 
+    String address = "Roma";
+    String city = "Lazio";
+    String town = "Italy";
 
+    if (placemarks.isNotEmpty) {
+      Placemark place = placemarks.first;
+      address = "${place.street}, ${place.subLocality}";
+      city = "${place.locality}";
+      town = "${place.subLocality}";
+    }
 
-      // 2️⃣ Convert lat/lng to address
-      List<Placemark> placemarks = await placemarkFromCoordinates(
-        double.parse(buissnessLat.value),
-        double.parse(buissnessLng.value),
-      );
+    log("Address: $address, City: $city, Town: $town");
 
-      String address = "Roma";
-      String city = "Lazio";
-      String town = "Italy";
-
-      if (placemarks.isNotEmpty) {
-        Placemark place = placemarks.first;
-        address ="${place.street}, ${place.subLocality}";
-        city = "${place.locality}";
-        town = "${place.subLocality}";
-      }
-
-      log("Address: $address, City: $city, Town: $town");
-
-address= (searchCtl.value.text.isNotEmpty)? searchCtl.value.text:address;
-log(address+">>>>>>>>>>>>>>>");
+    address =
+        (searchCtl.value.text.isNotEmpty) ? searchCtl.value.text : address;
+    log(address + ">>>>>>>>>>>>>>>");
 
     String createdUrl =
         "${AppUrl.buissnessFilter}?$categoryName&priceRange=$budget&maxGuest=$maxGuest&longitude=$buissnessLng&latitude=$buissnessLat&sortPriceRange=$sortByQuery&town=$town&address=$address&city=$city";
@@ -417,7 +441,7 @@ log(address+">>>>>>>>>>>>>>>");
             data.map((value) => WizardModel.fromJson(value)).toList();
         log("Buissness list====================$bussnessFilter");
       } else {
-        Get.snackbar("Error".tr, "No Data Found");
+        Get.snackbar("Error".tr, "No data found".tr);
       }
     } catch (e) {
       log("Exception while fetching interested users: $e");

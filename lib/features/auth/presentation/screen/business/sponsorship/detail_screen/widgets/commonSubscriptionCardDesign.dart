@@ -1,4 +1,3 @@
-
 // ignore_for_file: must_be_immutable
 
 import 'package:event_ease/features/auth/presentation/screen/business/sponsorship/api/business_subscription_model.dart';
@@ -10,14 +9,21 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SubscriptionCard extends StatefulWidget {
   final SubscriptionModel model;
-Function()? selectButtonOnTap;
-int indexFonExpantion;
-int? targetedIndex;
-final void Function(int)? onOptionTap;
-   SubscriptionCard({Key? key,this.targetedIndex, required this.model,required this.selectButtonOnTap,required this.onOptionTap,required this.indexFonExpantion}) : super(key: key);
+  Function()? selectButtonOnTap;
+  int indexFonExpantion;
+  int? targetedIndex;
+  final void Function(int)? onOptionTap;
+  SubscriptionCard({
+    Key? key,
+    this.targetedIndex,
+    required this.model,
+    required this.selectButtonOnTap,
+    required this.onOptionTap,
+    required this.indexFonExpantion,
+  }) : super(key: key);
 
   @override
-State<SubscriptionCard> createState() => _SubscriptionCardState();
+  State<SubscriptionCard> createState() => _SubscriptionCardState();
 }
 
 class _SubscriptionCardState extends State<SubscriptionCard> {
@@ -28,15 +34,17 @@ class _SubscriptionCardState extends State<SubscriptionCard> {
       _isExpanded = !_isExpanded;
     });
   }
-@override
+
+  @override
   void initState() {
     // TODO: implement initState
     super.initState();
 
-if(widget.indexFonExpantion==widget.targetedIndex){
-    _isExpanded=true;
-}
+    if (widget.indexFonExpantion == widget.targetedIndex) {
+      _isExpanded = true;
+    }
   }
+
   @override
   Widget build(BuildContext context) {
     final model = widget.model;
@@ -68,12 +76,23 @@ if(widget.indexFonExpantion==widget.targetedIndex){
             ),
           ),
           SizedBox(height: 10.h),
-          Text("Package Includes:", style: styleForBoldText.copyWith(fontSize: 18.sp)),
+          Text(
+            "Package Includes:",
+            style: styleForBoldText.copyWith(fontSize: 18.sp),
+          ),
           SizedBox(height: 10.h),
-          ...model.feature.map((f) => Padding(
-                padding: EdgeInsets.only(bottom: 5.h),
-                child: Text("• $f", style: styleForNormalText.copyWith(fontSize: 16.sp, fontWeight: FontWeight.w600)),
-              )),
+          ...model.feature.map(
+            (f) => Padding(
+              padding: EdgeInsets.only(bottom: 5.h),
+              child: Text(
+                "• $f",
+                style: styleForNormalText.copyWith(
+                  fontSize: 16.sp,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+          ),
           SizedBox(height: 10.h),
 
           // ExpansionTile with manual control
@@ -87,7 +106,7 @@ if(widget.indexFonExpantion==widget.targetedIndex){
                   _isExpanded = value;
                 });
               },
-              trailing:SizedBox(),
+              trailing: SizedBox(),
               //  ElevatedButton(
               //   style: ButtonStyle(
               //     backgroundColor: WidgetStatePropertyAll(AppColors.primary),
@@ -102,7 +121,10 @@ if(widget.indexFonExpantion==widget.targetedIndex){
               //     ),
               //   ),
               // ),
-              title: Text("Starting From €${model.options.first.price}", style: styleForBoldText),
+              title: Text(
+                "Starting From €${model.options.first.price}",
+                style: styleForBoldText,
+              ),
               children: [
                 SizedBox(
                   height: 250,
@@ -119,9 +141,9 @@ if(widget.indexFonExpantion==widget.targetedIndex){
                       final option = model.options[index];
                       return GestureDetector(
                         onTap: () {
-      if (widget.onOptionTap != null) {
-        widget.onOptionTap!(index); 
-      }
+                          if (widget.onOptionTap != null) {
+                            widget.onOptionTap!(index);
+                          }
                         },
                         child: Container(
                           padding: EdgeInsets.all(10),
@@ -141,13 +163,17 @@ if(widget.indexFonExpantion==widget.targetedIndex){
                               ),
                               SizedBox(height: 5.h),
                               Text(
-                                "\$${option.price}",
-                                style: styleForBoldText.copyWith(fontSize: 24.sp),
+                                "€${option.price}",
+                                style: styleForBoldText.copyWith(
+                                  fontSize: 24.sp,
+                                ),
                               ),
                               SizedBox(height: 5.h),
                               Text(
                                 "Expires in ${option.expirationDays} days",
-                                style: styleForNormalText.copyWith(fontSize: 12.sp),
+                                style: styleForNormalText.copyWith(
+                                  fontSize: 12.sp,
+                                ),
                               ),
                             ],
                           ),
@@ -155,15 +181,18 @@ if(widget.indexFonExpantion==widget.targetedIndex){
                       );
                     },
                   ),
-                )
+                ),
               ],
             ),
           ),
-       
-         CustomButton(text:_isExpanded ? "Hide" :  "Select", borderRadius: 16,onTap:_toggleExpansion ,),
+
+          CustomButton(
+            text: _isExpanded ? "Hide" : "Select",
+            borderRadius: 16,
+            onTap: _toggleExpansion,
+          ),
         ],
       ),
     );
   }
 }
-

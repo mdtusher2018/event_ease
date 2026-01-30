@@ -33,7 +33,7 @@ class _ChatScreenState extends State<ChatScreen> {
     super.initState();
     controller.getChatListDetails();
     controller.initializeChat();
-    
+
     log(">>>>>>>>>>>>>>>>>> Socket status ${SocketServices.socket.connected}");
   }
 
@@ -75,80 +75,135 @@ class _ChatScreenState extends State<ChatScreen> {
                             });
                           },
                         ),
-                    
+
                         SizedBox(height: 10.h),
+
                         // Chat List View
-                        
                         Expanded(
-                          child:(controller.chatListData.isEmpty)?
-                        Center(child: Text("No Chat Found",style: TextStyle(color: AppColors.primary,fontSize: 21),),): ListView.builder(
-                            padding: EdgeInsets.zero,
-                            shrinkWrap: true,
-                            
-                            itemCount:
-                                controller.searchCtl.value.text.isEmpty
-                                    ? controller.chatListData.length
-                                    : controller.filterUsers.length,
-                            itemBuilder: (context, index) {
-                              ChatModel data =
-                                  controller.searchCtl.value.text.isEmpty
-                                      ? controller.chatListData[index]
-                                      : controller.filterUsers[index];
-                                              
-                              final user =
-                                  data.chat.users.isNotEmpty
-                                      ? data.chat.users[0]
-                                      : null;
-                                              
-                              return InkWell(
-                                onTap: () {
-                                                 
-                                              
-                                  Get.toNamed(
-                                    RoutesName.chatting,
-                                    arguments: {
-                                      "chatId": data.chat.id,
-                                      'isAdmin':user?.role == "admin",
-                                     "name": user?.role == "admin"?data.chat.chatName:(PrefsHelper.userId==data.chat.contextOwner)?data.chat.userName:data.chat.chatName,
-                                    "chatName":user?.role == "admin"?"": (PrefsHelper.userId!=data.chat.contextOwner)?"":data.chat.chatName,
-                                      "image": ((PrefsHelper.userId==data.chat.contextOwner)?"${user?.profileImage}":data.chat.chatImage),
-                                      "closed":data.chat.status=="closed"
+                          child:
+                              (controller.chatListData.isEmpty)
+                                  ? Center(
+                                    child: Text(
+                                      "No Chat Found".tr,
+                                      style: TextStyle(
+                                        color: AppColors.primary,
+                                        fontSize: 21,
+                                      ),
+                                    ),
+                                  )
+                                  : ListView.builder(
+                                    padding: EdgeInsets.zero,
+                                    shrinkWrap: true,
+
+                                    itemCount:
+                                        controller.searchCtl.value.text.isEmpty
+                                            ? controller.chatListData.length
+                                            : controller.filterUsers.length,
+                                    itemBuilder: (context, index) {
+                                      ChatModel data =
+                                          controller
+                                                  .searchCtl
+                                                  .value
+                                                  .text
+                                                  .isEmpty
+                                              ? controller.chatListData[index]
+                                              : controller.filterUsers[index];
+
+                                      final user =
+                                          data.chat.users.isNotEmpty
+                                              ? data.chat.users[0]
+                                              : null;
+
+                                      return InkWell(
+                                        onTap: () {
+                                          Get.toNamed(
+                                            RoutesName.chatting,
+                                            arguments: {
+                                              "chatId": data.chat.id,
+                                              'isAdmin': user?.role == "admin",
+                                              "name":
+                                                  user?.role == "admin"
+                                                      ? data.chat.chatName
+                                                      : (PrefsHelper.userId ==
+                                                          data
+                                                              .chat
+                                                              .contextOwner)
+                                                      ? data.chat.userName
+                                                      : data.chat.chatName,
+                                              "chatName":
+                                                  user?.role == "admin"
+                                                      ? ""
+                                                      : (PrefsHelper.userId !=
+                                                          data
+                                                              .chat
+                                                              .contextOwner)
+                                                      ? ""
+                                                      : data.chat.chatName,
+                                              "image":
+                                                  ((PrefsHelper.userId ==
+                                                          data
+                                                              .chat
+                                                              .contextOwner)
+                                                      ? "${user?.profileImage}"
+                                                      : data.chat.chatImage),
+                                              "closed":
+                                                  data.chat.status == "closed",
+                                            },
+                                          );
+
+                                          ChattingController.instance
+                                              .getMessage();
+                                        },
+                                        child: CustomChatListTile(
+                                          isClosed:
+                                              data.chat.status == "closed",
+                                          bgColor:
+                                              user?.role == "admin"
+                                                  ? AppColors.textFieldBg
+                                                  : Colors.transparent,
+                                          borderColor:
+                                              user?.role == "admin"
+                                                  ? AppColors.primary
+                                                  : Colors.transparent,
+                                          profileImage:
+                                              ((PrefsHelper.userId ==
+                                                      data.chat.contextOwner)
+                                                  ? "${user?.profileImage}"
+                                                  : data.chat.chatImage),
+                                          name:
+                                              user?.role == "admin"
+                                                  ? data.chat.chatName
+                                                  : (PrefsHelper.userId ==
+                                                      data.chat.contextOwner)
+                                                  ? data.chat.userName
+                                                  : data.chat.chatName,
+                                          chatname:
+                                              user?.role == "admin"
+                                                  ? ""
+                                                  : (PrefsHelper.userId !=
+                                                      data.chat.contextOwner)
+                                                  ? ""
+                                                  : data.chat.chatName,
+                                          msg:
+                                              data.message.isNotEmpty
+                                                  ? data.message
+                                                  : "New connection",
+                                          time:
+                                              data
+                                                      .lastMessageCreatedAt
+                                                      .isNotEmpty
+                                                  ? OtherHelper.formatTo12Hour(
+                                                    data.lastMessageCreatedAt,
+                                                  )
+                                                  : OtherHelper.formatTo12Hour(
+                                                    data.chat.createdAt,
+                                                  ),
+                                        ),
+                                      );
                                     },
-                                  );
-                                              
-                                  ChattingController.instance.getMessage();
-                                },
-                                child:CustomChatListTile(
-                                    isClosed: data.chat.status=="closed",
-                                    bgColor:
-                                        user?.role == "admin"
-                                            ? AppColors.textFieldBg
-                                            : Colors.transparent,
-                                    borderColor:
-                                        user?.role == "admin"
-                                            ? AppColors.primary
-                                            : Colors.transparent,
-                                    profileImage: ((PrefsHelper.userId==data.chat.contextOwner)?"${user?.profileImage}":data.chat.chatImage),
-                                    name: user?.role == "admin"?data.chat.chatName:(PrefsHelper.userId==data.chat.contextOwner)?data.chat.userName:data.chat.chatName,
-                                    chatname:user?.role == "admin"?"": (PrefsHelper.userId!=data.chat.contextOwner)?"":data.chat.chatName,
-                                    msg:
-                                        data.message.isNotEmpty
-                                            ? data.message
-                                            : "New connection",
-                                    time:
-                                        data.lastMessageCreatedAt.isNotEmpty
-                                            ? OtherHelper.formatTo12Hour(
-                                              data.lastMessageCreatedAt,
-                                            )
-                                            : OtherHelper.formatTo12Hour(
-                                              data.chat.createdAt,
-                                            ),
                                   ),
-                              );
-                            },
-                          ),
                         ),
-                    
+
                         SizedBox(height: 90.h),
                       ],
                     ),

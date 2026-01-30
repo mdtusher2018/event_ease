@@ -39,7 +39,7 @@ class _CreateNewJobState extends State<CreateNewJob> {
   bool galleryUploaded = false;
   bool coverImage = false;
   bool logoUploaded = false;
-   String? selectedBusiness;
+  String? selectedBusiness;
 
   final TextEditingController roleController = TextEditingController();
   final TextEditingController salaryController = TextEditingController();
@@ -134,19 +134,18 @@ class _CreateNewJobState extends State<CreateNewJob> {
     }
   }
 
-void pickGalleryImage() async {
-  final ImagePicker picker = ImagePicker();
-  final List<XFile>? pickedFiles = await picker.pickMultiImage();
+  void pickGalleryImage() async {
+    final ImagePicker picker = ImagePicker();
+    final List<XFile>? pickedFiles = await picker.pickMultiImage();
 
-  if (pickedFiles != null && pickedFiles.isNotEmpty) {
-    setState(() {
-      galleryImagePath.addAll(pickedFiles.map((file) => file.path));
-      galleryUploaded = galleryImagePath.isNotEmpty;
-    });
-    print('Gallery images: $galleryImagePath');
+    if (pickedFiles != null && pickedFiles.isNotEmpty) {
+      setState(() {
+        galleryImagePath.addAll(pickedFiles.map((file) => file.path));
+        galleryUploaded = galleryImagePath.isNotEmpty;
+      });
+      print('Gallery images: $galleryImagePath');
+    }
   }
-}
-
 
   void addFAQField() {
     setState(() {
@@ -170,7 +169,7 @@ void pickGalleryImage() async {
       appBar: AppBar(
         backgroundColor: Colors.white,
         title: Text(
-          "Create New Job",
+          "Create New Job".tr,
           style: styleForBoldText.copyWith(fontSize: 22),
         ),
       ),
@@ -225,66 +224,61 @@ void pickGalleryImage() async {
                       Text("2. ${AppString.image}", style: styleForBoldText),
                       const SizedBox(height: 10),
 
-                      
-                              ReusableImagePicker(
-                      title: "${AppString.logo} *",
-                      isUploaded: logoUploaded,
-                      filePaths: [logoImagePath],
-                      onTap: () async {
-                        final path = await pickImageFromGallery();
-                        if (path != null) {
-                          setState(() { 
-                          logoImagePath = path;
-                        logoUploaded = true;
-                        }
-                        );
-                        }
+                      ReusableImagePicker(
+                        title: "${AppString.logo} *",
+                        isUploaded: logoUploaded,
+                        filePaths: [logoImagePath],
+                        onTap: () async {
+                          final path = await pickImageFromGallery();
+                          if (path != null) {
+                            setState(() {
+                              logoImagePath = path;
+                              logoUploaded = true;
+                            });
+                          }
+                        },
+                        onRemove: (path) {
+                          logoImagePath = "";
+                          setState(() {
+                            logoUploaded = false;
+                          });
+                        },
+                      ),
 
-                      },
-                      onRemove: (path) {
-                        logoImagePath="";
-                        setState(() {
-                          logoUploaded=false;
-                        });
-                      },
-                    ),
+                      ReusableImagePicker(
+                        title: "${AppString.coverImage} *",
+                        isUploaded: coverImage,
+                        filePaths: [coverImagePath],
+                        onTap: () async {
+                          final path = await pickImageFromGallery();
+                          if (path != null) {
+                            setState(() {
+                              coverImagePath = path;
+                              coverImage = true;
+                            });
+                          }
+                        },
+                        onRemove: (path) {
+                          coverImagePath = "";
+                          setState(() {
+                            coverImage = false;
+                          });
+                        },
+                      ),
 
-                    ReusableImagePicker(
-                      title: "${AppString.coverImage} *",
-                      isUploaded: coverImage,
-                      filePaths: [coverImagePath],
-                      onTap: () async {
-                        final path = await pickImageFromGallery();
-                        if (path != null) {
-                          setState(() { coverImagePath = path;
-                        coverImage = true;
-                        });
-                        }
-                      },
-                      onRemove: (path) {
-                        coverImagePath="";
-                        setState(() {
-                          coverImage=false;
-                        });
-                      },
-                    ),
-
-                      
-                ReusableImagePicker(
-  title: AppString.imageGallery,
-  isUploaded: galleryUploaded,
-  isGallery: true,
-  filePaths: galleryImagePath,
-  onTap: pickGalleryImage, // call the method below
-  onRemove: (path) {
-    setState(() {
-      galleryImagePath.remove(path);
-      galleryUploaded = galleryImagePath.isNotEmpty;
-
-    });
-  },
-),
-
+                      ReusableImagePicker(
+                        title: AppString.imageGallery,
+                        isUploaded: galleryUploaded,
+                        isGallery: true,
+                        filePaths: galleryImagePath,
+                        onTap: pickGalleryImage, // call the method below
+                        onRemove: (path) {
+                          setState(() {
+                            galleryImagePath.remove(path);
+                            galleryUploaded = galleryImagePath.isNotEmpty;
+                          });
+                        },
+                      ),
                     ],
                   ),
                 ),
@@ -393,7 +387,7 @@ void pickGalleryImage() async {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Job Categories",
+                            "Job categories".tr,
                             style: styleForBoldText.copyWith(
                               fontSize: 16,
                               color: AppColors.primary,
@@ -434,58 +428,63 @@ void pickGalleryImage() async {
                         ],
                       ),
                     ),
-SizedBox(height: 8,),
-Obx(() {
-  if (jobCreateController.myBusinesses.isEmpty) {
-    return const Center(child: CircularProgressIndicator());
-  }
+                    SizedBox(height: 8),
+                    Obx(() {
+                      if (jobCreateController.myBusinesses.isEmpty) {
+                        return const Center(child: CircularProgressIndicator());
+                      }
 
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      Text(
-        "Select Business".tr,
-        style: styleForBoldText.copyWith(
-          fontSize: 16,
-          color: AppColors.primary,
-        ),
-      ),
-      const SizedBox(height: 10),
-      DropdownButtonFormField<String>(
-        decoration: InputDecoration(
-          labelText: "Business",
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
-            borderSide: BorderSide(color: AppColors.primary),
-          ),
-        ),
-        value: selectedBusiness, // <- make sure to declare `String? selectedBusiness;`
-        items: jobCreateController.myBusinesses
-            .map(
-              (business) => DropdownMenuItem<String>(
-                value: business.id,
-                child: Text(
-                  business.name.replaceAll(RegExp(r'\s+'), ' '),
-                ),
-              ),
-            )
-            .toList(),
-        onChanged: (value) {
-          setState(() {
-            selectedBusiness = value;
-          });
-        },
-      ),
-      const SizedBox(height: 10),
-    ],
-  );
-}),
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Select business".tr,
+                            style: styleForBoldText.copyWith(
+                              fontSize: 16,
+                              color: AppColors.primary,
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          DropdownButtonFormField<String>(
+                            decoration: InputDecoration(
+                              labelText: "Business",
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide: BorderSide(
+                                  color: AppColors.primary,
+                                ),
+                              ),
+                            ),
+                            value:
+                                selectedBusiness, // <- make sure to declare `String? selectedBusiness;`
+                            items:
+                                jobCreateController.myBusinesses
+                                    .map(
+                                      (business) => DropdownMenuItem<String>(
+                                        value: business.id,
+                                        child: Text(
+                                          business.name.replaceAll(
+                                            RegExp(r'\s+'),
+                                            ' ',
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                    .toList(),
+                            onChanged: (value) {
+                              setState(() {
+                                selectedBusiness = value;
+                              });
+                            },
+                          ),
+                          const SizedBox(height: 10),
+                        ],
+                      );
+                    }),
 
-
-
-                    _buildTextField('Job Role', roleController),
+                    _buildTextField('Job role'.tr, roleController),
                     _buildDropdown(
-                      'Contract Type',
+                      'Contract type'.tr,
                       contracts,
                       selectedContract,
                       (val) {
@@ -493,12 +492,12 @@ Obx(() {
                       },
                     ),
                     _buildTextField(
-                      'Salary / Compensation',
+                      '${"Salary".tr} / Compensation',
                       salaryController,
                       hint: 'Salary',
                     ),
                     _buildDropdown(
-                      'Required Experience',
+                      'Requered experienxe'.tr,
                       experiences,
                       selectedExperience,
                       (val) {
@@ -506,7 +505,7 @@ Obx(() {
                       },
                     ),
                     _buildDropdown(
-                      'Availability Required',
+                      'Availabily required'.tr,
                       availability,
                       selectedAvailability,
                       (val) {
@@ -514,9 +513,9 @@ Obx(() {
                       },
                     ),
                     _buildTextField(
-                      'Work Hours',
+                      'Work Hours'.tr,
                       workHourController,
-                      hint: 'Add Work Hrs',
+                      hint: 'Add Work Hrs'.tr,
                     ),
                   ],
                 ),
@@ -536,7 +535,7 @@ Obx(() {
                         children: [
                           // Question field
                           Text(
-                            'Question ${index + 1}',
+                            '${"Question".tr} ${index + 1}',
                             style: styleForBoldText.copyWith(
                               fontSize: 14,
                               color: AppColors.primary,
@@ -544,7 +543,7 @@ Obx(() {
                           ),
                           SizedBox(height: 10),
                           CustomTextField(
-                            hintText: 'Add Question',
+                            hintText: 'Add Question'.tr,
                             isSuffix: false,
                             controller: questionControllers[index],
                             keyboardType: TextInputType.text,
@@ -559,7 +558,7 @@ Obx(() {
 
                           // Answer field
                           Text(
-                            'Answer ${index + 1}',
+                            '${"Answer".tr} ${index + 1}',
                             style: styleForBoldText.copyWith(
                               fontSize: 14,
                               color: AppColors.primary,
@@ -618,185 +617,189 @@ Obx(() {
 
                 const SizedBox(height: 20),
                 // Publish Button
-                Obx(
-                   () {
-                    return CustomButton(
-                      text: "Publish Job",
-                      isLoading: jobCreateController.isLoading.value,
-                      borderRadius: 16,
-                      onTap: () async {
-                        String mapContractType(String input) {
-                          switch (input.toLowerCase()) {
-                            case 'full time':
-                              return 'fullTime';
-                            case 'part time':
-                              return 'partTime';
-                            default:
-                              return 'fullTime';
-                          }
+                Obx(() {
+                  return CustomButton(
+                    text: "Publish Job".tr,
+                    isLoading: jobCreateController.isLoading.value,
+                    borderRadius: 16,
+                    onTap: () async {
+                      String mapContractType(String input) {
+                        switch (input.toLowerCase()) {
+                          case 'full time':
+                            return 'fullTime';
+                          case 'part time':
+                            return 'partTime';
+                          default:
+                            return 'fullTime';
                         }
-                    
-                        _showError(String message) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(message),
-                              backgroundColor: Colors.redAccent,
-                              behavior:
-                                  SnackBarBehavior
-                                      .floating, // makes it float instead of attaching at bottom
-                            ),
-                          );
-                        }
-                    
-                        if (jobTitleController.text.trim().isEmpty) {
-                          _showError('Job title is required.');
-                          return;
-                        }
-                    
-                        if (descriptionController.text.trim().isEmpty) {
-                          _showError('Description is required.');
-                          return;
-                        }
-                        if (coverImagePath.isEmpty) {
-                          _showError("Please add a cover image");
-                          return;
-                        }
-                    
-                        if (logoImagePath.isEmpty) {
-                          _showError("Please add a business logo");
-                          return;
-                        }
-                    
-                        if (galleryImagePath.isEmpty) {
-                          _showError("Please add at least one gallery image");
-                          return;
-                        }
-                        if (phoneController.text.trim().isEmpty) {
-                          _showError('Phone number is required.');
-                          return;
-                        }
-                    
-                        if (emailController.text.trim().isEmpty) {
-                          _showError('Email is required.');
-                          return;
-                        }
-                    
-                        if (selectedCategory == null) {
-                          _showError('Please select a job category.');
-                          return;
-                        }
-                    
-                        if (addressSearchController.text.trim().isEmpty) {
-                          _showError('Address is required.');
-                          return;
-                        }
-                    
-                        if (roleController.text.trim().isEmpty) {
-                          _showError('Role is required.');
-                          return;
-                        }
-                    
-                        if (selectedContract.trim().isEmpty) {
-                          _showError('Please select a contract type.');
-                          return;
-                        }
-                    
-                        if (salaryController.text.trim().isEmpty) {
-                          _showError('Salary is required.');
-                          return;
-                        }
-                    
-                        // if (selectedLng == null || selectedLat == null) {
-                        //   _showError('Please select a location on the map.');
-                        //   return;
-                        // }
-                    
-                        if (selectedExperience.trim().isEmpty) {
-                          _showError('Please select experience level.');
-                          return;
-                        }
-                    
-                        if (selectedAvailability.trim().isEmpty) {
-                          _showError('Please select availability.');
-                          return;
-                        }
-                    
-                        if (workHourController.text.trim().isEmpty) {
-                          _showError('Work hours are required.');
-                          return;
-                        }
-                        final faqs =
-                            List.generate(
-                                  questionControllers.length,
-                                  (index) => {
-                                    "question":
-                                        questionControllers[index].text.trim(),
-                                    "answer": answerControllers[index].text.trim(),
-                                  },
-                                )
-                                .where(
-                                  (faq) =>
-                                      faq["question"]!.isNotEmpty &&
-                                      faq["answer"]!.isNotEmpty,
-                                )
-                                .toList();
-                    
-                        if (faqs.isEmpty) {
-                          _showError("Please add at least one question & answer.");
-                          return;
-                        }
-                        log(selectedCategory!);
-                        final tempCategory = jobCreateController.jobCategories
-                            .firstWhere((e) => e.id == selectedCategory);
-                    
-                        final Map<String, String> body = {
-                          "data": jsonEncode({
-                            "title": jobTitleController.text.trim(),
-                            "description": descriptionController.text.trim(),
-                            "phoneNumber": phoneController.text.trim(),
-                            "email": emailController.text.trim(),
-                            "categoryId": selectedCategory,
-                            "category": tempCategory.name,
-                            "address": addressSearchController.text.trim(),
-                            "location": {
-                              "type": "Point",
-                              "coordinates": [selectedLng, selectedLat],
-                            },
-                                                              "businessId": jobCreateController.myBusinesses
-    .firstWhere(
-      (element) => element.id == selectedBusiness,
-    )
-    .id,
-                            "role": roleController.text.trim(),
-                            "contractType": mapContractType(selectedContract),
-                            "salery":
-                                int.tryParse(salaryController.text.trim()) ?? 0,
-                            "experience": selectedExperience,
-                            "availability": selectedAvailability.toLowerCase(),
-                            "workHour":
-                                int.tryParse(workHourController.text.trim()) ?? 40,
-                            "faq": List.generate(
-                              questionControllers.length,
-                              (index) => {
-                                "question": questionControllers[index].text.trim(),
-                                "answer": answerControllers[index].text.trim(),
-                              },
-                            ),
-                          }),
-                        };
-                    
-                        await jobCreateController.createJob(
-                          body,
-                          coverLogo: coverImagePath,
-                          businessLogo: logoImagePath,
-                          promotionLogo: '', // if you have a path
-                          galleryLogo:
-                              galleryImagePath.map((e) => File(e)).toList(),
+                      }
+
+                      _showError(String message) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(message),
+                            backgroundColor: Colors.redAccent,
+                            behavior:
+                                SnackBarBehavior
+                                    .floating, // makes it float instead of attaching at bottom
+                          ),
                         );
-                      },
-                    );
-                  }
-                ),
+                      }
+
+                      if (jobTitleController.text.trim().isEmpty) {
+                        _showError('Job title is required.');
+                        return;
+                      }
+
+                      if (descriptionController.text.trim().isEmpty) {
+                        _showError('Description is required.');
+                        return;
+                      }
+                      if (coverImagePath.isEmpty) {
+                        _showError("Please add a cover image");
+                        return;
+                      }
+
+                      if (logoImagePath.isEmpty) {
+                        _showError("Please add a business logo");
+                        return;
+                      }
+
+                      if (galleryImagePath.isEmpty) {
+                        _showError("Please add at least one gallery image");
+                        return;
+                      }
+                      if (phoneController.text.trim().isEmpty) {
+                        _showError('Phone number is required.');
+                        return;
+                      }
+
+                      if (emailController.text.trim().isEmpty) {
+                        _showError('Email is required.');
+                        return;
+                      }
+
+                      if (selectedCategory == null) {
+                        _showError('Please select a job category.');
+                        return;
+                      }
+
+                      if (addressSearchController.text.trim().isEmpty) {
+                        _showError('Address is required.');
+                        return;
+                      }
+
+                      if (roleController.text.trim().isEmpty) {
+                        _showError('Role is required.');
+                        return;
+                      }
+
+                      if (selectedContract.trim().isEmpty) {
+                        _showError('Please select a contract type.');
+                        return;
+                      }
+
+                      if (salaryController.text.trim().isEmpty) {
+                        _showError('Salary is required.');
+                        return;
+                      }
+
+                      // if (selectedLng == null || selectedLat == null) {
+                      //   _showError('Please select a location on the map.');
+                      //   return;
+                      // }
+
+                      if (selectedExperience.trim().isEmpty) {
+                        _showError('Please select experience level.');
+                        return;
+                      }
+
+                      if (selectedAvailability.trim().isEmpty) {
+                        _showError('Please select availability.');
+                        return;
+                      }
+
+                      if (workHourController.text.trim().isEmpty) {
+                        _showError('Work hours are required.');
+                        return;
+                      }
+                      final faqs =
+                          List.generate(
+                                questionControllers.length,
+                                (index) => {
+                                  "question":
+                                      questionControllers[index].text.trim(),
+                                  "answer":
+                                      answerControllers[index].text.trim(),
+                                },
+                              )
+                              .where(
+                                (faq) =>
+                                    faq["question"]!.isNotEmpty &&
+                                    faq["answer"]!.isNotEmpty,
+                              )
+                              .toList();
+
+                      if (faqs.isEmpty) {
+                        _showError(
+                          "Please add at least one question & answer.",
+                        );
+                        return;
+                      }
+                      log(selectedCategory!);
+                      final tempCategory = jobCreateController.jobCategories
+                          .firstWhere((e) => e.id == selectedCategory);
+
+                      final Map<String, String> body = {
+                        "data": jsonEncode({
+                          "title": jobTitleController.text.trim(),
+                          "description": descriptionController.text.trim(),
+                          "phoneNumber": phoneController.text.trim(),
+                          "email": emailController.text.trim(),
+                          "categoryId": selectedCategory,
+                          "category": tempCategory.name,
+                          "address": addressSearchController.text.trim(),
+                          "location": {
+                            "type": "Point",
+                            "coordinates": [selectedLng, selectedLat],
+                          },
+                          "businessId":
+                              jobCreateController.myBusinesses
+                                  .firstWhere(
+                                    (element) => element.id == selectedBusiness,
+                                  )
+                                  .id,
+                          "role": roleController.text.trim(),
+                          "contractType": mapContractType(selectedContract),
+                          "salery":
+                              int.tryParse(salaryController.text.trim()) ?? 0,
+                          "experience": selectedExperience,
+                          "availability": selectedAvailability.toLowerCase(),
+                          "workHour":
+                              int.tryParse(workHourController.text.trim()) ??
+                              40,
+                          "faq": List.generate(
+                            questionControllers.length,
+                            (index) => {
+                              "question":
+                                  questionControllers[index].text.trim(),
+                              "answer": answerControllers[index].text.trim(),
+                            },
+                          ),
+                        }),
+                      };
+
+                      await jobCreateController.createJob(
+                        body,
+                        coverLogo: coverImagePath,
+                        businessLogo: logoImagePath,
+                        promotionLogo: '', // if you have a path
+                        galleryLogo:
+                            galleryImagePath.map((e) => File(e)).toList(),
+                      );
+                    },
+                  );
+                }),
                 const SizedBox(height: 50),
               ],
             ),
@@ -822,7 +825,7 @@ Obx(() {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            label,
+            label.tr,
             style: styleForBoldText.copyWith(
               fontSize: 16,
               color: AppColors.primary,

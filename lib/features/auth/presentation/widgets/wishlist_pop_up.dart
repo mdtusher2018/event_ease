@@ -8,11 +8,17 @@ import 'package:event_ease/features/auth/presentation/widgets/custom_text_field.
 import 'package:event_ease/features/auth/presentation/widgets/wish_list_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 
 import '../models/my_model/folder_model.dart';
 
 class WishlistPopUp extends StatefulWidget {
-   WishlistPopUp({super.key, required this.id, required this.type,required this.callBackWishlisted});
+  WishlistPopUp({
+    super.key,
+    required this.id,
+    required this.type,
+    required this.callBackWishlisted,
+  });
 
   late String id;
   late String type;
@@ -26,8 +32,6 @@ class _WishlistPopUpState extends State<WishlistPopUp> {
   TextEditingController searchController = TextEditingController();
   final WishlistManager wishlistManager = WishlistManager();
 
-
-
   @override
   void dispose() {
     searchController.dispose();
@@ -40,7 +44,7 @@ class _WishlistPopUpState extends State<WishlistPopUp> {
       backgroundColor: Colors.white,
       title: Center(
         child: Text(
-          "Add to Wishlist",
+          "Add to Wishlist".tr,
           style: styleForBoldText.copyWith(fontSize: 24.sp),
         ),
       ),
@@ -55,7 +59,7 @@ class _WishlistPopUpState extends State<WishlistPopUp> {
                 children: [
                   Expanded(
                     child: CustomTextField(
-                      hintText: "Type",
+                      hintText: "Type".tr,
                       isSuffix: false,
                       controller: searchController,
                       contentPadding: 10,
@@ -66,8 +70,11 @@ class _WishlistPopUpState extends State<WishlistPopUp> {
                   const SizedBox(width: 10),
                   InkWell(
                     onTap: () {
-                      FavoriteController.instance.createBookmark(id: widget.id, folderName: searchController.text,type: widget.type);
-                      
+                      FavoriteController.instance.createBookmark(
+                        id: widget.id,
+                        folderName: searchController.text,
+                        type: widget.type,
+                      );
                     },
                     child: CircleAvatar(
                       radius: 20,
@@ -102,10 +109,15 @@ class _WishlistPopUpState extends State<WishlistPopUp> {
                                 Expanded(
                                   child: CustomButton(
                                     onTap: () {
-                                      FavoriteController.instance.createBookmark(id: widget.id, folderName: data.folderName,type: widget.type).then((value) {
-                                                   widget.callBackWishlisted(value);
-                                      },);
-                           
+                                      FavoriteController.instance
+                                          .createBookmark(
+                                            id: widget.id,
+                                            folderName: data.folderName,
+                                            type: widget.type,
+                                          )
+                                          .then((value) {
+                                            widget.callBackWishlisted(value);
+                                          });
                                     },
                                     text: data.folderName,
                                     backgroundColor: AppColors.textFieldBg,
@@ -138,7 +150,7 @@ class _WishlistPopUpState extends State<WishlistPopUp> {
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(context),
-          child: const Text('Close'),
+          child: Text('Close'.tr),
         ),
       ],
     );

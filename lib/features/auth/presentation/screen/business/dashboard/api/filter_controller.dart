@@ -14,7 +14,7 @@ class FilterController extends GetxController {
       // var data = response.data;
       if (response.statusCode == 200) {
       } else {
-        Get.snackbar("Error".tr,"No Data Found");
+        Get.snackbar("Error".tr, "No data found".tr.tr);
       }
     } catch (e, s) {
       log("Catch Error: $e  \n Catch line======$s");

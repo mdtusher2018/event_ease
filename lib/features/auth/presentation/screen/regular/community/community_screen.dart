@@ -222,7 +222,7 @@ class _CommunityScreenState extends State<CommunityScreen>
               PopupMenuItem(
                 value: 'new_post',
                 child: Text(
-                  'New Post',
+                  AppString.newPost,
                   style: styleForBoldText.copyWith(
                     color: AppColors.darkGrey,
                     fontSize: 16.sp,
@@ -258,7 +258,7 @@ class _CommunityScreenState extends State<CommunityScreen>
           children: [
             Center(
               child: Text(
-                AppString.community,
+                "Community",
                 style: styleForBoldText.copyWith(
                   color: AppColors.darkGrey,
                   fontSize: 28.sp,
@@ -382,7 +382,10 @@ class _CommunityScreenState extends State<CommunityScreen>
                         },
                       )
                       : Center(
-                        child: Text("No data found", style: styleForNormalText),
+                        child: Text(
+                          "No data found".tr,
+                          style: styleForNormalText,
+                        ),
                       ),
             ),
 
@@ -479,7 +482,10 @@ class _CommunityScreenState extends State<CommunityScreen>
                         },
                       )
                       : Center(
-                        child: Text("No data found", style: styleForNormalText),
+                        child: Text(
+                          "No data found".tr,
+                          style: styleForNormalText,
+                        ),
                       ),
             ),
 
@@ -673,7 +679,7 @@ class _CommunityScreenState extends State<CommunityScreen>
                     },
                   )
                   : Center(
-                    child: Text("No data found", style: styleForNormalText),
+                    child: Text("No data found".tr, style: styleForNormalText),
                   ),
         ),
       ],

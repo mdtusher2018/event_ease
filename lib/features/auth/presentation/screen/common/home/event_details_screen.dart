@@ -576,8 +576,7 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                         color: AppColors.primary,
                       ),
                       title: 'Entrance Fee',
-                      subTitle:
-                          '\$${controller.eventDetail.value!.entranceFee}',
+                      subTitle: '€${controller.eventDetail.value!.entranceFee}',
                     ),
 
                     SizedBox(height: 10),
@@ -1235,7 +1234,7 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                                         doller:
                                             currentEvent.entranceFee == 0
                                                 ? "Free"
-                                                : "\$${currentEvent.entranceFee}",
+                                                : "€${currentEvent.entranceFee}",
                                         verificationIcon: Icons.verified,
                                         likeCount:
                                             currentEvent.totalLikes.toString(),
@@ -1334,7 +1333,7 @@ class _EventDetailsScreenState extends State<EventDetailsScreen> {
                             )
                             : Center(
                               child: Text(
-                                "No data found",
+                                "No data found".tr,
                                 style: styleForNormalText,
                               ),
                             ),

@@ -537,7 +537,7 @@ class _GuestHomeScreenState extends State<GuestHomeScreen>
                   // Horizontal List of Events
                   (controller.subscriptionList.isEmpty)
                       ? Text(
-                        "No Data Found",
+                        "No data found".tr,
                         style: styleForNormalText.copyWith(color: Colors.black),
                       )
                       : SizedBox(
