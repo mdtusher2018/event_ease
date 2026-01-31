@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:event_ease/core/helper/prefs_helper.dart';
 import 'package:event_ease/core/routers/routes_name.dart';
@@ -425,7 +426,7 @@ class _NavScreenState extends State<NavScreen> {
           if (_controller.index == 0 &&
               !_isDrawerOpen) // Add this condition to hide when drawer is open
             Positioned(
-              bottom: 80.h,
+              bottom: Platform.isIOS? 120.h : 80.h,
               left: 130.w,
               right: 130.w,
               child: _buildFloatingActionButton(),

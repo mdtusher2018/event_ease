@@ -190,14 +190,14 @@ class SignInController extends GetxController {
         ],
       );
 
-      final name =
-          "${credential.givenName ?? ''} ${credential.familyName ?? ''}".trim();
+      final name = "${credential.givenName ?? ''} ${credential.familyName ?? ''}".trim();
       final email = credential.email;
       final role = PrefsHelper.myRole;
 
       log(">>>>>>>>>> Name : $name");
       log(">>>>>>>>>> email : $email");
       log(">>>>>>>>>> role : $role");
+      log(">>>>>>>>>> appleId : ${credential.userIdentifier}");
 
       final body = {
         "appleId": credential.userIdentifier, // always available
@@ -236,7 +236,7 @@ class SignInController extends GetxController {
         return;
       }
 
-      Get.to(LocationPermissionScreen(parentBusiness: user['parentBusiness']));
+      Get.to(()=>LocationPermissionScreen(parentBusiness: user['parentBusiness']));
     } catch (e, s) {
       log("Apple Sign-In Error: $e");
       log("StackTrace: $s");
