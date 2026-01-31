@@ -28,6 +28,18 @@
 	<false/>
 	<key>GMSApiKey</key>
 	<string>AIzaSyAicZRwkffHVARNs1m6LKk_5lsA2LYAb6U</string>
+	<key>GIDClientID</key>
+    <string>981731840955-gbtg6ngml9ng875g325bcf9dpms7e1ud.apps.googleusercontent.com</string>
+    <key>CFBundleURLTypes</key>
+    <array>
+      <dict>
+        <key>CFBundleURLSchemes</key>
+        <array>
+          <string>com.googleusercontent.apps.981731840955-gbtg6ngml9ng875g325bcf9dpms7e1ud</string>
+        </array>
+      </dict>
+    </array>
+
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>http</string>
