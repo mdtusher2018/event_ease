@@ -154,7 +154,6 @@ class _DeleteGoogleAccountPageState extends State<DeleteGoogleAccountPage> {
               /// Description
               Text(
                 "Your account was created using Google Sign-In. To delete your account permanently, please verify your identity using OTP."
-                    .tr
                     .tr,
                 textAlign: TextAlign.center,
                 style: theme.textTheme.bodyMedium?.copyWith(

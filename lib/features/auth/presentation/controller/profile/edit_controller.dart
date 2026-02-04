@@ -30,6 +30,7 @@ class EditController extends GetxController {
   final Rxn<DateTime> selectedDate = Rxn<DateTime>();
 
   final TextEditingController nameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController firstNameController = TextEditingController();
   final TextEditingController lastNameController = TextEditingController();
@@ -50,6 +51,7 @@ class EditController extends GetxController {
       final Map<String, String> body = {
         "data": jsonEncode({
           "name": nameController.text,
+          'email': emailController.text,
           "phone": phoneController.text,
           "sureName": firstNameController.text,
           "lastName": lastNameController.text,

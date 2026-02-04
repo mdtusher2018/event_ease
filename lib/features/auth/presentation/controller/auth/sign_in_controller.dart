@@ -156,7 +156,11 @@ class SignInController extends GetxController {
         _handleSuccessfulLogin(response);
         if (response.success) {
           if ((response.data["user"]?["phone"] as String).isEmpty) {
-            showEditProfileInputDialog(context: context, name: name);
+            showEditProfileInputDialog(
+              context: context,
+              name: name,
+              email: email,
+            );
             return;
           }
         }
@@ -190,7 +194,8 @@ class SignInController extends GetxController {
         ],
       );
 
-      final name = "${credential.givenName ?? ''} ${credential.familyName ?? ''}".trim();
+      final name =
+          "${credential.givenName ?? ''} ${credential.familyName ?? ''}".trim();
       final email = credential.email;
       final role = PrefsHelper.myRole;
 
@@ -232,11 +237,13 @@ class SignInController extends GetxController {
 
       // Ask for phone if missing
       if (phone == null || phone.isEmpty) {
-        showEditProfileInputDialog(context: context, name: name);
+        showEditProfileInputDialog(context: context, name: name, email: email);
         return;
       }
 
-      Get.to(()=>LocationPermissionScreen(parentBusiness: user['parentBusiness']));
+      Get.to(
+        () => LocationPermissionScreen(parentBusiness: user['parentBusiness']),
+      );
     } catch (e, s) {
       log("Apple Sign-In Error: $e");
       log("StackTrace: $s");
@@ -279,9 +286,15 @@ void didChangeAppLifecycleState(AppLifecycleState state) async {
   }
 }
 
-void showEditProfileInputDialog({required BuildContext context, String? name}) {
+void showEditProfileInputDialog({
+  required BuildContext context,
+  String? name,
+  String? email,
+}) {
   EditController controller = Get.put(EditController());
   controller.nameController.text = name ?? "";
+  controller.emailController.text = email ?? "";
+
   Get.dialog(
     barrierDismissible: false,
     WillPopScope(
@@ -320,6 +333,20 @@ void showEditProfileInputDialog({required BuildContext context, String? name}) {
                   hintText: AppString.userName,
                   isSuffix: false,
                   controller: controller.nameController,
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  AppString.email,
+                  style: styleForNormalText.copyWith(
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                const SizedBox(height: 6),
+                CustomTextField(
+                  hintText: AppString.email,
+                  isSuffix: false,
+                  controller: controller.emailController,
+                  enabled: (controller.emailController.text.isEmpty),
                 ),
 
                 const SizedBox(height: 16),
@@ -542,6 +569,21 @@ void showEditProfileInputDialog({required BuildContext context, String? name}) {
                                       );
                                       return;
                                     }
+
+                                    if (controller
+                                        .emailController
+                                        .text
+                                        .isEmpty) {
+                                      Get.snackbar(
+                                        "Validation Error",
+                                        "Please enter your email",
+                                        snackPosition: SnackPosition.BOTTOM,
+                                        backgroundColor: Colors.red.shade600,
+                                        colorText: Colors.white,
+                                      );
+                                      return;
+                                    }
+
                                     if (controller.selectedDate.value == null &&
                                         PrefsHelper.myRole == "user") {
                                       Get.snackbar(

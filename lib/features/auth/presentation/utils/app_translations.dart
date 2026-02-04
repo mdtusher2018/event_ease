@@ -544,7 +544,7 @@ class AppTranslations extends Translations {
       "No tickets found": "No tickets found",
       "Ticket Support": "Ticket Support",
       "Your account was created using Google Sign-In. To delete your account permanently, please verify your identity using OTP.":
-          "Your account was created using Google Sign-In. To delete your account permanently, please verify your identity using OTP.",
+          "Your account was created using Google/Apple Sign-In. To delete your account permanently, please verify your identity using OTP.",
     },
     'it_IT': {
       "No Chat Found": "Nessuna chat trovata",
@@ -626,7 +626,7 @@ class AppTranslations extends Translations {
       "Create": "crea",
 
       "Your account was created using Google Sign-In. To delete your account permanently, please verify your identity using OTP.":
-          "il tuo account è stato creato utilizzando l'accesso con google. Per eliminare definitivamente il tuo account, verifica la tua identità utilizzando un codice OTP.",
+          "il tuo account è stato creato utilizzando l'accesso con Google/Apple. Per eliminare definitivamente il tuo account, verifica la tua identità utilizzando un codice OTP.",
       "Delete account": "Cancella account",
       "Delete your account": "Cancella il tuo account",
       "Your account was created using Google sign-in. To permanently delete your account, verify your identity using an OTP code.":
