@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 import 'package:event_ease/core/routers/routes_name.dart';
 import 'package:event_ease/features/auth/presentation/controller/notification/permission_controller.dart';
 import 'package:event_ease/features/auth/presentation/utils/app_colors.dart';
@@ -79,17 +80,21 @@ class NotificationPermissionScreen extends StatelessWidget {
                 isLoading: controller.isLoading.value,
                 onTap: () async {
                   controller.enableNotification.value = true;
-                  if(await requestNotificationsPermission()){
-                  log("Latitude: ${controller.latitude.value}");
-                  log("Longitude: ${controller.longitude.value}");
-                  log("Address: ${controller.address.value}");
-                  log("Notification Enabled: ${controller.enableNotification.value}");
+                  // if(Platform.isIOS){
+                  //   await controller.completePermission();
+                  //   navigateAfterPermission();
+                  // }else{
+                    if(await requestNotificationsPermission()){
+                      log("Latitude: ${controller.latitude.value}");
+                      log("Longitude: ${controller.longitude.value}");
+                      log("Address: ${controller.address.value}");
+                      log("Notification Enabled: ${controller.enableNotification.value}");
 
-                  await controller.completePermission();
-                  navigateAfterPermission();
-                  }
+                      await controller.completePermission();
+                      navigateAfterPermission();
+                    }
+                  // }
 
-               
                 },
               )),
 

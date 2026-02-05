@@ -194,9 +194,8 @@ class SignInController extends GetxController {
         ],
       );
 
-      final name =
-          "${credential.givenName ?? ''} ${credential.familyName ?? ''}".trim();
-      final email = credential.email;
+      final name = "${credential.givenName ?? ''} ${credential.familyName ?? ''}".trim();
+      final email = (credential.email != null && !credential.email!.endsWith('@privaterelay.appleid.com')) ? credential.email : "";
       final role = PrefsHelper.myRole;
 
       log(">>>>>>>>>> Name : $name");
@@ -206,7 +205,7 @@ class SignInController extends GetxController {
 
       final body = {
         "appleId": credential.userIdentifier, // always available
-        if (email != null) "email": email,
+        if (email!.isNotEmpty) "email": email,
         if (name.isNotEmpty) "name": name,
         "role": role,
       };

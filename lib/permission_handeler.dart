@@ -108,9 +108,20 @@ Future<bool> requestNotificationsPermission() async {
   }
 
   if (status.isPermanentlyDenied) {
-    await openAppSettings();
+    Get.defaultDialog(
+      title: "Enable Notifications",
+      middleText:
+      "Notifications are disabled. Please enable them from Settings.",
+      textConfirm: "Open Settings",
+      textCancel: "Later",
+      onConfirm: () async {
+        await openAppSettings();
+        Get.back();
+      },
+    );
     return false;
   }
+
   return false;
 }
 
