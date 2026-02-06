@@ -125,6 +125,7 @@ class AppUrl {
   static String deleteCheckList(String id) => "$baseUrl/checkList/$id";
   static const updateCheckListIteamsStatus =
       "$baseUrl/checkList/update-item-status";
+  static const deleteCheckListIteamsStatus = "$baseUrl/checkList/delete-item";
   static const createCheckListItem = "$baseUrl/checkList/add-item";
   static const wishlist = "$baseUrl/wishlist";
   static const wishlistFolder = "$baseUrl/wishlist/";

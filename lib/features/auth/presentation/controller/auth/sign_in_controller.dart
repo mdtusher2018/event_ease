@@ -232,17 +232,20 @@ class SignInController extends GetxController {
 
       isRemember.value = true;
       _handleSuccessfulLogin(response);
-
-      final phone = user['phone'] as String?;
-
-      // Ask for phone if missing
-      if (phone == null || phone.isEmpty) {
-        showEditProfileInputDialog(context: context, name: name, email: email);
-        return;
+      if (response.success) {
+        if ((response.data["user"]?["phone"] as String).isEmpty) {
+          showEditProfileInputDialog(
+            context: context,
+            name: name,
+            email: email,
+          );
+          return;
+        }
       }
-
       Get.to(
-        () => LocationPermissionScreen(parentBusiness: user['parentBusiness']),
+        LocationPermissionScreen(
+          parentBusiness: response.data['user']['parentBusiness'],
+        ),
       );
     } catch (e, s) {
       log("Apple Sign-In Error: $e");

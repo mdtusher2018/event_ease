@@ -116,6 +116,7 @@ class EditController extends GetxController {
         nameController.text = data['name'];
         firstNameController.text = data['sureName'];
         lastNameController.text = data['lastName'];
+        emailController.text = data['email'];
         selectedGender.value = data['gender'];
         selectedDate.value = DateTime.tryParse(data['dateOfBirth'] ?? "");
 
