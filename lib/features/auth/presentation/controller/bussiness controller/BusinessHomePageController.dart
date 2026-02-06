@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 import 'package:event_ease/features/auth/data/repository/bussiness%20repositories/home_page_repository.dart';
 import 'package:event_ease/features/auth/presentation/models/InspirationCategoryModel.dart';
 import 'package:event_ease/features/auth/presentation/models/ProviderCategoryModel.dart';
@@ -41,12 +42,10 @@ class BusinessController extends GetxController {
       isBusinessLoading.value = true;
 
       if (position == null) {
-        // position = await Geolocator.getCurrentPosition();
-        // double lat = position!.latitude;
-        // double long = position!.longitude;
+
         double lat;
         double long;
-        if (await Permission.location.isGranted) {
+        if ((Platform.isIOS)?await Geolocator.isLocationServiceEnabled():(await Permission.location.isGranted)) {
           position = await Geolocator.getCurrentPosition();
           lat = position!.latitude;
           long = position!.longitude;
@@ -103,7 +102,7 @@ class BusinessController extends GetxController {
       if (position == null) {
         double lat;
         double long;
-        if (await Permission.location.isGranted) {
+        if ((Platform.isIOS)?await Geolocator.isLocationServiceEnabled():(await Permission.location.isGranted)) {
           position = await Geolocator.getCurrentPosition();
           lat = position!.latitude;
           long = position!.longitude;
@@ -161,7 +160,7 @@ class BusinessController extends GetxController {
         // double long = position!.longitude;
         double lat;
         double long;
-        if (await Permission.location.isGranted) {
+        if ((Platform.isIOS)?await Geolocator.isLocationServiceEnabled():(await Permission.location.isGranted)) {
           position = await Geolocator.getCurrentPosition();
           lat = position!.latitude;
           long = position!.longitude;

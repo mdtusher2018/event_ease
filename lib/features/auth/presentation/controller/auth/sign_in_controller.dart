@@ -75,29 +75,6 @@ class SignInController extends GetxController {
         PrefsHelper.myRole = response.data['user']['role'];
         Get.offAllNamed(RoutesName.nav);
 
-        // if (await Permission.location.isGranted &&
-        //     await Permission.notification.isGranted) {
-        //   // if (response.data['user']['role'] == "organizer" &&
-        //   //     response.data['user']['parentBusiness'] == null) {
-        //   //   Get.toNamed(RoutesName.signUpStep);
-        //   // } else {
-        //     Get.offAllNamed(RoutesName.nav);
-        //   // }
-        // } else if (await Permission.location.isGranted &&
-        //     !await Permission.notification.isGranted) {
-        //   Get.to(
-        //     () => NotificationPermissionScreen(
-        //       role: response.data['user']['role'],
-        //       parentBusiness: response.data['user']['parentBusiness'],
-        //     ),
-        //   );
-        // } else {
-        //   Get.to(
-        //     LocationPermissionScreen(
-        //       parentBusiness: response.data['user']['parentBusiness'],
-        //     ),
-        //   );
-        // }
       } else {
         log(">>>>>>>>>>>>>>> Error 200");
         log(">>>>>>>>>>>>>>> Error ${response.message}");

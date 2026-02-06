@@ -8,6 +8,7 @@ import 'package:event_ease/features/auth/presentation/utils/app_colors.dart';
 import 'package:event_ease/features/auth/presentation/utils/app_string.dart';
 import 'package:event_ease/features/auth/presentation/utils/styles.dart';
 import 'package:event_ease/features/auth/presentation/widgets/custom_button.dart';
+import 'package:event_ease/permission_handeler.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -87,7 +88,8 @@ class LocationPermissionScreen extends StatelessWidget {
                     log("Latitude: ${controller.latitude.value}");
                     log("Longitude: ${controller.longitude.value}");
                     log("Address: ${controller.address.value}");
-                    if (await Permission.location.isPermanentlyDenied) {
+
+                    if (!(await requestLocationPermission())) {
                       await openAppSettings();
                     } else if (await Permission.notification.isGranted) {
                       Get.offAllNamed(RoutesName.nav);
