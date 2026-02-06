@@ -78,34 +78,6 @@ Future<bool> requestLocationPermission() async {
   }
 }
 
-Future<bool> requestNotificationsPermission() async {
-  if (await Permission.notification.isGranted) {
-    return true;
-  }
-  var status = await Permission.notification.request();
-
-  if (status.isGranted) {
-    return true;
-  }
-
-  if (status.isDenied) {
-    Get.snackbar(
-      "Permission Required",
-      "Notification access is required to use this app.",
-      backgroundColor: Colors.red,
-      colorText: Colors.white,
-    );
-
-    return false;
-  }
-
-  if (status.isPermanentlyDenied) {
-    await openAppSettings();
-    return false;
-  }
-  return false;
-}
-
 /// Call this before `runApp()` to ensure all required permissions are requested
 Future<void> requestAppPermissions() async {
   await Permission.location.request();

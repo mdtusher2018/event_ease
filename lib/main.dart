@@ -70,14 +70,7 @@ class MyApp extends StatelessWidget {
           fallbackLocale: const Locale('it', 'IT'),
           initialRoute: RoutesName.getSplashScreen0(),
           getPages: AppRoutes.appRoutes(),
-          builder: (context, child) {
-            return SafeArea(
-              top: false,
-              bottom: true,
-
-              child: child ?? const SizedBox(),
-            );
-          },
+       
           // home: OnboardingScreen(),
         ),
       );

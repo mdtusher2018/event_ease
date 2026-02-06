@@ -79,15 +79,9 @@ class NotificationPermissionScreen extends StatelessWidget {
                 isLoading: controller.isLoading.value,
                 onTap: () async {
                   controller.enableNotification.value = true;
-                  if(await requestNotificationsPermission()){
-                  log("Latitude: ${controller.latitude.value}");
-                  log("Longitude: ${controller.longitude.value}");
-                  log("Address: ${controller.address.value}");
-                  log("Notification Enabled: ${controller.enableNotification.value}");
-
-                  await controller.completePermission();
+         await requestNotificationPermission();
                   navigateAfterPermission();
-                  }
+                  
 
                
                 },
