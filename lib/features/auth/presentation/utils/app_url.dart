@@ -16,17 +16,17 @@ class AppUrl {
   //
   // static const socketUrl = "http://172.252.13.74:7020";
 
-  // static const baseUrl = "https://api.pianofesta.it/api/v1";
-  // static const baseImageUrl = "https://api.pianofesta.it";
-  // static const socketUrl = "https://socket.pianofesta.it";
+  static const baseUrl = "https://api.pianofesta.it/api/v1";
+  static const baseImageUrl = "https://api.pianofesta.it";
+  static const socketUrl = "https://socket.pianofesta.it";
 
   // static const baseUrl = "http://109.176.197.7:7010/api/v1";
   // static const baseImageUrl = "http://109.176.197.7:7010";
   // static const socketUrl = "http://109.176.197.7:7020";
 
-  static const baseUrl = "http://10.10.10.32:8010/api/v1";
-  static const baseImageUrl = "http://10.10.10.32:8010";
-  static const socketUrl = "http://10.10.10.32:8020";
+  // static const baseUrl = "http://10.10.10.32:8010/api/v1";
+  // static const baseImageUrl = "http://10.10.10.32:8010";
+  // static const socketUrl = "http://10.10.10.32:8020";
 
   static const createUser = "$baseUrl/users/create";
   static const login = "$baseUrl/auth/login";

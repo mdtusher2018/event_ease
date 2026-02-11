@@ -8,6 +8,7 @@ import 'package:event_ease/features/auth/presentation/utils/app_url.dart';
 import 'package:event_ease/features/auth/presentation/widgets/common_image.dart';
 import 'package:event_ease/services/api_service.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ChecklistDetailsScreen extends StatefulWidget {
@@ -306,7 +307,7 @@ class _ChecklistDetailsScreenState extends State<ChecklistDetailsScreen> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      "Add Checklist Item",
+                      "Add Checklist Item".tr,
                       style: TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.bold,
@@ -317,7 +318,7 @@ class _ChecklistDetailsScreenState extends State<ChecklistDetailsScreen> {
                     TextField(
                       controller: itemController,
                       decoration: InputDecoration(
-                        labelText: "Item Name",
+                        labelText: "Item Name".tr,
                         labelStyle: TextStyle(color: AppColors.primary),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
@@ -345,7 +346,7 @@ class _ChecklistDetailsScreenState extends State<ChecklistDetailsScreen> {
                         TextButton(
                           onPressed: () => Navigator.of(context).pop(),
                           child: Text(
-                            "Cancel",
+                            "Cancel".tr,
                             style: TextStyle(color: Colors.grey[700]),
                           ),
                         ),
@@ -401,7 +402,7 @@ class _ChecklistDetailsScreenState extends State<ChecklistDetailsScreen> {
                                       strokeWidth: 2,
                                     ),
                                   )
-                                  : Text("Create"),
+                                  : Text("Create".tr),
                         ),
                       ],
                     ),

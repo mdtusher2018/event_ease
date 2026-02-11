@@ -547,6 +547,9 @@ class AppTranslations extends Translations {
           "Your account was created using Google/Apple Sign-In. To delete your account permanently, please verify your identity using OTP.",
     },
     'it_IT': {
+      "Add Checklist Item": "Aggiungi voce alla checklist",
+      "Item Name": "Nome voce",
+
       "No Chat Found": "Nessuna chat trovata",
 
       "Work Hours": "orari di lavoro",
