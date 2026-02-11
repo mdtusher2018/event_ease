@@ -21,19 +21,20 @@ class ChecklistDetailsScreen extends StatefulWidget {
 
 class _ChecklistDetailsScreenState extends State<ChecklistDetailsScreen> {
   // Replace these paths with your actual image assets
-  final List<String> firstNineImages = [
-    'assets/checklist/Frame.svg',
-    'assets/checklist/Frame (1).svg',
-    'assets/checklist/Frame (2).svg',
-    'assets/checklist/Frame (3).svg',
-    'assets/checklist/Frame (4).svg',
-    'assets/checklist/Frame (5).svg',
-    'assets/checklist/Frame (6).svg',
-    'assets/checklist/Frame (7).svg',
-    'assets/checklist/Frame (8).svg',
-  ];
+final Map<String, String> checklistImageMap = {
+  "Location & Venues": "assets/checklist/Frame.svg",
+  "Invitations & Guests": "assets/checklist/Frame (1).svg",
+  "Catering & Food": "assets/checklist/Frame (2).svg",
+  "Cake & Desserts": "assets/checklist/Frame (3).svg",
+  "Entertainment & Performances": "assets/checklist/Frame (4).svg",
+  "Music & Audio": "assets/checklist/Frame (5).svg",
+  "Decorations & Setups": "assets/checklist/Frame (6).svg",
+  "Photos & Videos": "assets/checklist/Frame (7).svg",
+  "Gifts & End of Party": "assets/checklist/Frame (8).svg",
+};
 
-  final String otherImage = 'assets/checklist/Frame (9).svg';
+final String defaultImage = "assets/checklist/Frame (9).svg";
+
 
   @override
   Widget build(BuildContext context) {
@@ -111,7 +112,16 @@ class _ChecklistDetailsScreenState extends State<ChecklistDetailsScreen> {
         itemCount: widget.items.items.length,
         itemBuilder: (context, index) {
           final item = widget.items.items[index];
-          String imagePath = (index < 9) ? firstNineImages[index] : otherImage;
+
+     String imagePath = checklistImageMap.entries
+        .firstWhere(
+          (entry) =>
+              entry.key.toLowerCase().trim() ==
+              item.itemName.toLowerCase().trim(),
+          orElse: () => MapEntry("", defaultImage),
+        )
+        .value;
+
 
           bool isLoading = false; // local loading state for this item
 
@@ -191,7 +201,7 @@ class _ChecklistDetailsScreenState extends State<ChecklistDetailsScreen> {
                               },
                             ),
 
-                            if (index >= 9)
+                         
                               InkWell(
                                 onTap: () async {
                                   setItemState(() => isLoading = true);
