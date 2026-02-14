@@ -1,4 +1,3 @@
-
 import 'package:event_ease/core/dependency/dependency/dependency_injection.dart';
 import 'package:event_ease/core/routers/routes_name.dart';
 import 'package:event_ease/core/theme/theme.dart';
@@ -67,10 +66,11 @@ class MyApp extends StatelessWidget {
             PrefsHelper.localizationLanguageCode,
             PrefsHelper.localizationCountryCode,
           ),
-          
+
           fallbackLocale: const Locale('it', 'IT'),
           initialRoute: RoutesName.getSplashScreen0(),
           getPages: AppRoutes.appRoutes(),
+       
           // home: OnboardingScreen(),
         ),
       );

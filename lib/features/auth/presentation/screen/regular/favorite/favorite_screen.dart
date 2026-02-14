@@ -344,7 +344,7 @@ class _FavoriteScreenState extends State<FavoriteScreen>
                       TextField(
                         controller: checklistController,
                         decoration: InputDecoration(
-                          labelText: "CheckList Name",
+                          labelText: "CheckList Name".tr,
                           labelStyle: TextStyle(color: Colors.purple[700]),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
@@ -411,7 +411,7 @@ class _FavoriteScreenState extends State<FavoriteScreen>
                                 }
                               },
                               icon: Icon(Icons.upload_file),
-                              label: Text("Upload Image"),
+                              label: Text("Upload Image".tr),
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: AppColors.primary,
                                 foregroundColor: Colors.white,

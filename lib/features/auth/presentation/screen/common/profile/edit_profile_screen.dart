@@ -148,23 +148,23 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     isSuffix: false,
                     controller: controller.nameController,
                   ),
+                  SizedBox(height: 20),
+
+                  /// **Profile Fields**
+                  CustomTextField(
+                    backgroundColor: AppColors.textFieldBg,
+                    hintText: AppString.email,
+                    isSuffix: false,
+                    enabled: false,
+                    controller: controller.emailController,
+                  ),
                   if (PrefsHelper.myRole == 'user') const SizedBox(height: 20),
 
                   // Date of Birth
                   if (PrefsHelper.myRole == 'user')
                     Obx(
                       () => GestureDetector(
-                        onTap: () async {
-                          // DateTime? selectedDate = await showDatePicker(
-                          //   context: context,
-                          //   initialDate: DateTime.now(),
-                          //   firstDate: DateTime(1900),
-                          //   lastDate: DateTime.now(),
-                          // );
-                          // if (selectedDate != null) {
-                          //   controller.selectedDate.value = selectedDate;
-                          // }
-                        },
+                        onTap: () async {},
                         child: Container(
                           padding: EdgeInsets.symmetric(horizontal: 8),
                           decoration: BoxDecoration(

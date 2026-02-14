@@ -5,12 +5,10 @@ import 'dart:developer';
 
 import 'package:event_ease/core/helper/prefs_helper.dart';
 import 'package:event_ease/features/auth/data/repository/auth_repository.dart';
-import 'package:event_ease/features/auth/presentation/screen/common/auth/location_permission_screen.dart';
 import 'package:event_ease/services/socket_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import '../../../../../core/helper/other_helper.dart';
 import '../../../../../core/routers/routes_name.dart';
 
@@ -112,58 +110,6 @@ class SignUpController extends GetxController {
     } catch (e, s) {
       debugPrint("Error====$e");
       debugPrint("Error====$s");
-    } finally {
-      isLoading.value = false;
-    }
-  }
-
-  Future<void> loginWithGoogle() async {
-    isLoading.value = true;
-    final GoogleSignIn googleSignIn = GoogleSignIn();
-    try {
-      final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
-      if (googleUser == null) return; // user canceled
-
-      var name = googleUser.displayName;
-      var image = googleUser.photoUrl;
-      var email = googleUser.email;
-      var role = PrefsHelper.myRole;
-
-      log(">>>>>>>>>> Name : $name");
-      log(">>>>>>>>>> email : $email");
-      log(">>>>>>>>>> image : $image");
-      log(">>>>>>>>>> role : $role");
-
-      var body = {
-        "email": email,
-        "name": name,
-        "profileImage": image,
-        "role": role,
-      };
-
-      final response = await authRepository.loginWithGoogle(body);
-      if (response.statusCode == 200) {
-        if (response.data['user']['role'] != PrefsHelper.myRole) {
-          Get.snackbar(
-            "Access Denied",
-            "You're trying to log in as a ${response.data['user']['role']}, but this portal is intended for ${PrefsHelper.myRole} access.",
-          );
-          return;
-        }
-
-        _handleSuccessfulLogin(response);
-        Get.to(
-          LocationPermissionScreen(
-            parentBusiness: response.data['user']['parentBusiness'],
-          ),
-        );
-      } else {
-        Get.snackbar("Error".tr, response.message);
-      }
-    } catch (e, s) {
-      log("Google Sign-In Error: $e");
-      log("StackTrace: $s");
-      Get.snackbar("Google Sign-In Failed", e.toString());
     } finally {
       isLoading.value = false;
     }
