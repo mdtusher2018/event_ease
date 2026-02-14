@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 import 'package:event_ease/features/auth/data/repository/bussiness%20repositories/home_page_repository.dart';
 import 'package:event_ease/features/auth/presentation/models/InspirationCategoryModel.dart';
 import 'package:event_ease/features/auth/presentation/models/ProviderCategoryModel.dart';
@@ -27,33 +28,31 @@ class BusinessController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-
-    fetchProviderCategories();
-    fetchAllSubscriptionEvents();
-    fetchAllInspirationCategory();
-    fetchAllEvents();
+    fetchAllMethods();
   }
 
   Position? position;
+  double lat = 41.9028;
+  double long = 12.4964;
+
+  fetchAllMethods()async{
+     position = await Geolocator.getCurrentPosition();
+     if(position != null){
+       lat = position!.latitude;
+       long = position!.longitude;
+     }
+
+     fetchProviderCategories();
+     fetchAllSubscriptionEvents();
+     fetchAllInspirationCategory();
+     fetchAllEvents();
+
+  }
+
   Future<void> fetchAllBusinesses(String? name) async {
     try {
       name = name?.replaceAll("&", "%26");
       isBusinessLoading.value = true;
-
-      if (position == null) {
-        // position = await Geolocator.getCurrentPosition();
-        // double lat = position!.latitude;
-        // double long = position!.longitude;
-        double lat;
-        double long;
-        if (await Permission.location.isGranted) {
-          position = await Geolocator.getCurrentPosition();
-          lat = position!.latitude;
-          long = position!.longitude;
-        } else {
-          lat = 41.9028; // Rome latitude
-          long = 12.4964; // Rome longitude
-        }
 
         final response = await _businessRepository.getAllBusiness(
           name,
@@ -70,25 +69,6 @@ class BusinessController extends GetxController {
         } else {
           Get.snackbar("Error".tr, response.message);
         }
-      } else {
-        double lat = position!.latitude;
-        double long = position!.longitude;
-        final response = await _businessRepository.getAllBusiness(
-          name,
-          long,
-          lat,
-        );
-
-        if (response.success && response.data != null) {
-          final businessResponse = BusinessDataModel.fromJson(response.data);
-          businessList.assignAll(businessResponse.data);
-          log(
-            "Fetched ${businessList.length} businesses.....................................",
-          );
-        } else {
-          Get.snackbar("Error".tr, response.message);
-        }
-      }
     } catch (e, s) {
       log("Error in fetchAllBusinesses: $e\n$s");
       Get.snackbar("Error".tr, "Something went wrong");
@@ -103,7 +83,7 @@ class BusinessController extends GetxController {
       if (position == null) {
         double lat;
         double long;
-        if (await Permission.location.isGranted) {
+        if ((Platform.isIOS)?await Geolocator.isLocationServiceEnabled():(await Permission.location.isGranted)) {
           position = await Geolocator.getCurrentPosition();
           lat = position!.latitude;
           long = position!.longitude;
@@ -127,8 +107,6 @@ class BusinessController extends GetxController {
           Get.snackbar("Error".tr, response.message);
         }
       } else {
-        double lat = position!.latitude;
-        double long = position!.longitude;
         final response = await _businessRepository.getALLSubscriptionEvents(
           long,
           lat,
@@ -161,7 +139,9 @@ class BusinessController extends GetxController {
         // double long = position!.longitude;
         double lat;
         double long;
-        if (await Permission.location.isGranted) {
+        final result = await Geolocator.isLocationServiceEnabled();
+        log("result $result");
+        if ((Platform.isIOS)?await Geolocator.isLocationServiceEnabled():(await Permission.location.isGranted)) {
           position = await Geolocator.getCurrentPosition();
           lat = position!.latitude;
           long = position!.longitude;
@@ -177,8 +157,6 @@ class BusinessController extends GetxController {
           Get.snackbar("Error".tr, response.message);
         }
       } else {
-        double lat = position!.latitude;
-        double long = position!.longitude;
         final response = await _businessRepository.getALLEvents(long, lat);
         if (response.success && response.data != null) {
           final businessResponse = BusinessDataModel.fromJson(response.data);

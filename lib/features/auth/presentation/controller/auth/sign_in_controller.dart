@@ -13,6 +13,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:intl/intl.dart';
@@ -73,31 +74,18 @@ class SignInController extends GetxController {
         PrefsHelper.address = response.data['user']['address'];
         PrefsHelper.setString("address", PrefsHelper.address);
         PrefsHelper.myRole = response.data['user']['role'];
-        Get.offAllNamed(RoutesName.nav);
+        final havepermission = await Geolocator.isLocationServiceEnabled();
+        log("havepermission : $havepermission");
+        if(havepermission){
+          Get.offAllNamed(RoutesName.nav);
+        }else{
+          Get.offAll(
+            () => LocationPermissionScreen(
+              parentBusiness: PrefsHelper.parentBusinessId,
+            ),
+          );
+        }
 
-        // if (await Permission.location.isGranted &&
-        //     await Permission.notification.isGranted) {
-        //   // if (response.data['user']['role'] == "organizer" &&
-        //   //     response.data['user']['parentBusiness'] == null) {
-        //   //   Get.toNamed(RoutesName.signUpStep);
-        //   // } else {
-        //     Get.offAllNamed(RoutesName.nav);
-        //   // }
-        // } else if (await Permission.location.isGranted &&
-        //     !await Permission.notification.isGranted) {
-        //   Get.to(
-        //     () => NotificationPermissionScreen(
-        //       role: response.data['user']['role'],
-        //       parentBusiness: response.data['user']['parentBusiness'],
-        //     ),
-        //   );
-        // } else {
-        //   Get.to(
-        //     LocationPermissionScreen(
-        //       parentBusiness: response.data['user']['parentBusiness'],
-        //     ),
-        //   );
-        // }
       } else {
         log(">>>>>>>>>>>>>>> Error 200");
         log(">>>>>>>>>>>>>>> Error ${response.message}");
@@ -231,17 +219,20 @@ class SignInController extends GetxController {
 
       isRemember.value = true;
       _handleSuccessfulLogin(response);
-
-      final phone = user['phone'] as String?;
-
-      // Ask for phone if missing
-      if (phone == null || phone.isEmpty) {
-        showEditProfileInputDialog(context: context, name: name, email: email);
-        return;
+      if (response.success) {
+        if ((response.data["user"]?["phone"] as String).isEmpty) {
+          showEditProfileInputDialog(
+            context: context,
+            name: name,
+            email: email,
+          );
+          return;
+        }
       }
-
       Get.to(
-        () => LocationPermissionScreen(parentBusiness: user['parentBusiness']),
+        LocationPermissionScreen(
+          parentBusiness: response.data['user']['parentBusiness'],
+        ),
       );
     } catch (e, s) {
       log("Apple Sign-In Error: $e");

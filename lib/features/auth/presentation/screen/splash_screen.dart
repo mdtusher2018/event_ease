@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:developer';
+import 'dart:io';
 
 import 'package:event_ease/core/helper/helper.dart';
 import 'package:event_ease/core/helper/prefs_helper.dart';
@@ -6,6 +8,7 @@ import 'package:event_ease/features/auth/presentation/screen/common/auth/locatio
 import 'package:event_ease/features/auth/presentation/screen/video_loader.dart';
 import 'package:event_ease/services/deep_link_service.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
 import '../../../../core/routers/routes_name.dart';
@@ -45,7 +48,8 @@ class _SplashScreenState extends State<SplashScreen> {
 
     // Regular splash screen delay and navigation
     Timer(const Duration(seconds: 1), () async {
-      final havepermission = await Permission.location.isGranted;
+      final havepermission = (Platform.isIOS)?await Geolocator.isLocationServiceEnabled():(await Permission.location.isGranted);
+      log("havepermission : $havepermission");
       (PrefsHelper.isLogIn && PrefsHelper.token.isNotEmpty)
           ? havepermission
               ? decodeJwtField(PrefsHelper.token, 'phone').isNotEmpty

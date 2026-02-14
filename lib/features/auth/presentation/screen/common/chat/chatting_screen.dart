@@ -322,9 +322,10 @@ class ChattingScreen extends StatelessWidget {
                         }
                       },
                       child: Container(
+                        padding: EdgeInsets.only(right:20),
                         decoration: const BoxDecoration(shape: BoxShape.circle),
                         child: SvgPicture.asset(
-                          AppIcons.chat,
+                          AppIcons.chat,width:44,
                           colorFilter: ColorFilter.mode(
                             AppColors.primary,
                             BlendMode.srcIn,

@@ -232,7 +232,7 @@ class _CommunityScreenState extends State<CommunityScreen>
               PopupMenuItem(
                 value: 'new_poll',
                 child: Text(
-                  'New Poll',
+                  'New Poll'.tr,
                   style: styleForBoldText.copyWith(
                     color: AppColors.darkGrey,
                     fontSize: 16.sp,

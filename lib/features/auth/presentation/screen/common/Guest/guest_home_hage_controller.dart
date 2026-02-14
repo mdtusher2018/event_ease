@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 import 'package:event_ease/features/auth/presentation/models/InspirationCategoryModel.dart';
 import 'package:event_ease/features/auth/presentation/models/ProviderCategoryModel.dart';
 import 'package:event_ease/features/auth/presentation/models/business_model.dart';
@@ -46,7 +47,7 @@ class GuestHomePageController extends GetxController {
         // double long = position!.longitude;
         double lat;
         double long;
-        if (await Permission.location.isGranted) {
+        if ((Platform.isIOS)?await Geolocator.isLocationServiceEnabled():(await Permission.location.isGranted)) {
           position = await Geolocator.getCurrentPosition();
           lat = position!.latitude;
           long = position!.longitude;
@@ -103,7 +104,7 @@ class GuestHomePageController extends GetxController {
       if (position == null) {
         double lat;
         double long;
-        if (await Permission.location.isGranted) {
+        if ((Platform.isIOS)?await Geolocator.isLocationServiceEnabled():(await Permission.location.isGranted)) {
           position = await Geolocator.getCurrentPosition();
           lat = position!.latitude;
           long = position!.longitude;
