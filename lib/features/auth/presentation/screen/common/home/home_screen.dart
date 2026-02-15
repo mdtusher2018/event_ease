@@ -853,18 +853,20 @@ class _HomeScreenState extends State<HomeScreen>
                                     width: 74.w,
                                   ),
                                   SizedBox(height: 5),
-                                  SizedBox(
-                                    width: 100.w,
-                                    child: Center(
-                                      child: Text(
-                                        data['name'],
-                                        maxLines: 3,
-                                        style: styleForNormalText.copyWith(
-                                          fontSize: 14,
-                                          color: AppColors.darkGrey,
-                                          fontWeight: FontWeight.w600,
+                                  Expanded(
+                                    child: SizedBox(
+                                      width: 100.w,
+                                      child: Center(
+                                        child: Text(
+                                          data['name'],
+                                          maxLines: 3,
+                                          style: styleForNormalText.copyWith(
+                                            fontSize: 14,
+                                            color: AppColors.darkGrey,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                          textAlign: TextAlign.center,
                                         ),
-                                        textAlign: TextAlign.center,
                                       ),
                                     ),
                                   ),

@@ -81,7 +81,7 @@ class NotificationPermissionScreen extends StatelessWidget {
                   controller.enableNotification.value = true;
          await requestNotificationPermission();
                   navigateAfterPermission();
-                  
+
 
                
                 },

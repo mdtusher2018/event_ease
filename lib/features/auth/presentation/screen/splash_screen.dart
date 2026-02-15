@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:event_ease/core/helper/helper.dart';
@@ -48,6 +49,7 @@ class _SplashScreenState extends State<SplashScreen> {
     // Regular splash screen delay and navigation
     Timer(const Duration(seconds: 1), () async {
       final havepermission = (Platform.isIOS)?await Geolocator.isLocationServiceEnabled():(await Permission.location.isGranted);
+      log("havepermission : $havepermission");
       (PrefsHelper.isLogIn && PrefsHelper.token.isNotEmpty)
           ? havepermission
               ? decodeJwtField(PrefsHelper.token, 'phone').isNotEmpty

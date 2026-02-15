@@ -49,6 +49,8 @@ class PermissionController extends GetxController {
       latitude.value = position.latitude;
       longitude.value = position.longitude;
 
+      log("=======>>>> ${latitude.value}, ${longitude.value} <<<<=======");
+
       List<Placemark> placemarks = await placemarkFromCoordinates(
         position.latitude,
         position.longitude,
