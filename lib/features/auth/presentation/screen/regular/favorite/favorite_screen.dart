@@ -246,29 +246,26 @@ class _FavoriteScreenState extends State<FavoriteScreen>
                                 // );
                                 return;
                               }
-                              if (selectedImage == null) {
-                                Get.snackbar(
-                                  "Empty",
-                                  "Please select an image",
-                                  backgroundColor: Colors.red,
-                                  colorText: Colors.white,
-                                );
-                                // ScaffoldMessenger.of(context).showSnackBar(
-                                //   SnackBar(content: Text("Please select an image")),
-                                // );
-                                return;
-                              }
-
-                              // TODO: Save folder name + image
-                              print("Folder: ${folderController.text}");
-                              print("Image Path: ${selectedImage!.path}");
+                              // if (selectedImage == null) {
+                              //   Get.snackbar(
+                              //     "Empty",
+                              //     "Please select an image",
+                              //     backgroundColor: Colors.red,
+                              //     colorText: Colors.white,
+                              //   );
+                              //   // ScaffoldMessenger.of(context).showSnackBar(
+                              //   //   SnackBar(content: Text("Please select an image")),
+                              //   // );
+                              //   return;
+                              // }
 
                               final response = await ApiService.to
                                   .multipartData(
                                     AppUrl.createFolder,
                                     {"folderName": folderController.text},
                                     multipartBody: [
-                                      MultipartBody("image", selectedImage!),
+                                      if (selectedImage != null)
+                                        MultipartBody("image", selectedImage!),
                                     ],
                                   );
 
@@ -452,30 +449,28 @@ class _FavoriteScreenState extends State<FavoriteScreen>
                                 // );
                                 return;
                               }
-                              if (selectedImage == null) {
-                                Get.snackbar(
-                                  "Empty",
-                                  "Please select an image",
-                                  backgroundColor: Colors.red,
-                                  colorText: Colors.white,
-                                );
-                                // ScaffoldMessenger.of(context).showSnackBar(
-                                //   SnackBar(content: Text("Please select an image")),
-                                // );
-                                return;
-                              }
+                              // if (selectedImage == null) {
+                              //   Get.snackbar(
+                              //     "Empty",
+                              //     "Please select an image",
+                              //     backgroundColor: Colors.red,
+                              //     colorText: Colors.white,
+                              //   );
+                              //   // ScaffoldMessenger.of(context).showSnackBar(
+                              //   //   SnackBar(content: Text("Please select an image")),
+                              //   // );
+                              //   return;
+                              // }
 
                               setState(() => isLoading = true); // start loading
-                              // TODO: Save folder name + image
-                              print("Folder: ${checklistController.text}");
-                              print("Image Path: ${selectedImage!.path}");
 
                               final response = await ApiService.to
                                   .multipartData(
                                     AppUrl.createCheckList,
                                     {"checklistName": checklistController.text},
                                     multipartBody: [
-                                      MultipartBody("image", selectedImage!),
+                                      if (selectedImage != null)
+                                        MultipartBody("image", selectedImage!),
                                     ],
                                   );
                               setState(() => isLoading = false); // stop loading
