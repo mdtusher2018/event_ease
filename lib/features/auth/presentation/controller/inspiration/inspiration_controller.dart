@@ -118,6 +118,7 @@ class InspirationController extends GetxController {
   Future<void> getCategoryDetails(
     String inspirationId, {
     bool isMyPost = false,
+    bool iAmNotGuest = true,
   }) async {
     isLoading.value = true;
     try {
@@ -133,6 +134,7 @@ class InspirationController extends GetxController {
             'id': inspirationId,
             'type': "Inspiration",
             "isMyPost": isMyPost,
+            "iAmNotGuest": iAmNotGuest,
           },
         )?.then((value) {
           getInspirationMyPost();

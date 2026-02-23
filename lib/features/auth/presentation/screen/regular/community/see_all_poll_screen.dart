@@ -2,6 +2,7 @@
 
 import 'package:event_ease/features/auth/presentation/screen/regular/community/widget/custom_poll_widget.dart';
 import 'package:event_ease/features/auth/presentation/utils/styles.dart';
+import 'package:event_ease/features/auth/presentation/widgets/explore_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -30,58 +31,61 @@ class SeeAllPollScreen extends StatelessWidget {
         ),
       ),
       body: Obx(
-        () =>
-            controller.latestPollList.isNotEmpty
-                ? ListView.builder(
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
-                  itemCount: controller.latestPollList.length,
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    final data = controller.latestPollList[index];
-                    final selectedIndex =
-                        controller.selectedPollOptions[data.id];
-                    String isoTime = data.createdAt;
+        () => controller.latestPollList.isNotEmpty
+            ? ListView.builder(
+                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+                itemCount: controller.latestPollList.length,
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  final data = controller.latestPollList[index];
+                  final selectedIndex = controller.selectedPollOptions[data.id];
+                  String isoTime = data.createdAt;
 
-                    DateTime dateTime = DateTime.parse(isoTime);
+                  DateTime dateTime = DateTime.parse(isoTime);
 
-                    // Format as dd-MM-yyyy
-                    String createDate = DateFormat(
-                      'dd-MM-yyyy',
-                    ).format(dateTime); // 👉 14-08-2025
+                  // Format as dd-MM-yyyy
+                  String createDate = DateFormat(
+                    'dd-MM-yyyy',
+                  ).format(dateTime); // 👉 14-08-2025
 
-                    // Format time (HH:mm)
-                    String createTime = DateFormat(
-                      'HH:mm',
-                    ).format(dateTime); // 👉 11:08
-
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 10),
-                      child: CustomPollWidget(
-                        question: data.title,
-                        id: data.id,
-                        description: data.description,
-                        time: "$createDate  •  $createTime",
-                        name: data.creator.name,
-                        image: "${data.creator.profileImage}",
-                        options: data.options,
-                        selectedIndex: selectedIndex,
-                        onOptionTap: (optionIndex) {
-                          if (selectedIndex == null) {
-                            controller.patchLatestPoll(data.id, optionIndex);
-                          } else {
-                            Get.snackbar(
-                              "Notice",
-                              "You have already voted on this poll.",
-                            );
-                          }
-                        },
-                      ),
-                    );
-                  },
-                )
-                : Center(
-                  child: Text("No data found".tr, style: styleForNormalText),
-                ),
+                  // Format time (HH:mm)
+                  String createTime = DateFormat(
+                    'HH:mm',
+                  ).format(dateTime); // 👉 11:08
+                  var iAmNotGuest = Get.arguments['iAmNotGuest'] ?? true;
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 10),
+                    child: CustomPollWidget(
+                      question: data.title,
+                      id: data.id,
+                      description: data.description,
+                      time: "$createDate  •  $createTime",
+                      name: data.creator.name,
+                      image: "${data.creator.profileImage}",
+                      options: data.options,
+                      selectedIndex: selectedIndex,
+                      onOptionTap: (!iAmNotGuest)
+                          ? (_) => showExploreDialog(context)
+                          : (optionIndex) {
+                              if (selectedIndex == null) {
+                                controller.patchLatestPoll(
+                                  data.id,
+                                  optionIndex,
+                                );
+                              } else {
+                                Get.snackbar(
+                                  "Notice",
+                                  "You have already voted on this poll.",
+                                );
+                              }
+                            },
+                    ),
+                  );
+                },
+              )
+            : Center(
+                child: Text("No data found".tr, style: styleForNormalText),
+              ),
       ),
     );
   }

@@ -34,8 +34,7 @@ class CommunityController extends GetxController {
   RxList<MyPostModel> regionList = <MyPostModel>[].obs;
 
   RxString replyingTo = "".obs;
-RxString replyToName = "".obs;
-
+  RxString replyToName = "".obs;
 
   //=============================================================get comment
   RxList<EventComment> commentList = <EventComment>[].obs;
@@ -49,12 +48,12 @@ RxString replyToName = "".obs;
         log("Fetched commentList : $commentList");
       } else {
         log("Error : ${response.message}");
-        Get.snackbar("Error".tr,response.message);
+        Get.snackbar("Error".tr, response.message);
       }
     } catch (e, s) {
       log("Error e: $e");
       log("Error s: $s");
-      Get.snackbar("Error".tr,"$e\$$s");
+      Get.snackbar("Error".tr, "$e\$$s");
     } finally {
       isLoading.value = false;
     }
@@ -71,12 +70,12 @@ RxString replyToName = "".obs;
         log("Fetched community my post : $myPostList");
       } else {
         log("Error : ${response.message}");
-        Get.snackbar("Error".tr,response.message);
+        Get.snackbar("Error".tr, response.message);
       }
     } catch (e, s) {
       log("Error e: $e");
       log("Error s: $s");
-      Get.snackbar("Error".tr,"$e\$$s");
+      Get.snackbar("Error".tr, "$e\$$s");
     } finally {
       isLoading.value = false;
     }
@@ -89,17 +88,18 @@ RxString replyToName = "".obs;
       final response = await userRepository.getLatestPost();
       if (response.statusCode == 200) {
         final List data = response.data as List;
-        latestPostList.value =
-            data.map((e) => MyPostModel.fromJson(e)).toList();
+        latestPostList.value = data
+            .map((e) => MyPostModel.fromJson(e))
+            .toList();
         log("Fetched community my post : $latestPostList");
       } else {
         log("Error : ${response.message}");
-        Get.snackbar("Error".tr,response.message);
+        Get.snackbar("Error".tr, response.message);
       }
     } catch (e, s) {
       log("Error e: $e");
       log("Error s: $s");
-      Get.snackbar("Error".tr,"$e\$$s");
+      Get.snackbar("Error".tr, "$e\$$s");
     } finally {
       isLoading.value = false;
     }
@@ -112,17 +112,18 @@ RxString replyToName = "".obs;
       final response = await userRepository.getMostCommentPost();
       if (response.statusCode == 200) {
         final List data = response.data as List;
-        mostCommentPostList.value =
-            data.map((e) => MyPostModel.fromJson(e)).toList();
+        mostCommentPostList.value = data
+            .map((e) => MyPostModel.fromJson(e))
+            .toList();
         log("Fetched community my post : $mostCommentPostList");
       } else {
         log("Error : ${response.message}");
-        Get.snackbar("Error".tr,response.message);
+        Get.snackbar("Error".tr, response.message);
       }
     } catch (e, s) {
       log("Error e: $e");
       log("Error s: $s");
-      Get.snackbar("Error".tr,"$e\$$s");
+      Get.snackbar("Error".tr, "$e\$$s");
     } finally {
       isLoading.value = false;
     }
@@ -135,17 +136,18 @@ RxString replyToName = "".obs;
       final response = await userRepository.getMostViewedPost();
       if (response.statusCode == 200) {
         final List data = response.data as List;
-        mostViewedPostList.value =
-            data.map((e) => MyPostModel.fromJson(e)).toList();
+        mostViewedPostList.value = data
+            .map((e) => MyPostModel.fromJson(e))
+            .toList();
         log("Fetched community my post : $mostViewedPostList");
       } else {
         log("Error : ${response.message}");
-        Get.snackbar("Error".tr,response.message);
+        Get.snackbar("Error".tr, response.message);
       }
     } catch (e, s) {
       log("Error e: $e");
       log("Error s: $s");
-      Get.snackbar("Error".tr,"$e\$$s");
+      Get.snackbar("Error".tr, "$e\$$s");
     } finally {
       isLoading.value = false;
     }
@@ -162,18 +164,16 @@ RxString replyToName = "".obs;
         log("Fetched community my post : $latestPollList");
       } else {
         log("Error : ${response.message}");
-        Get.snackbar("Error".tr,response.message);
+        Get.snackbar("Error".tr, response.message);
       }
     } catch (e, s) {
       log("Error e: $e");
       log("Error s: $s");
-      Get.snackbar("Error".tr,"$e\$$s");
+      Get.snackbar("Error".tr, "$e\$$s");
     } finally {
       isLoading.value = false;
     }
   }
-
-
 
   ///>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Get My poll >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   Future<void> getMyPoll() async {
@@ -186,54 +186,51 @@ RxString replyToName = "".obs;
         log("Fetched community my post : $myPollList");
       } else {
         log("Error : ${response.message}");
-        Get.snackbar("Error".tr,response.message);
+        Get.snackbar("Error".tr, response.message);
       }
     } catch (e, s) {
       log("Error e: $e");
       log("Error s: $s");
-      Get.snackbar("Error".tr,"$e\$$s");
+      Get.snackbar("Error".tr, "$e\$$s");
     } finally {
       isLoading.value = false;
     }
   }
 
-///>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> patch vote (My Poll) >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-Future<void> patchMyPoll(String pollId, int index) async {
-  if (selectedMyPollOptions.containsKey(pollId)) {
-    Get.snackbar("Notice", "You have already voted on this poll.");
-    return;
-  }
-
-  log(">>>>>>>>>>>>>>> MyPoll Id : ============= $pollId");
-  log(">>>>>>>>>>>>>>> MyPoll index : ============= $index");
-
-  isLoading.value = true;
-  try {
-    var body = {"pollId": pollId, "optionIndex": index};
-
-    final response = await userRepository.patchVote(body);
-    if (response.statusCode == 200) {
-      selectedMyPollOptions[pollId] = index; // ✅ mark vote
-      log("Successfully voted on MyPoll $pollId");
-      Get.snackbar("Successful".tr, response.message);
-
-      /// ✅ refresh my polls list
-      await getMyPoll();
-    } else {
-      log("Error : ${response.message}");
-      Get.snackbar("Error".tr,response.message);
+  ///>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> patch vote (My Poll) >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+  Future<void> patchMyPoll(String pollId, int index) async {
+    if (selectedMyPollOptions.containsKey(pollId)) {
+      Get.snackbar("Notice", "You have already voted on this poll.");
+      return;
     }
-  } catch (e, s) {
-    log("Error e: $e");
-    log("Error s: $s");
-    Get.snackbar("Error".tr,"$e\$$s");
-  } finally {
-    isLoading.value = false;
+
+    log(">>>>>>>>>>>>>>> MyPoll Id : ============= $pollId");
+    log(">>>>>>>>>>>>>>> MyPoll index : ============= $index");
+
+    isLoading.value = true;
+    try {
+      var body = {"pollId": pollId, "optionIndex": index};
+
+      final response = await userRepository.patchVote(body);
+      if (response.statusCode == 200) {
+        selectedMyPollOptions[pollId] = index; // ✅ mark vote
+        log("Successfully voted on MyPoll $pollId");
+        Get.snackbar("Successful".tr, response.message);
+
+        /// ✅ refresh my polls list
+        await getMyPoll();
+      } else {
+        log("Error : ${response.message}");
+        Get.snackbar("Error".tr, response.message);
+      }
+    } catch (e, s) {
+      log("Error e: $e");
+      log("Error s: $s");
+      Get.snackbar("Error".tr, "$e\$$s");
+    } finally {
+      isLoading.value = false;
+    }
   }
-}
-
-
-
 
   ///>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> patch vote >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   Future<void> patchLatestPoll(String pollId, int index) async {
@@ -257,19 +254,19 @@ Future<void> patchMyPoll(String pollId, int index) async {
         await getLatestPoll();
       } else {
         log("Error : ${response.message}");
-        Get.snackbar("Error".tr,response.message);
+        Get.snackbar("Error".tr, response.message);
       }
     } catch (e, s) {
       log("Error e: $e");
       log("Error s: $s");
-      Get.snackbar("Error".tr,"$e\$$s");
+      Get.snackbar("Error".tr, "$e\$$s");
     } finally {
       isLoading.value = false;
     }
   }
 
   ///>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Get Group >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-  Future<void> getCommunityGroup(String name) async {
+  Future<void> getCommunityGroup(String name, {bool iAmNorGuest = true}) async {
     isLoading.value = true;
     try {
       final response = await userRepository.getCommunityGroup(name);
@@ -279,23 +276,27 @@ Future<void> patchMyPoll(String pollId, int index) async {
         log("Fetched community Group : $groupList");
         Get.toNamed(
           RoutesName.seeAllPostScreen,
-          arguments: {"data": "group", 'name': name},
+          arguments: {
+            "data": "group",
+            'name': name,
+            'iAmNotGuest': iAmNorGuest,
+          },
         );
       } else {
         log("Error : ${response.message}");
-        Get.snackbar("Error".tr,response.message);
+        Get.snackbar("Error".tr, response.message);
       }
     } catch (e, s) {
       log("Error e: $e");
       log("Error s: $s");
-      Get.snackbar("Error".tr,"$e\$$s");
+      Get.snackbar("Error".tr, "$e\$$s");
     } finally {
       isLoading.value = false;
     }
   }
 
   ///>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Get Region >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-  Future<void> getCommunityRegion(String name) async {
+  Future<void> getCommunityRegion(String name,{bool iAmNotGuest=true}) async {
     isLoading.value = true;
     try {
       final response = await userRepository.getCommunityRegion(name);
@@ -305,16 +306,16 @@ Future<void> patchMyPoll(String pollId, int index) async {
         log("Fetched community region : $regionList");
         Get.toNamed(
           RoutesName.seeAllPostScreen,
-          arguments: {"data": "region", 'name': name},
+          arguments: {"data": "region", 'name': name,'iAmNotGuest':iAmNotGuest},
         );
       } else {
         log("Error : ${response.message}");
-        Get.snackbar("Error".tr,response.message);
+        Get.snackbar("Error".tr, response.message);
       }
     } catch (e, s) {
       log("Error e: $e");
       log("Error s: $s");
-      Get.snackbar("Error".tr,"$e\$$s");
+      Get.snackbar("Error".tr, "$e\$$s");
     } finally {
       isLoading.value = false;
     }
@@ -340,7 +341,7 @@ Future<void> patchMyPoll(String pollId, int index) async {
         await getMostViewedPost();
       } else {
         log(">>>>>>>>>>>>>>> Error 200");
-        Get.snackbar("Error".tr,response.message);
+        Get.snackbar("Error".tr, response.message);
       }
     } catch (e, s) {
       log("Error E : $e");
@@ -371,7 +372,7 @@ Future<void> patchMyPoll(String pollId, int index) async {
         await getMostViewedPost();
       } else {
         log(">>>>>>>>>>>>>>> Error 200");
-        Get.snackbar("Error".tr,response.message);
+        Get.snackbar("Error".tr, response.message);
       }
     } catch (e, s) {
       log("Error E : $e");
@@ -394,13 +395,15 @@ Future<void> patchMyPoll(String pollId, int index) async {
       final Map<String, String> body = {
         "postId": id,
         "text": commentController.text,
-        if(replyingTo.value.isNotEmpty)"commentId": replyingTo.value,
-  
+        if (replyingTo.value.isNotEmpty) "commentId": replyingTo.value,
       };
 
       log("commentbody========$body");
 
-      final response = await userRepository.commentPost(body,isReply:  replyingTo.value.isNotEmpty);
+      final response = await userRepository.commentPost(
+        body,
+        isReply: replyingTo.value.isNotEmpty,
+      );
       if (response.statusCode == 200 || response.statusCode == 201) {
         log(">>>>>>>>>>>>>>> Success 200");
         log(">>>>>>>>>>>>>>> response : ${response.data}");
@@ -420,7 +423,7 @@ Future<void> patchMyPoll(String pollId, int index) async {
         log("comment success============================================");
       } else {
         log(">>>>>>>>>>>>>>> Error 200");
-        Get.snackbar("Error".tr,response.message);
+        Get.snackbar("Error".tr, response.message);
       }
     } catch (e, s) {
       log("Error E : $e");
@@ -441,7 +444,8 @@ Future<void> patchMyPoll(String pollId, int index) async {
   void pickImage() async {
     image.value = await OtherHelper.pickImage(ImageSource.gallery);
   }
-    void removeImage() async {
+
+  void removeImage() async {
     image.value = "";
   }
 
@@ -468,7 +472,7 @@ Future<void> patchMyPoll(String pollId, int index) async {
       if (image.value.isNotEmpty) {
         multiPartData.add(MultipartBody("image", File(image.value)));
       }
-            for (var file in galleryLogo) {
+      for (var file in galleryLogo) {
         multiPartData.add(MultipartBody("gallery", file));
       }
 
@@ -486,28 +490,31 @@ Future<void> patchMyPoll(String pollId, int index) async {
         Get.snackbar("Success".tr, "Post added successfully!");
       } else {
         log("Error : ${response.message}");
-        Get.snackbar("Error".tr,response.message);
+        Get.snackbar("Error".tr, response.message);
       }
     } catch (e, s) {
       log("Error e: $e");
       log("Error s: $s");
-      Get.snackbar("Error".tr,"$e\$$s");
+      Get.snackbar("Error".tr, "$e\$$s");
     } finally {
       isLoading.value = false;
     }
   }
 
-
-  Future<void> editCommentPost(String id,{required List<File> galleryLogo,required List<String> deletedImage}) async {
+  Future<void> editCommentPost(
+    String id, {
+    required List<File> galleryLogo,
+    required List<String> deletedImage,
+  }) async {
     isLoading.value = true;
     try {
-             var body = {
+      var body = {
         "data": jsonEncode({
-        "title": titleController.text,
-        "category": selectedCategory.value,
-        "region": selectedRegion.value,
-        "description": eventShortDescriptionController.text,
-        "deleteGallery": deletedImage, 
+          "title": titleController.text,
+          "category": selectedCategory.value,
+          "region": selectedRegion.value,
+          "description": eventShortDescriptionController.text,
+          "deleteGallery": deletedImage,
         }),
       };
 
@@ -517,14 +524,15 @@ Future<void> patchMyPoll(String pollId, int index) async {
         multiPartData.add(MultipartBody("image", File(image.value)));
       }
 
-                  for (var file in galleryLogo) {
+      for (var file in galleryLogo) {
         multiPartData.add(MultipartBody("gallery", file));
       }
 
       // Map<String, String> heder = {"Content-Type": "application/json"};
 
       final response = await userRepository.editCommentPost(
-        body,id,
+        body,
+        id,
         multipartBody: multiPartData,
       );
       if (response.statusCode == 200 || response.statusCode == 201) {
@@ -535,21 +543,16 @@ Future<void> patchMyPoll(String pollId, int index) async {
         Get.snackbar("Success".tr, "Post Updated successfully!");
       } else {
         log("Error : ${response.message}");
-        Get.snackbar("Error".tr,response.message);
+        Get.snackbar("Error".tr, response.message);
       }
     } catch (e, s) {
       log("Error e: $e");
       log("Error s: $s");
-      Get.snackbar("Error".tr,"$e\$$s");
+      Get.snackbar("Error".tr, "$e\$$s");
     } finally {
       isLoading.value = false;
     }
   }
-
-
-
-
-
 
   ///>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> New  Comment Poll >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   final TextEditingController titleController2 = TextEditingController();
@@ -578,11 +581,10 @@ Future<void> patchMyPoll(String pollId, int index) async {
         "category": selectedCategory2.value,
         "region": selectedRegion2.value,
         "description": eventShortDescriptionController2.text.trim(),
-        "options":
-            optionControllers
-                .where((c) => c.text.trim().isNotEmpty)
-                .map((c) => {"text": c.text.trim()})
-                .toList(),
+        "options": optionControllers
+            .where((c) => c.text.trim().isNotEmpty)
+            .map((c) => {"text": c.text.trim()})
+            .toList(),
       };
 
       final response = await userRepository.newCommentPoll(body);
@@ -595,20 +597,16 @@ Future<void> patchMyPoll(String pollId, int index) async {
         getMyPoll();
       } else {
         log("Error : ${response.message}");
-        Get.snackbar("Error".tr,response.message);
+        Get.snackbar("Error".tr, response.message);
       }
     } catch (e, s) {
       log("Error e: $e");
       log("Error s: $s");
-      Get.snackbar("Error".tr,"$e\n$s");
+      Get.snackbar("Error".tr, "$e\n$s");
     } finally {
       isLoading.value = false;
     }
   }
-
-
-
-
 
   Future<void> editPoll(String id) async {
     isLoading.value = true;
@@ -618,14 +616,13 @@ Future<void> patchMyPoll(String pollId, int index) async {
         "category": selectedCategory2.value,
         "region": selectedRegion2.value,
         "description": eventShortDescriptionController2.text.trim(),
-        "options":
-            optionControllers
-                .where((c) => c.text.trim().isNotEmpty)
-                .map((c) => {"text": c.text.trim()})
-                .toList(),
+        "options": optionControllers
+            .where((c) => c.text.trim().isNotEmpty)
+            .map((c) => {"text": c.text.trim()})
+            .toList(),
       };
 
-      final response = await userRepository.editCommentPoll(body,id);
+      final response = await userRepository.editCommentPoll(body, id);
       if (response.success) {
         log(">>>>>>>>>>>>>>> Success ✅");
         clearAddPostForm2();
@@ -635,19 +632,16 @@ Future<void> patchMyPoll(String pollId, int index) async {
         getMyPoll();
       } else {
         log("Error : ${response.message}");
-        Get.snackbar("Error".tr,response.message);
+        Get.snackbar("Error".tr, response.message);
       }
     } catch (e, s) {
       log("Error e: $e");
       log("Error s: $s");
-      Get.snackbar("Error".tr,"$e\n$s");
+      Get.snackbar("Error".tr, "$e\n$s");
     } finally {
       isLoading.value = false;
     }
   }
-
-
-
 
   @override
   void onInit() {

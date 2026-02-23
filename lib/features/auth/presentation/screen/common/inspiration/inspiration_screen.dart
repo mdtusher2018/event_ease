@@ -7,7 +7,8 @@ import '../../../widgets/regular/inspiration/business_inspiration_content.dart';
 import '../../../widgets/regular/inspiration/regular_inspiration_content.dart';
 
 class InspirationScreen extends StatelessWidget {
-  const InspirationScreen({super.key});
+  const InspirationScreen({super.key, this.iAmNotGuest = true});
+  final bool iAmNotGuest;
 
   // // Method to handle popup menu selection
   // void _handleMenuSelection(String value) {
@@ -24,20 +25,24 @@ class InspirationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: PrefsHelper.myRole=="organizer"
+      floatingActionButton: PrefsHelper.myRole == "organizer"
           ? FloatingActionButton(
-        onPressed: () {Get.toNamed(RoutesName.postBlockScreen);},
-        backgroundColor: AppColors.primary,
-        shape: const CircleBorder(),
-        child:Icon(Icons.add, color: Colors.white),
-      )
+              onPressed: () {
+                Get.toNamed(RoutesName.postBlockScreen);
+              },
+              backgroundColor: AppColors.primary,
+              shape: const CircleBorder(),
+              child: Icon(Icons.add, color: Colors.white),
+            )
           : const SizedBox(),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
-          child: PrefsHelper.myRole=="user"
-              ?  RegularInspirationContent()
-              :  BusinessInspirationContent(),
+          child: iAmNotGuest
+              ? (PrefsHelper.myRole == "user"
+                    ? RegularInspirationContent(iAmNotGuest: iAmNotGuest,)
+                    : BusinessInspirationContent())
+              : RegularInspirationContent(iAmNotGuest: iAmNotGuest,),
         ),
       ),
     );

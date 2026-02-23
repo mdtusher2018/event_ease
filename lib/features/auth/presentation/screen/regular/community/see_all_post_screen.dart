@@ -1,3 +1,4 @@
+import 'package:event_ease/features/auth/presentation/widgets/explore_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -23,6 +24,7 @@ class _SeeAllPostScreenState extends State<SeeAllPostScreen> {
   Widget build(BuildContext context) {
     var data = Get.arguments['data'];
     var name = Get.arguments['name'];
+    var iAmNotGuest = Get.arguments['iAmNotGuest'] ?? true;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -79,43 +81,53 @@ class _SeeAllPostScreenState extends State<SeeAllPostScreen> {
                     time: "",
                     commentCount: post.totalComments.toString(),
                     likeCount: post.totalLikes.toString(),
-                    onTap: () {
-                      Get.toNamed(
-                        RoutesName.commentPost,
-                        arguments: {
-                          'id': post.id,
-                          'type': "PostCommunity",
-                          'isMyPost': data == "myPost",
-                        },
-                      )!.then((value) {
-                        controller.getMyPost();
-                      });
-                    },
+                    onTap: (!iAmNotGuest)
+                        ? () => showExploreDialog(context)
+                        : () {
+                            Get.toNamed(
+                              RoutesName.commentPost,
+                              arguments: {
+                                'id': post.id,
+                                'type': "PostCommunity",
+                                'isMyPost': data == "myPost",
+                              },
+                            )!.then((value) {
+                              controller.getMyPost();
+                            });
+                          },
                     isLiked: post.isLiked,
-                    onTapLike: () {
-                      post.isLiked
-                          ? controller
-                              .unLikePost(post.id, data: post)
-                              .then((_) => setState(() {}))
-                          : controller
-                              .likePost(post.id, data: post)
-                              .then((_) => setState(() {}));
-                    },
-                    onTapComment: () {
-                      controller.getComment(id: post.id);
+                    onTapLike: (!iAmNotGuest)
+                        ? () => showExploreDialog(context)
+                        : () {
+                            post.isLiked
+                                ? controller
+                                      .unLikePost(post.id, data: post)
+                                      .then((_) => setState(() {}))
+                                : controller
+                                      .likePost(post.id, data: post)
+                                      .then((_) => setState(() {}));
+                          },
+                    onTapComment: (!iAmNotGuest)
+                        ? () => showExploreDialog(context)
+                        : () {
+                            controller.getComment(id: post.id);
 
-                      showCommentBottomSheet(
-                        context,
-                        commentController: controller.commentController,
-                        onPressed: () {
-                          controller
-                              .commentPost(post.id, context, postData: post)
-                              .then((_) {
-                                setState(() {});
-                              });
-                        },
-                      );
-                    },
+                            showCommentBottomSheet(
+                              context,
+                              commentController: controller.commentController,
+                              onPressed: () {
+                                controller
+                                    .commentPost(
+                                      post.id,
+                                      context,
+                                      postData: post,
+                                    )
+                                    .then((_) {
+                                      setState(() {});
+                                    });
+                              },
+                            );
+                          },
                   ),
                 );
               }),
