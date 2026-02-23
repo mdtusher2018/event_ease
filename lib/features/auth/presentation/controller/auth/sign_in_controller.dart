@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:event_ease/core/routers/routes_name.dart';
 import 'package:event_ease/features/auth/data/repository/auth_repository.dart';
 import 'package:event_ease/features/auth/presentation/controller/profile/edit_controller.dart';
@@ -28,12 +27,11 @@ class SignInController extends GetxController {
   RxBool isLoading = false.obs;
   AuthRepository authRepository = AuthRepository();
   final TextEditingController emailController = TextEditingController(
-    text:
-        kDebugMode
-            ? ((PrefsHelper.myRole == "user")
-                ? "raseldev847@gmail.com"
-                : "rasel.chowdhury0001@gmail.com")
-            : "",
+    text: kDebugMode
+        ? ((PrefsHelper.myRole == "user")
+              ? "raseldev847@gmail.com"
+              : "rasel.chowdhury0001@gmail.com")
+        : "",
   );
   final TextEditingController passwordController = TextEditingController(
     text: kDebugMode ? "123456" : "",
@@ -76,16 +74,15 @@ class SignInController extends GetxController {
         PrefsHelper.myRole = response.data['user']['role'];
         final havepermission = await Geolocator.isLocationServiceEnabled();
         log("havepermission : $havepermission");
-        if(havepermission){
+        if (havepermission) {
           Get.offAllNamed(RoutesName.nav);
-        }else{
+        } else {
           Get.offAll(
             () => LocationPermissionScreen(
               parentBusiness: PrefsHelper.parentBusinessId,
             ),
           );
         }
-
       } else {
         log(">>>>>>>>>>>>>>> Error 200");
         log(">>>>>>>>>>>>>>> Error ${response.message}");
@@ -182,8 +179,13 @@ class SignInController extends GetxController {
         ],
       );
 
-      final name = "${credential.givenName ?? ''} ${credential.familyName ?? ''}".trim();
-      final email = (credential.email != null && !credential.email!.endsWith('@privaterelay.appleid.com')) ? credential.email : "";
+      final name =
+          "${credential.givenName ?? ''} ${credential.familyName ?? ''}".trim();
+      final email =
+          (credential.email != null &&
+              !credential.email!.endsWith('@privaterelay.appleid.com'))
+          ? credential.email
+          : "";
       final role = PrefsHelper.myRole;
 
       log(">>>>>>>>>> Name : $name");
@@ -381,8 +383,8 @@ void showEditProfileInputDialog({
                         child: Text(
                           controller.selectedDate.value != null
                               ? DateFormat(
-                                'dd/MM/yyyy',
-                              ).format(controller.selectedDate.value!)
+                                  'dd/MM/yyyy',
+                                ).format(controller.selectedDate.value!)
                               : AppString.dateOfBirth,
                           style: styleForNormalText.copyWith(
                             color: AppColors.grey,
@@ -473,13 +475,10 @@ void showEditProfileInputDialog({
                               ),
                             ),
                             TextSpan(
-                              recognizer:
-                                  TapGestureRecognizer()
-                                    ..onTap = () {
-                                      Get.toNamed(
-                                        RoutesName.signUpPrivacyPolicy,
-                                      );
-                                    },
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {
+                                  Get.toNamed(RoutesName.signUpPrivacyPolicy);
+                                },
                               text: AppString.privacyPolicy,
                               style: styleForBoldText.copyWith(
                                 color: AppColors.primary,
@@ -496,11 +495,10 @@ void showEditProfileInputDialog({
                               ),
                             ),
                             TextSpan(
-                              recognizer:
-                                  TapGestureRecognizer()
-                                    ..onTap = () {
-                                      Get.toNamed(RoutesName.termsOfService);
-                                    },
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {
+                                  Get.toNamed(RoutesName.termsOfService);
+                                },
                               text: AppString.termsOfService,
                               style: styleForBoldText.copyWith(
                                 color: AppColors.primary,
@@ -519,117 +517,92 @@ void showEditProfileInputDialog({
                 /// Actions
                 Row(
                   children: [
-                    // Expanded(
-                    //   child: OutlinedButton(
-                    //     onPressed: () async {
-                    //       await GoogleSignIn().signOut();
-                    //       log("logout.................................");
-                    //       Get.back();
-                    //       await PrefsHelper.removeAllPrefData();
-                    //     },
-                    //     style: OutlinedButton.styleFrom(
-                    //       side: BorderSide(color: AppColors.primary),
-                    //       padding: const EdgeInsets.symmetric(vertical: 12),
-                    //     ),
-                    //     child: Text(
-                    //       "Cancel",
-                    //       style: TextStyle(color: AppColors.primary),
-                    //     ),
-                    //   ),
-                    // ),
-                    // const SizedBox(width: 12),
                     Expanded(
                       child: Obx(
                         () => ElevatedButton(
-                          onPressed:
-                              controller.isLoading.value
-                                  ? null
-                                  : () {
-                                    /// VALIDATION
-                                    if (controller
-                                        .nameController
-                                        .text
-                                        .isEmpty) {
-                                      Get.snackbar(
-                                        "Validation Error",
-                                        "Please enter your name",
-                                        snackPosition: SnackPosition.BOTTOM,
-                                        backgroundColor: Colors.red.shade600,
-                                        colorText: Colors.white,
-                                      );
-                                      return;
-                                    }
+                          onPressed: controller.isLoading.value
+                              ? null
+                              : () {
+                                  /// VALIDATION
+                                  if (controller.nameController.text.isEmpty) {
+                                    Get.snackbar(
+                                      "Validation Error",
+                                      "Please enter your name",
+                                      snackPosition: SnackPosition.BOTTOM,
+                                      backgroundColor: Colors.red.shade600,
+                                      colorText: Colors.white,
+                                    );
+                                    return;
+                                  }
 
-                                    if (controller
-                                        .emailController
-                                        .text
-                                        .isEmpty) {
-                                      Get.snackbar(
-                                        "Validation Error",
-                                        "Please enter your email",
-                                        snackPosition: SnackPosition.BOTTOM,
-                                        backgroundColor: Colors.red.shade600,
-                                        colorText: Colors.white,
-                                      );
-                                      return;
-                                    }
+                                  if (controller.emailController.text.isEmpty) {
+                                    Get.snackbar(
+                                      "Validation Error",
+                                      "Please enter your email",
+                                      snackPosition: SnackPosition.BOTTOM,
+                                      backgroundColor: Colors.red.shade600,
+                                      colorText: Colors.white,
+                                    );
+                                    return;
+                                  }
 
-                                    if (controller.selectedDate.value == null &&
-                                        PrefsHelper.myRole == "user") {
-                                      Get.snackbar(
-                                        "Validation Error",
-                                        "Please select your date of birth",
-                                        snackPosition: SnackPosition.BOTTOM,
-                                        backgroundColor: Colors.red.shade600,
-                                        colorText: Colors.white,
-                                      );
-                                      return;
-                                    }
+                                  // if (!Platform.isIOS) {
+                                  //   if (controller.selectedDate.value == null &&
+                                  //       PrefsHelper.myRole == "user") {
+                                  //     Get.snackbar(
+                                  //       "Validation Error",
+                                  //       "Please select your date of birth",
+                                  //       snackPosition: SnackPosition.BOTTOM,
+                                  //       backgroundColor: Colors.red.shade600,
+                                  //       colorText: Colors.white,
+                                  //     );
+                                  //     return;
+                                  //   }
+                                  // }
 
-                                    if (controller.phoneController.text
-                                        .trim()
-                                        .isEmpty) {
-                                      Get.snackbar(
-                                        "Validation Error",
-                                        "Please enter your phone number",
-                                        snackPosition: SnackPosition.BOTTOM,
-                                        backgroundColor: Colors.red.shade600,
-                                        colorText: Colors.white,
-                                      );
-                                      return;
-                                    }
-                                    if (!controller.isAgree.value) {
-                                      Get.snackbar(
-                                        "Validation Error",
-                                        "Please accept the Privacy Policy",
-                                        snackPosition: SnackPosition.BOTTOM,
-                                        backgroundColor: Colors.red.shade600,
-                                        colorText: Colors.white,
-                                      );
-                                      return;
-                                    }
+                                  if (controller.phoneController.text
+                                      .trim()
+                                      .isEmpty) {
+                                    Get.snackbar(
+                                      "Validation Error",
+                                      "Please enter your phone number",
+                                      snackPosition: SnackPosition.BOTTOM,
+                                      backgroundColor: Colors.red.shade600,
+                                      colorText: Colors.white,
+                                    );
+                                    return;
+                                  }
+                                  if (!controller.isAgree.value) {
+                                    Get.snackbar(
+                                      "Validation Error",
+                                      "Please accept the Privacy Policy",
+                                      snackPosition: SnackPosition.BOTTOM,
+                                      backgroundColor: Colors.red.shade600,
+                                      colorText: Colors.white,
+                                    );
+                                    return;
+                                  }
 
-                                    Get.back();
-                                    controller.editProfile(); // SAME API CALL
-                                  },
+                                  Get.back();
+                                  controller.editProfile(); // SAME API CALL
+                                },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppColors.primary,
                             padding: const EdgeInsets.symmetric(vertical: 12),
                           ),
-                          child:
-                              controller.isLoading.value
-                                  ? const SizedBox(
-                                    height: 18,
-                                    width: 18,
-                                    child: CircularProgressIndicator(
-                                      strokeWidth: 2,
-                                      color: Colors.white,
-                                    ),
-                                  )
-                                  : const Text(
-                                    "Update",
-                                    style: TextStyle(color: Colors.white),
+                          child: controller.isLoading.value
+                              ? const SizedBox(
+                                  height: 18,
+                                  width: 18,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                    color: Colors.white,
                                   ),
+                                )
+                              : const Text(
+                                  "Update",
+                                  style: TextStyle(color: Colors.white),
+                                ),
                         ),
                       ),
                     ),

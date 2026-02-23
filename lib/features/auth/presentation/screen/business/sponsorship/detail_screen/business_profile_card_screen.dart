@@ -6,6 +6,7 @@ import 'package:event_ease/features/auth/presentation/screen/business/sponsorshi
 import 'package:event_ease/features/auth/presentation/screen/business/sponsorship/detail_screen/widgets/commonSubscriptionCardDesign.dart';
 import 'package:event_ease/features/auth/presentation/screen/business/sponsorship/payment_selection_page.dart';
 import 'package:event_ease/features/auth/presentation/screen/common/profile/help_center/help_center_screen.dart';
+import 'package:event_ease/features/auth/presentation/utils/app_colors.dart';
 import 'package:event_ease/features/auth/presentation/utils/app_string.dart';
 import 'package:event_ease/features/auth/presentation/utils/styles.dart';
 import 'package:flutter/gestures.dart';
@@ -74,6 +75,43 @@ class BusinessProfileCardScreen extends StatelessWidget {
               if (controller.isLoading.value) {
                 return Center(child: CircularProgressIndicator());
               }
+              if (controller.subscriptionPlans.isEmpty) {
+                return SizedBox(
+                  height: 480.h,
+                  child: Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.workspace_premium,
+                          size: 60.sp,
+                          color: AppColors.purple,
+                        ),
+                        SizedBox(height: 20.h),
+                        Text(
+                          "Subscriptions Coming Soon",
+                          style: styleForBoldText.copyWith(
+                            fontSize: 22.sp,
+                            color: Colors.black87,
+                          ),
+                        ),
+                        SizedBox(height: 10.h),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 40.w),
+                          child: Text(
+                            "Premium plans will be available in the next update.",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 16.sp,
+                              color: Colors.grey.shade600,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              }
 
               return ListView.builder(
                 padding: EdgeInsets.all(16.w),
@@ -130,12 +168,11 @@ class BusinessProfileCardScreen extends StatelessWidget {
                     ),
                     children: [
                       TextSpan(
-                        recognizer:
-                            TapGestureRecognizer()
-                              ..onTap = () {
-                                // TODO: Add your navigation or action
-                                Get.to(() => HelpCenterScreen(target: 1));
-                              },
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            // TODO: Add your navigation or action
+                            Get.to(() => HelpCenterScreen(target: 1));
+                          },
                         text: ' ${AppString.contactUs} ',
                         style: styleForBoldText.copyWith(
                           fontSize: 16.sp,
