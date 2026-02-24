@@ -16,11 +16,7 @@ import 'features/auth/presentation/utils/app_translations.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  await requestAppPermissions();
-
   await getFirbaseConnected();
-
   await action();
 
   runApp(const MyApp());

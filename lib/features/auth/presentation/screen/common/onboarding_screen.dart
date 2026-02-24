@@ -11,6 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
+import '../../../../../permission_handeler.dart';
+
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
 
@@ -65,6 +67,17 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     } else {
       Get.offNamed(RoutesName.role);
     }
+  }
+
+  callForPermission() async {
+    await requestAppPermissions();
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    callForPermission();
   }
 
   @override
