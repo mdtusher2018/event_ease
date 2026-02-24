@@ -4,6 +4,7 @@ import 'package:event_ease/features/auth/presentation/screen/regular/community/w
 import 'package:event_ease/features/auth/presentation/utils/app_colors.dart';
 import 'package:event_ease/features/auth/presentation/utils/app_string.dart';
 import 'package:event_ease/features/auth/presentation/utils/styles.dart';
+import 'package:event_ease/features/auth/presentation/widgets/explore_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -17,7 +18,8 @@ import '../../../widgets/regular/home_screen/custom_chip_tab.dart';
 import '../../../widgets/regular/home_screen/show_comment_bottom_sheet.dart';
 
 class CommunityScreen extends StatefulWidget {
-  CommunityScreen({super.key});
+  CommunityScreen({super.key, this.iAmNotGuest = true});
+  final bool iAmNotGuest;
 
   final List<Map<String, dynamic>> groupList = [
     {
@@ -205,52 +207,54 @@ class _CommunityScreenState extends State<CommunityScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       key: _globalKey,
-      floatingActionButton: FloatingActionButton(
-        shape: const CircleBorder(),
-        backgroundColor: AppColors.primary,
-        onPressed: () async {
-          final selected = await showMenu<String>(
-            context: context,
-            color: Colors.white,
-            position: RelativeRect.fromLTRB(
-              MediaQuery.of(context).size.width - 60,
-              MediaQuery.of(context).size.height - 150,
-              20,
-              100,
-            ),
-            items: [
-              PopupMenuItem(
-                value: 'new_post',
-                child: Text(
-                  AppString.newPost,
-                  style: styleForBoldText.copyWith(
-                    color: AppColors.darkGrey,
-                    fontSize: 16.sp,
+      floatingActionButton: (widget.iAmNotGuest)
+          ? FloatingActionButton(
+              shape: const CircleBorder(),
+              backgroundColor: AppColors.primary,
+              onPressed: () async {
+                final selected = await showMenu<String>(
+                  context: context,
+                  color: Colors.white,
+                  position: RelativeRect.fromLTRB(
+                    MediaQuery.of(context).size.width - 60,
+                    MediaQuery.of(context).size.height - 150,
+                    20,
+                    100,
                   ),
-                ),
-              ),
-              PopupMenuItem(
-                value: 'new_poll',
-                child: Text(
-                  'New Poll'.tr,
-                  style: styleForBoldText.copyWith(
-                    color: AppColors.darkGrey,
-                    fontSize: 16.sp,
-                  ),
-                ),
-              ),
-            ],
-            elevation: 8.0,
-          );
+                  items: [
+                    PopupMenuItem(
+                      value: 'new_post',
+                      child: Text(
+                        AppString.newPost,
+                        style: styleForBoldText.copyWith(
+                          color: AppColors.darkGrey,
+                          fontSize: 16.sp,
+                        ),
+                      ),
+                    ),
+                    PopupMenuItem(
+                      value: 'new_poll',
+                      child: Text(
+                        'New Poll'.tr,
+                        style: styleForBoldText.copyWith(
+                          color: AppColors.darkGrey,
+                          fontSize: 16.sp,
+                        ),
+                      ),
+                    ),
+                  ],
+                  elevation: 8.0,
+                );
 
-          if (selected == 'new_post') {
-            Get.toNamed(RoutesName.addNewPost);
-          } else if (selected == 'new_poll') {
-            Get.toNamed(RoutesName.newPollScreen);
-          }
-        },
-        child: const Icon(Icons.add, color: Colors.white),
-      ),
+                if (selected == 'new_post') {
+                  Get.toNamed(RoutesName.addNewPost);
+                } else if (selected == 'new_poll') {
+                  Get.toNamed(RoutesName.newPollScreen);
+                }
+              },
+              child: const Icon(Icons.add, color: Colors.white),
+            )
+          : null,
       body: SingleChildScrollView(
         padding: const EdgeInsets.only(left: 10, right: 10, top: 40),
         child: Column(
@@ -300,93 +304,103 @@ class _CommunityScreenState extends State<CommunityScreen>
             _buildTitleDivider(AppString.group),
             SizedBox(height: 10),
 
-            _buildGroupList(widget.groupList, controller.getCommunityGroup),
+            _buildGroupList(widget.groupList, (data) {
+              controller.getCommunityGroup(
+                data,
+                iAmNorGuest: widget.iAmNotGuest,
+              );
+            }),
             const SizedBox(height: 16),
             _buildTitleDivider(AppString.byRegion),
             SizedBox(height: 10),
-            _buildGroupList(widget.regionList, controller.getCommunityRegion),
+            _buildGroupList(widget.regionList, (data) {
+              controller.getCommunityRegion(
+                data,
+                iAmNotGuest: widget.iAmNotGuest,
+              );
+            }),
 
             const SizedBox(height: 10),
-            _buildPostSection(
-              "My Post",
-              controller.myPostList,
-              "myPost",
-              "PostCommunity",
-            ),
+            if (widget.iAmNotGuest)
+              _buildPostSection(
+                "My Post",
+                controller.myPostList,
+                "myPost",
+                "PostCommunity",
+              ),
             const SizedBox(height: 10),
-            _buildTitleRow(
-              "My Polls",
-              onSeeAll: () {
-                Get.to(SeeAllMyPollScreen());
-              },
-            ),
+            if (widget.iAmNotGuest)
+              _buildTitleRow(
+                "My Polls",
+                onSeeAll: () {
+                  Get.to(SeeAllMyPollScreen());
+                },
+              ),
 
             Obx(
-              () =>
-                  controller.myPollList.isNotEmpty
-                      ? ListView.builder(
-                        padding: EdgeInsets.all(0),
-                        itemCount:
-                            controller.myPollList.length > 3
-                                ? 3
-                                : controller.myPollList.length,
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemBuilder: (context, index) {
-                          final pollData = controller.myPollList[index];
-                          return Obx(() {
-                            final selected =
-                                controller.selectedMyPollOptions[pollData.id];
-                            String isoTime = pollData.createdAt;
+              () => controller.myPollList.isNotEmpty
+                  ? ListView.builder(
+                      padding: EdgeInsets.all(0),
+                      itemCount: controller.myPollList.length > 3
+                          ? 3
+                          : controller.myPollList.length,
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        final pollData = controller.myPollList[index];
+                        return Obx(() {
+                          final selected =
+                              controller.selectedMyPollOptions[pollData.id];
+                          String isoTime = pollData.createdAt;
 
-                            DateTime dateTime = DateTime.parse(isoTime);
+                          DateTime dateTime = DateTime.parse(isoTime);
 
-                            // Format as dd-MM-yyyy
-                            String createDate = DateFormat(
-                              'dd-MM-yyyy',
-                            ).format(dateTime); // 👉 14-08-2025
+                          // Format as dd-MM-yyyy
+                          String createDate = DateFormat(
+                            'dd-MM-yyyy',
+                          ).format(dateTime); // 👉 14-08-2025
 
-                            // Format time (HH:mm)
-                            String createTime = DateFormat(
-                              'HH:mm',
-                            ).format(dateTime); // 👉 11:08
+                          // Format time (HH:mm)
+                          String createTime = DateFormat(
+                            'HH:mm',
+                          ).format(dateTime); // 👉 11:08
 
-                            return Padding(
-                              padding: const EdgeInsets.only(bottom: 10),
-                              child: CustomPollWidget(
-                                question: pollData.title,
-                                id: pollData.id,
-                                isMyPolls: true,
-                                description: pollData.description,
-                                name: pollData.creator.name,
-                                image: pollData.creator.profileImage,
-                                options: pollData.options,
-                                time: "$createDate  •  $createTime",
-                                selectedIndex: selected,
-                                onOptionTap: (optionIndex) {
-                                  if (selected == null) {
-                                    controller.patchLatestPoll(
-                                      pollData.id,
-                                      optionIndex,
-                                    );
-                                  } else {
-                                    Get.snackbar(
-                                      "Notice",
-                                      "You have already voted on this poll.",
-                                    );
-                                  }
-                                },
-                              ),
-                            );
-                          });
-                        },
-                      )
-                      : Center(
-                        child: Text(
-                          "No data found".tr,
-                          style: styleForNormalText,
-                        ),
+                          return Padding(
+                            padding: const EdgeInsets.only(bottom: 10),
+                            child: CustomPollWidget(
+                              question: pollData.title,
+                              id: pollData.id,
+                              isMyPolls: true,
+                              description: pollData.description,
+                              name: pollData.creator.name,
+                              image: pollData.creator.profileImage,
+                              options: pollData.options,
+                              time: "$createDate  •  $createTime",
+                              selectedIndex: selected,
+                              onOptionTap: (optionIndex) {
+                                if (selected == null) {
+                                  controller.patchLatestPoll(
+                                    pollData.id,
+                                    optionIndex,
+                                  );
+                                } else {
+                                  Get.snackbar(
+                                    "Notice",
+                                    "You have already voted on this poll.",
+                                  );
+                                }
+                              },
+                            ),
+                          );
+                        });
+                      },
+                    )
+                  : Center(
+                      child: Text(
+                        "No data found".tr,
+                        style: styleForNormalText,
                       ),
+                    ),
             ),
 
             const SizedBox(height: 10),
@@ -418,75 +432,78 @@ class _CommunityScreenState extends State<CommunityScreen>
             _buildTitleRow(
               "Latest Polls",
               onSeeAll: () {
-                Get.toNamed(RoutesName.seeAllPollScreen);
+                Get.toNamed(
+                  RoutesName.seeAllPollScreen,
+                  arguments: {'iAmNotGuest': widget.iAmNotGuest},
+                );
               },
             ),
 
             Obx(
-              () =>
-                  controller.latestPollList.isNotEmpty
-                      ? ListView.builder(
-                        padding: EdgeInsets.all(0),
-                        itemCount:
-                            controller.latestPollList.length > 3
-                                ? 3
-                                : controller.latestPollList.length,
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemBuilder: (context, index) {
-                          final pollData = controller.latestPollList[index];
-                          return Obx(() {
-                            final selected =
-                                controller.selectedPollOptions[pollData.id];
-                            String isoTime = pollData.createdAt;
+              () => controller.latestPollList.isNotEmpty
+                  ? ListView.builder(
+                      padding: EdgeInsets.all(0),
+                      itemCount: controller.latestPollList.length > 3
+                          ? 3
+                          : controller.latestPollList.length,
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        final pollData = controller.latestPollList[index];
+                        return Obx(() {
+                          final selected =
+                              controller.selectedPollOptions[pollData.id];
+                          String isoTime = pollData.createdAt;
 
-                            DateTime dateTime = DateTime.parse(isoTime);
+                          DateTime dateTime = DateTime.parse(isoTime);
 
-                            // Format as dd-MM-yyyy
-                            String createDate = DateFormat(
-                              'dd-MM-yyyy',
-                            ).format(dateTime); // 👉 14-08-2025
+                          // Format as dd-MM-yyyy
+                          String createDate = DateFormat(
+                            'dd-MM-yyyy',
+                          ).format(dateTime); // 👉 14-08-2025
 
-                            // Format time (HH:mm)
-                            String createTime = DateFormat(
-                              'HH:mm',
-                            ).format(dateTime); // 👉 11:08
+                          // Format time (HH:mm)
+                          String createTime = DateFormat(
+                            'HH:mm',
+                          ).format(dateTime); // 👉 11:08
 
-                            return Padding(
-                              padding: const EdgeInsets.only(bottom: 10),
-                              child: CustomPollWidget(
-                                question: pollData.title,
-                                id: pollData.id,
-                                description: pollData.description,
-                                name: pollData.creator.name,
-                                image: pollData.creator.profileImage,
-                                options: pollData.options,
-                                time: "$createDate  •  $createTime",
-                                selectedIndex: selected,
-                                onOptionTap: (optionIndex) {
-                                  if (selected == null) {
-                                    controller.patchLatestPoll(
-                                      pollData.id,
-                                      optionIndex,
-                                    );
-                                  } else {
-                                    Get.snackbar(
-                                      "Notice",
-                                      "You have already voted on this poll.",
-                                    );
-                                  }
-                                },
-                              ),
-                            );
-                          });
-                        },
-                      )
-                      : Center(
-                        child: Text(
-                          "No data found".tr,
-                          style: styleForNormalText,
-                        ),
+                          return Padding(
+                            padding: const EdgeInsets.only(bottom: 10),
+                            child: CustomPollWidget(
+                              question: pollData.title,
+                              id: pollData.id,
+                              description: pollData.description,
+                              name: pollData.creator.name,
+                              image: pollData.creator.profileImage,
+                              options: pollData.options,
+                              time: "$createDate  •  $createTime",
+                              selectedIndex: selected,
+                              onOptionTap: (!widget.iAmNotGuest)
+                                  ? (_) => showExploreDialog(context)
+                                  : (optionIndex) {
+                                      if (selected == null) {
+                                        controller.patchLatestPoll(
+                                          pollData.id,
+                                          optionIndex,
+                                        );
+                                      } else {
+                                        Get.snackbar(
+                                          "Notice",
+                                          "You have already voted on this poll.",
+                                        );
+                                      }
+                                    },
+                            ),
+                          );
+                        });
+                      },
+                    )
+                  : Center(
+                      child: Text(
+                        "No data found".tr,
+                        style: styleForNormalText,
                       ),
+                    ),
             ),
 
             SizedBox(height: 90.h),
@@ -607,80 +624,90 @@ class _CommunityScreenState extends State<CommunityScreen>
           onSeeAll: () {
             Get.toNamed(
               RoutesName.seeAllPostScreen,
-              arguments: {'data': routeArg, 'isMyPost': routeArg == "myPost"},
+              arguments: {
+                'data': routeArg,
+                'isMyPost': routeArg == "myPost",
+                'iAmNotGuest': widget.iAmNotGuest,
+              },
             );
           },
         ),
         SizedBox(height: 5.h),
         Obx(
-          () =>
-              postList.isNotEmpty
-                  ? ListView.builder(
-                    padding: EdgeInsets.zero,
-                    itemCount: postList.length > 3 ? 3 : postList.length,
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemBuilder: (context, index) {
-                      final data = postList[index];
+          () => postList.isNotEmpty
+              ? ListView.builder(
+                  padding: EdgeInsets.zero,
+                  itemCount: postList.length > 3 ? 3 : postList.length,
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    final data = postList[index];
 
-                      String isoTime = data.createdAt;
+                    String isoTime = data.createdAt;
 
-                      DateTime dateTime = DateTime.parse(isoTime);
+                    DateTime dateTime = DateTime.parse(isoTime);
 
-                      // Format as dd-MM-yyyy
-                      String createDate = DateFormat(
-                        'dd-MM-yyyy',
-                      ).format(dateTime); // 👉 14-08-2025
+                    // Format as dd-MM-yyyy
+                    String createDate = DateFormat(
+                      'dd-MM-yyyy',
+                    ).format(dateTime); // 👉 14-08-2025
 
-                      // Format time (HH:mm)
-                      String createTime = DateFormat(
-                        'HH:mm',
-                      ).format(dateTime); // 👉 11:08
+                    // Format time (HH:mm)
+                    String createTime = DateFormat(
+                      'HH:mm',
+                    ).format(dateTime); // 👉 11:08
 
-                      return Padding(
-                        padding: const EdgeInsets.only(bottom: 10),
-                        child: CustomPostContainer(
-                          profileImage: "${data.creator.profileImage}",
-                          title: data.title,
-                          description: data.description,
-                          name: data.creator.name,
-                          time: "$createDate  •  $createTime",
-                          commentCount: data.totalComments.toString(),
-                          likeCount: data.totalLikes.toString(),
-                          onTap: () {
-                            Get.toNamed(
-                              RoutesName.commentPost,
-                              arguments: {
-                                'id': data.id,
-                                'type': type,
-                                'isMyPost': routeArg == "myPost",
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 10),
+                      child: CustomPostContainer(
+                        profileImage: "${data.creator.profileImage}",
+                        title: data.title,
+                        description: data.description,
+                        name: data.creator.name,
+                        time: "$createDate  •  $createTime",
+                        commentCount: data.totalComments.toString(),
+                        likeCount: data.totalLikes.toString(),
+                        onTap: (!widget.iAmNotGuest)
+                            ? () => showExploreDialog(context)
+                            : () {
+                                Get.toNamed(
+                                  RoutesName.commentPost,
+                                  arguments: {
+                                    'id': data.id,
+                                    'type': type,
+                                    'isMyPost': routeArg == "myPost",
+                                  },
+                                );
                               },
-                            );
-                          },
-                          isLiked: data.isLiked,
-                          onTapLike: () {
-                            data.isLiked
-                                ? controller.unLikePost(data.id)
-                                : controller.likePost(data.id);
-                          },
-                          onTapComment: () {
-                            controller.getComment(id: data.id);
-
-                            showCommentBottomSheet(
-                              context,
-                              commentController: controller.commentController,
-                              onPressed: () {
-                                controller.commentPost(data.id, context);
+                        isLiked: data.isLiked,
+                        onTapLike: (!widget.iAmNotGuest)
+                            ? () => showExploreDialog(context)
+                            : () {
+                                data.isLiked
+                                    ? controller.unLikePost(data.id)
+                                    : controller.likePost(data.id);
                               },
-                            );
-                          },
-                        ),
-                      );
-                    },
-                  )
-                  : Center(
-                    child: Text("No data found".tr, style: styleForNormalText),
-                  ),
+                        onTapComment: (!widget.iAmNotGuest)
+                            ? () => showExploreDialog(context)
+                            : () {
+                                controller.getComment(id: data.id);
+
+                                showCommentBottomSheet(
+                                  context,
+                                  commentController:
+                                      controller.commentController,
+                                  onPressed: () {
+                                    controller.commentPost(data.id, context);
+                                  },
+                                );
+                              },
+                      ),
+                    );
+                  },
+                )
+              : Center(
+                  child: Text("No data found".tr, style: styleForNormalText),
+                ),
         ),
       ],
     );

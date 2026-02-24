@@ -12,7 +12,8 @@ import '../../common_image.dart';
 import 'custom_idea_container.dart';
 
 class RegularInspirationContent extends StatelessWidget {
-  RegularInspirationContent({super.key});
+  RegularInspirationContent({super.key, required this.iAmNotGuest});
+  final bool iAmNotGuest;
 
   final InspirationController controller = Get.find<InspirationController>();
 
@@ -175,12 +176,11 @@ class RegularInspirationContent extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder:
-                                    (_) => ViewAllInspirationPage(
-                                      title: staticTitle.tr,
-                                      subtitle: staticSubtitle.tr,
-                                      inspirations: inspirations,
-                                    ),
+                                builder: (_) => ViewAllInspirationPage(
+                                  title: staticTitle.tr,
+                                  subtitle: staticSubtitle.tr,
+                                  inspirations: inspirations,
+                                ),
                               ),
                             );
                           },
@@ -206,50 +206,55 @@ class RegularInspirationContent extends StatelessWidget {
 
                     inspirations.isNotEmpty
                         ? SizedBox(
-                          height: 320,
-                          child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: inspirations.length,
-                            itemBuilder: (context, i) {
-                              final item = inspirations[i];
-                              DateTime dateTime = DateTime.parse(
-                                item['createdAt'],
-                              );
-                              String createDate = DateFormat(
-                                'dd-MM-yyyy',
-                              ).format(dateTime);
-                              String createTime = DateFormat(
-                                'HH:mm',
-                              ).format(dateTime);
+                            height: 320,
+                            child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: inspirations.length,
+                              itemBuilder: (context, i) {
+                                final item = inspirations[i];
+                                DateTime dateTime = DateTime.parse(
+                                  item['createdAt'],
+                                );
+                                String createDate = DateFormat(
+                                  'dd-MM-yyyy',
+                                ).format(dateTime);
+                                String createTime = DateFormat(
+                                  'HH:mm',
+                                ).format(dateTime);
 
-                              return Padding(
-                                padding: const EdgeInsets.only(right: 10.0),
-                                child: CustomIdeaContainer(
-                                  image: item['coverImage'] ?? "",
-                                  title: item['title'] ?? "",
-                                  description: item['description'] ?? "",
-                                  authorImage: item['author']['profileImage'],
-                                  authorName: item['author']['name'],
-                                  createDate: createDate,
-                                  createTime: createTime,
-                                  imageWidth: 356,
-                                  onTap: () {
-                                    controller.getCategoryDetails(item['_id']);
-                                  },
-                                ),
-                              );
-                            },
-                          ),
-                        )
+                                return Padding(
+                                  padding: const EdgeInsets.only(right: 10.0),
+                                  child: CustomIdeaContainer(
+                                    image: item['coverImage'] ?? "",
+                                    title: item['title'] ?? "",
+                                    description: item['description'] ?? "",
+                                    authorImage: item['author']['profileImage'],
+                                    authorName: item['author']['name'],
+                                    createDate: createDate,
+                                    createTime: createTime,
+                                    imageWidth: 356,
+                                    onTap: () {
+                                      controller.getCategoryDetails(
+                                        item['_id'],
+                                        iAmNotGuest: iAmNotGuest,
+                                      );
+                                    },
+                                  ),
+                                );
+                              },
+                            ),
+                          )
                         : Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 20),
-                          child: Center(
-                            child: Text(
-                              "No data found".tr,
-                              style: styleForNormalText.copyWith(fontSize: 14),
+                            padding: const EdgeInsets.symmetric(vertical: 20),
+                            child: Center(
+                              child: Text(
+                                "No data found".tr,
+                                style: styleForNormalText.copyWith(
+                                  fontSize: 14,
+                                ),
+                              ),
                             ),
                           ),
-                        ),
                   ],
                 );
               },
@@ -320,7 +325,10 @@ class RegularInspirationContent extends StatelessWidget {
                             createTime: createTime,
                             imageWidth: 356,
                             onTap: () {
-                              controller.getCategoryDetails(item.id);
+                              controller.getCategoryDetails(
+                                item.id,
+                                iAmNotGuest: iAmNotGuest,
+                              );
                             },
                           ),
                         );

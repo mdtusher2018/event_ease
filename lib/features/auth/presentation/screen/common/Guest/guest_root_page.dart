@@ -1,5 +1,7 @@
 import 'package:event_ease/features/auth/presentation/screen/common/Guest/guest_home_page.dart';
-import 'package:event_ease/features/auth/presentation/screen/common/role_screen.dart';
+import 'package:event_ease/features/auth/presentation/screen/common/inspiration/inspiration_screen.dart';
+import 'package:event_ease/features/auth/presentation/screen/regular/community/community_screen.dart';
+import 'package:event_ease/features/auth/presentation/widgets/explore_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -43,24 +45,8 @@ class _GuestRootPageState extends State<GuestRootPage> {
         icon: Icons.favorite,
       ),
 
-      _exploreScreen(
-        title:
-            "inspiration_title", // Replace with localization key for Inspiration
-        subtitle:
-            "inspiration_subtitle", // Replace with localization key for Inspiration subtitle
-        buttonText:
-            "inspiration_button", // Replace with localization key for Inspiration button
-        icon: Icons.star,
-      ),
-
-      _exploreScreen(
-        title: "community_title", // Replace with localization key for Community
-        subtitle:
-            "community_subtitle", // Replace with localization key for Community subtitle
-        buttonText:
-            "community_button", // Replace with localization key for Community button
-        icon: Icons.group,
-      ),
+      InspirationScreen(iAmNotGuest: false),
+      CommunityScreen(iAmNotGuest: false),
 
       _exploreScreen(
         title: "chat_title", // Replace with localization key for Chat
@@ -80,7 +66,7 @@ class _GuestRootPageState extends State<GuestRootPage> {
     required IconData icon,
   }) {
     return GestureDetector(
-      onTap: () => _showExploreDialog(context), // Show dialog on tap
+      onTap: () => showExploreDialog(context), // Show dialog on tap
       child: Container(
         color: Colors.white,
         padding: EdgeInsets.symmetric(
@@ -116,9 +102,8 @@ class _GuestRootPageState extends State<GuestRootPage> {
                 style: GoogleFonts.roboto(
                   fontSize: 16,
                   fontWeight: FontWeight.w400,
-                  color:
-                      Colors
-                          .black54, // Slightly faded text for secondary content
+                  color: Colors
+                      .black54, // Slightly faded text for secondary content
                 ),
               ),
               SizedBox(height: 30),
@@ -179,10 +164,9 @@ class _GuestRootPageState extends State<GuestRootPage> {
       _buildNavBarItem(
         icon: Icon(
           Icons.favorite,
-          color:
-              _controller.index == 1
-                  ? AppColors.primary
-                  : AppColors.greTab, // Active/inactive for favorite
+          color: _controller.index == 1
+              ? AppColors.primary
+              : AppColors.greTab, // Active/inactive for favorite
         ),
         title: AppString.favorite,
       ),
@@ -191,10 +175,9 @@ class _GuestRootPageState extends State<GuestRootPage> {
           AppIcons.inspirationIcon,
           height: 24,
           width: 24,
-          color:
-              _controller.index == 2
-                  ? AppColors.primary
-                  : AppColors.greTab, // Active color for inspiration
+          color: _controller.index == 2
+              ? AppColors.primary
+              : AppColors.greTab, // Active color for inspiration
         ),
         title: AppString.inspiration,
       ),
@@ -203,10 +186,9 @@ class _GuestRootPageState extends State<GuestRootPage> {
           AppIcons.communityIcon,
           height: 24,
           width: 24,
-          color:
-              _controller.index == 3
-                  ? AppColors.primary
-                  : AppColors.greTab, // Active color for community
+          color: _controller.index == 3
+              ? AppColors.primary
+              : AppColors.greTab, // Active color for community
         ),
         title: AppString.community,
       ),
@@ -215,10 +197,9 @@ class _GuestRootPageState extends State<GuestRootPage> {
           AppIcons.chatIcon,
           height: 30,
           width: 30,
-          color:
-              _controller.index == 4
-                  ? AppColors.primary
-                  : AppColors.greTab, // Active color for chat
+          color: _controller.index == 4
+              ? AppColors.primary
+              : AppColors.greTab, // Active color for chat
         ),
         title: AppString.chat,
       ),
@@ -255,39 +236,6 @@ class _GuestRootPageState extends State<GuestRootPage> {
         ),
         resizeToAvoidBottomInset: true,
       ),
-    );
-  }
-
-  // Dialog to show on tapping "Explore Now"
-  void _showExploreDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text("Explore More Content"),
-          content: Text(
-            "It looks like you're interested in accessing more features or content. "
-            "To continue, please log in to your account. You can also explore more options or cancel if you're not ready.",
-          ),
-          actions: <Widget>[
-            // Log in button
-            TextButton(
-              onPressed: () {
-                Get.to(RoleScreen()); // Navigate to the RoleScreen
-              },
-              child: Text("Log in", style: TextStyle(color: AppColors.primary)),
-            ),
-
-            // Cancel button
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(); // Close the dialog
-              },
-              child: Text("Cancel", style: TextStyle(color: Colors.black)),
-            ),
-          ],
-        );
-      },
     );
   }
 }

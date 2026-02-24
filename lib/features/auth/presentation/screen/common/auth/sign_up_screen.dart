@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:event_ease/core/helper/prefs_helper.dart';
 import 'package:event_ease/core/routers/routes_name.dart';
 import 'package:event_ease/features/auth/presentation/controller/auth/sign_up_controller.dart';
@@ -130,9 +129,9 @@ class SignUpScreen extends StatelessWidget {
                                 Text(
                                   controller.selectedDate.value != null
                                       ? DateFormat(
-                                        'dd/MM/yyyy',
-                                        // 'yyyy-MM-dd',
-                                      ).format(controller.selectedDate.value!)
+                                          'dd/MM/yyyy',
+                                          // 'yyyy-MM-dd',
+                                        ).format(controller.selectedDate.value!)
                                       : AppString.dateOfBirth,
                                   style: styleForNormalText.copyWith(
                                     color: AppColors.grey,
@@ -184,8 +183,8 @@ class SignUpScreen extends StatelessWidget {
                                 ),
                                 value:
                                     controller.selectedGender.value.isNotEmpty
-                                        ? controller.selectedGender.value
-                                        : null,
+                                    ? controller.selectedGender.value
+                                    : null,
                                 style: styleForNormalText.copyWith(
                                   color: AppColors.grey,
                                   fontSize: 14.sp,
@@ -199,16 +198,15 @@ class SignUpScreen extends StatelessWidget {
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ),
-                                items:
-                                    controller.genderItem.map((String item) {
-                                      return DropdownMenuItem<String>(
-                                        value: item,
-                                        child: Text(
-                                          item,
-                                          style: TextStyle(color: Colors.black),
-                                        ),
-                                      );
-                                    }).toList(),
+                                items: controller.genderItem.map((String item) {
+                                  return DropdownMenuItem<String>(
+                                    value: item,
+                                    child: Text(
+                                      item,
+                                      style: TextStyle(color: Colors.black),
+                                    ),
+                                  );
+                                }).toList(),
                                 onChanged: (String? newValue) {
                                   if (newValue != null) {
                                     controller.selectedGender.value = newValue;
@@ -239,11 +237,10 @@ class SignUpScreen extends StatelessWidget {
                   isSuffix: true,
                   backgroundColor: AppColors.textFieldBg,
                   controller: controller.confirmPasswordController,
-                  validator:
-                      (value) => OtherHelper.confirmPasswordValidator(
-                        value,
-                        controller.passwordController,
-                      ),
+                  validator: (value) => OtherHelper.confirmPasswordValidator(
+                    value,
+                    controller.passwordController,
+                  ),
                 ),
 
                 SizedBox(height: 20.h),
@@ -316,13 +313,10 @@ class SignUpScreen extends StatelessWidget {
                               ),
                             ),
                             TextSpan(
-                              recognizer:
-                                  TapGestureRecognizer()
-                                    ..onTap = () {
-                                      Get.toNamed(
-                                        RoutesName.signUpPrivacyPolicy,
-                                      );
-                                    },
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {
+                                  Get.toNamed(RoutesName.signUpPrivacyPolicy);
+                                },
                               text: AppString.privacyPolicy,
                               style: styleForBoldText.copyWith(
                                 color: AppColors.primary,
@@ -339,11 +333,10 @@ class SignUpScreen extends StatelessWidget {
                               ),
                             ),
                             TextSpan(
-                              recognizer:
-                                  TapGestureRecognizer()
-                                    ..onTap = () {
-                                      Get.toNamed(RoutesName.termsOfService);
-                                    },
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {
+                                  Get.toNamed(RoutesName.termsOfService);
+                                },
                               text: AppString.termsOfService,
                               style: styleForBoldText.copyWith(
                                 color: AppColors.primary,
@@ -365,17 +358,19 @@ class SignUpScreen extends StatelessWidget {
                     onTap: () {
                       if (controller.isAgree.value) {
                         if (_formKey.currentState!.validate()) {
-                          if (controller.selectedDate.value == null &&
-                              PrefsHelper.myRole == 'user') {
-                            Get.snackbar(
-                              "Date of Birth Required",
-                              "Please select your date of birth.",
-                              snackPosition: SnackPosition.TOP,
-                              backgroundColor: Colors.red,
-                              colorText: Colors.white,
-                            );
-                            return; // Stop execution
-                          }
+                          // if (!Platform.isIOS) {
+                          //   if (controller.selectedDate.value == null &&
+                          //       PrefsHelper.myRole == 'user') {
+                          //     Get.snackbar(
+                          //       "Date of Birth Required",
+                          //       "Please select your date of birth.",
+                          //       snackPosition: SnackPosition.TOP,
+                          //       backgroundColor: Colors.red,
+                          //       colorText: Colors.white,
+                          //     );
+                          //     return; // Stop execution
+                          //   }
+                          // }
 
                           if (controller.selectedGender.value.isEmpty &&
                               PrefsHelper.myRole == 'user') {
