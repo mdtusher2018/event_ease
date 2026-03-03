@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 import 'package:event_ease/core/routers/routes_name.dart';
 import 'package:event_ease/features/auth/data/repository/auth_repository.dart';
 import 'package:event_ease/features/auth/presentation/controller/profile/edit_controller.dart';
@@ -335,7 +336,8 @@ void showEditProfileInputDialog({
                 ),
                 const SizedBox(height: 6),
                 CustomTextField(
-                  hintText: AppString.email,
+                  hintText:
+                      "${AppString.email}${(Platform.isAndroid) ? " (optional)" : ""}",
                   isSuffix: false,
                   controller: controller.emailController,
                   enabled: (controller.emailController.text.isEmpty),
@@ -385,7 +387,7 @@ void showEditProfileInputDialog({
                               ? DateFormat(
                                   'dd/MM/yyyy',
                                 ).format(controller.selectedDate.value!)
-                              : AppString.dateOfBirth,
+                              : "${AppString.dateOfBirth}${(Platform.isAndroid) ? " (optional)" : ""}",
                           style: styleForNormalText.copyWith(
                             color: AppColors.grey,
                           ),
@@ -535,15 +537,20 @@ void showEditProfileInputDialog({
                                     return;
                                   }
 
-                                  if (controller.emailController.text.isEmpty) {
-                                    Get.snackbar(
-                                      "Validation Error",
-                                      "Please enter your email",
-                                      snackPosition: SnackPosition.BOTTOM,
-                                      backgroundColor: Colors.red.shade600,
-                                      colorText: Colors.white,
-                                    );
-                                    return;
+                                  if (Platform.isAndroid) {
+                                    if (controller
+                                        .emailController
+                                        .text
+                                        .isEmpty) {
+                                      Get.snackbar(
+                                        "Validation Error",
+                                        "Please enter your email",
+                                        snackPosition: SnackPosition.BOTTOM,
+                                        backgroundColor: Colors.red.shade600,
+                                        colorText: Colors.white,
+                                      );
+                                      return;
+                                    }
                                   }
 
                                   // if (!Platform.isIOS) {
