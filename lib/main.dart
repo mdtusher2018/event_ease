@@ -66,7 +66,7 @@ class MyApp extends StatelessWidget {
           fallbackLocale: const Locale('it', 'IT'),
           initialRoute: RoutesName.getSplashScreen0(),
           getPages: AppRoutes.appRoutes(),
-       
+
           // home: OnboardingScreen(),
         ),
       );

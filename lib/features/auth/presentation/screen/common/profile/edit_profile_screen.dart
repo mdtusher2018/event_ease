@@ -84,12 +84,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                         final isLocalFile =
                             imageSrc.isNotEmpty && File(imageSrc).existsSync();
                         return CommonImage(
-                          imageSrc:
-                              imageSrc.isNotEmpty
-                                  ? imageSrc
-                                  : "", // Fallback to default avatar
-                          imageType:
-                              isLocalFile ? ImageType.file : ImageType.network,
+                          imageSrc: imageSrc.isNotEmpty
+                              ? imageSrc
+                              : "", // Fallback to default avatar
+                          imageType: isLocalFile
+                              ? ImageType.file
+                              : ImageType.network,
                           borderRadius: 100.r,
                           fill: BoxFit.cover,
                           size: 140.r,
@@ -155,7 +155,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     backgroundColor: AppColors.textFieldBg,
                     hintText: AppString.email,
                     isSuffix: false,
-                    enabled: false,
+                    enabled: Platform.isIOS,
                     controller: controller.emailController,
                   ),
                   if (PrefsHelper.myRole == 'user') const SizedBox(height: 20),
@@ -164,7 +164,18 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   if (PrefsHelper.myRole == 'user')
                     Obx(
                       () => GestureDetector(
-                        onTap: () async {},
+                        onTap: () async {
+                          if (controller.selectedDate.value != null) return;
+                          DateTime? selectedDate = await showDatePicker(
+                            context: context,
+                            initialDate: DateTime.now(),
+                            firstDate: DateTime(1900),
+                            lastDate: DateTime.now(),
+                          );
+                          if (selectedDate != null) {
+                            controller.selectedDate.value = selectedDate;
+                          }
+                        },
                         child: Container(
                           padding: EdgeInsets.symmetric(horizontal: 8),
                           decoration: BoxDecoration(
@@ -198,9 +209,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   Text(
                                     controller.selectedDate.value != null
                                         ? DateFormat(
-                                          'dd/MM/yyyy',
-                                          // 'yyyy-MM-dd',
-                                        ).format(controller.selectedDate.value!)
+                                            'dd/MM/yyyy',
+                                            // 'yyyy-MM-dd',
+                                          ).format(
+                                            controller.selectedDate.value!,
+                                          )
                                         : AppString.dateOfBirth,
                                     style: styleForNormalText.copyWith(
                                       color: AppColors.grey,
@@ -251,8 +264,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 ),
                                 value:
                                     controller.selectedGender.value.isNotEmpty
-                                        ? controller.selectedGender.value
-                                        : null,
+                                    ? controller.selectedGender.value
+                                    : null,
                                 style: styleForNormalText.copyWith(
                                   color: AppColors.grey,
                                   fontSize: 14.sp,
@@ -266,16 +279,15 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ),
-                                items:
-                                    controller.genderItem.map((String item) {
-                                      return DropdownMenuItem<String>(
-                                        value: item,
-                                        child: Text(
-                                          item,
-                                          style: TextStyle(color: Colors.black),
-                                        ),
-                                      );
-                                    }).toList(),
+                                items: controller.genderItem.map((String item) {
+                                  return DropdownMenuItem<String>(
+                                    value: item,
+                                    child: Text(
+                                      item,
+                                      style: TextStyle(color: Colors.black),
+                                    ),
+                                  );
+                                }).toList(),
                                 onChanged: (String? newValue) {
                                   if (newValue != null) {
                                     controller.selectedGender.value = newValue;
@@ -379,28 +391,27 @@ class _CustomPhoneFieldState extends State<CustomPhoneField> {
           DropdownButtonHideUnderline(
             child: DropdownButton<Map<String, String>>(
               value: selectedCountry,
-              items:
-                  countries.map((country) {
-                    return DropdownMenuItem(
-                      value: country,
-                      child: Row(
-                        children: [
-                          Text(
-                            country["flag"]!,
-                            style: const TextStyle(fontSize: 18),
-                          ),
-                          const SizedBox(width: 6),
-                          Text(
-                            country["dial_code"]!,
-                            style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ],
+              items: countries.map((country) {
+                return DropdownMenuItem(
+                  value: country,
+                  child: Row(
+                    children: [
+                      Text(
+                        country["flag"]!,
+                        style: const TextStyle(fontSize: 18),
                       ),
-                    );
-                  }).toList(),
+                      const SizedBox(width: 6),
+                      Text(
+                        country["dial_code"]!,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              }).toList(),
               onChanged: (value) {
                 setState(() {
                   selectedCountry = value!;

@@ -19,15 +19,14 @@ class SignUpStepScreen extends StatelessWidget {
   SignUpStepScreen({super.key});
 
   SignUpStepController controller = Get.find<SignUpStepController>();
-  String promotionLogo ='';
+  String promotionLogo = '';
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         leading: IconButton(
-          onPressed:() {
+          onPressed: () {
             if (controller.currentPage.value > 0) {
               controller.goToPreviousPage();
             } else {
@@ -35,7 +34,6 @@ class SignUpStepScreen extends StatelessWidget {
             }
           },
           icon: const Icon(Icons.arrow_back),
-          
         ),
         // actions: [
         //   GestureDetector(
@@ -67,29 +65,33 @@ class SignUpStepScreen extends StatelessWidget {
               ],
             ),
           ),
-    
+
           // Page Indicator
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 16.0),
-            child: Obx(() => Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: List.generate(9, (index) {
-                return Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 4.0),
-                  width: controller.currentPage.value == index ? 30.0.w : 5.0.h,
-                  height: 5.0.h,
-                  decoration: BoxDecoration(
-                    color: controller.currentPage.value == index ? AppColors.primary : AppColors.grey,
-                    borderRadius: BorderRadius.circular(4.0),
-                  ),
-                );
-              }),
-            )),
+            child: Obx(
+              () => Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: List.generate(9, (index) {
+                  return Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 4.0),
+                    width: controller.currentPage.value == index
+                        ? 30.0.w
+                        : 5.0.h,
+                    height: 5.0.h,
+                    decoration: BoxDecoration(
+                      color: controller.currentPage.value == index
+                          ? AppColors.primary
+                          : AppColors.grey,
+                      borderRadius: BorderRadius.circular(4.0),
+                    ),
+                  );
+                }),
+              ),
+            ),
           ),
         ],
       ),
-    
     );
   }
-
 }
