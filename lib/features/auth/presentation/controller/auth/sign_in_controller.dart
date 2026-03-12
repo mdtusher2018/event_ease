@@ -327,17 +327,21 @@ void showEditProfileInputDialog({
                   isSuffix: false,
                   controller: controller.nameController,
                 ),
+                Platform.isIOS? SizedBox.shrink():
                 const SizedBox(height: 16),
+                Platform.isIOS? SizedBox.shrink():
                 Text(
                   AppString.email,
                   style: styleForNormalText.copyWith(
                     fontWeight: FontWeight.w600,
                   ),
                 ),
+                Platform.isIOS? SizedBox.shrink():
                 const SizedBox(height: 6),
+                Platform.isIOS? SizedBox.shrink():
                 CustomTextField(
                   hintText:
-                      "${AppString.email}${(Platform.isAndroid) ? " (optional)" : ""}",
+                      "${AppString.email}${(Platform.isIOS) ? " (optional)" : ""}",
                   isSuffix: false,
                   controller: controller.emailController,
                   enabled: (controller.emailController.text.isEmpty),
