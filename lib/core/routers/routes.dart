@@ -29,12 +29,10 @@ import 'package:event_ease/features/auth/presentation/screen/common/nav_screen.d
 import 'package:event_ease/features/auth/presentation/screen/common/role_screen.dart';
 import 'package:event_ease/features/auth/presentation/screen/splash_screen.dart';
 import 'package:get/get_navigation/src/routes/get_route.dart';
-
 import '../../features/auth/presentation/screen/business/business_profile/item_screen/address_map_screen.dart';
 import '../../features/auth/presentation/screen/business/business_profile/item_screen/business_hour_screen.dart';
 import '../../features/auth/presentation/screen/business/business_profile/item_screen/contact_info_screen.dart';
 import '../../features/auth/presentation/screen/business/business_profile/item_screen/faq_screen.dart';
-import '../../features/auth/presentation/screen/business/business_profile/item_screen/image_media_screen.dart';
 import '../../features/auth/presentation/screen/business/business_profile/item_screen/service_details_screen.dart';
 import '../../features/auth/presentation/screen/business/dashboard/interested_user_screen.dart';
 import '../../features/auth/presentation/screen/business/dashboard/job_application_screen.dart';
@@ -47,7 +45,6 @@ import '../../features/auth/presentation/screen/common/auth/sign_up_privacy_poli
 import '../../features/auth/presentation/screen/common/auth/sign_up_screen.dart';
 import '../../features/auth/presentation/screen/common/home/filter_screen.dart';
 import '../../features/auth/presentation/screen/common/home/guide_screen.dart';
-// import '../../features/auth/presentation/screen/common/home/happen_learn_more_screen.dart';
 import '../../features/auth/presentation/screen/common/home/home_screen.dart';
 import '../../features/auth/presentation/screen/common/home/notification_screen.dart';
 import '../../features/auth/presentation/screen/common/home/search_screen.dart';
@@ -333,11 +330,7 @@ class AppRoutes {
       page: () => GeneralInfoScreen(),
       // binding: HomeBinding(), // Corrected here
     ),
-    GetPage(
-      name: RoutesName.getImageMediaScreen(),
-      page: () => ImageMediaScreen(),
-      // binding: HomeBinding(), // Corrected here
-    ),
+
     GetPage(
       name: RoutesName.getContactInfoScreen(),
       page: () => ContactInfoScreen(),

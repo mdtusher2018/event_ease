@@ -14,11 +14,12 @@ Future<void> showHomePageCommentBottomSheet(
   required String id,
   required bool isBussiness,
   bool isGuest = false,
-}) async {
+}) {
   final CommentController controller = Get.put(CommentController());
-
+  WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+    await controller.fetchComments(id: id, isBusiness: isBussiness);
+  });
   // Fetch comments
-  await controller.fetchComments(id: id, isBusiness: isBussiness);
 
   // Reset reply state
   controller.replyToName.value = "";
@@ -75,323 +76,301 @@ Future<void> showHomePageCommentBottomSheet(
 
                 // 🔹 Comments list
                 Expanded(
-                  child:
-                      controller.comments.isEmpty
-                          ? Center(
-                            child: Text(
-                              AppString.noCommentsYet,
-                              style: styleForNormalText.copyWith(
-                                fontSize: 14.sp,
-                                color: AppColors.grey,
-                              ),
+                  child: controller.comments.isEmpty
+                      ? Center(
+                          child: Text(
+                            AppString.noCommentsYet,
+                            style: styleForNormalText.copyWith(
+                              fontSize: 14.sp,
+                              color: AppColors.grey,
                             ),
-                          )
-                          : ListView.builder(
-                            padding: EdgeInsets.only(bottom: 20.h),
-                            itemCount: controller.comments.length,
-                            itemBuilder: (context, index) {
-                              final comment = controller.comments[index];
-                              if (!showReplies.containsKey(comment.id)) {
-                                showReplies[comment.id] = false;
-                              }
+                          ),
+                        )
+                      : ListView.builder(
+                          padding: EdgeInsets.only(bottom: 20.h),
+                          itemCount: controller.comments.length,
+                          itemBuilder: (context, index) {
+                            final comment = controller.comments[index];
+                            if (!showReplies.containsKey(comment.id)) {
+                              showReplies[comment.id] = false;
+                            }
 
-                              final date = DateFormat(
-                                'dd-MM-yyyy',
-                              ).format(DateTime.parse(comment.createdAt));
-                              final time = DateFormat(
-                                'HH:mm',
-                              ).format(DateTime.parse(comment.createdAt));
+                            final date = DateFormat(
+                              'dd-MM-yyyy',
+                            ).format(DateTime.parse(comment.createdAt));
+                            final time = DateFormat(
+                              'HH:mm',
+                            ).format(DateTime.parse(comment.createdAt));
 
-                              return Obx(
-                                () => Container(
-                                  margin: EdgeInsets.only(bottom: 12.h),
-                                  padding: EdgeInsets.all(12.w),
-                                  decoration: BoxDecoration(
-                                    color: AppColors.textFieldBg,
-                                    borderRadius: BorderRadius.circular(12.r),
-                                  ),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      // User row
-                                      Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          CommonImage(
-                                            imageSrc: comment.user.profileImage,
-                                            imageType: ImageType.network,
-                                            borderRadius: 40.r,
-                                            height: 36.h,
-                                            width: 36.w,
-                                          ),
-                                          SizedBox(width: 10.w),
-                                          Expanded(
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    Text(
-                                                      comment.user.name,
-                                                      style: styleForBoldText
-                                                          .copyWith(
-                                                            fontSize: 14.sp,
-                                                            color:
-                                                                AppColors
-                                                                    .primary,
-                                                          ),
-                                                    ),
-                                                    Text(
-                                                      "$date • $time",
-                                                      style: styleForNormalText
-                                                          .copyWith(
-                                                            fontSize: 11.sp,
-                                                            color:
-                                                                AppColors.grey,
-                                                          ),
-                                                    ),
-                                                  ],
-                                                ),
-                                                SizedBox(height: 6.h),
-                                                Text(
-                                                  comment.text,
-                                                  style: styleForNormalText
-                                                      .copyWith(
-                                                        fontSize: 14.sp,
-                                                        color:
-                                                            AppColors.darkGrey,
-                                                      ),
-                                                ),
-                                                SizedBox(height: 4.h),
-                                                Row(
-                                                  children: [
-                                                    if (comment
-                                                        .replies
-                                                        .isNotEmpty)
-                                                      TextButton(
-                                                        onPressed: () {
-                                                          showReplies[comment
-                                                                  .id] =
-                                                              !showReplies[comment
-                                                                  .id]!;
-                                                        },
-                                                        child: Text(
-                                                          showReplies[comment
-                                                                  .id]!
-                                                              ? "Hide Replies"
-                                                                  .tr
-                                                              : "${"View Replies".tr} (${comment.replies.length})",
-                                                          style: styleForNormalText
-                                                              .copyWith(
-                                                                fontSize: 12.sp,
-                                                                color:
-                                                                    AppColors
-                                                                        .primary,
-                                                              ),
+                            return Obx(
+                              () => Container(
+                                margin: EdgeInsets.only(bottom: 12.h),
+                                padding: EdgeInsets.all(12.w),
+                                decoration: BoxDecoration(
+                                  color: AppColors.textFieldBg,
+                                  borderRadius: BorderRadius.circular(12.r),
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    // User row
+                                    Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        CommonImage(
+                                          imageSrc: comment.user.profileImage,
+                                          imageType: ImageType.network,
+                                          borderRadius: 40.r,
+                                          height: 36.h,
+                                          width: 36.w,
+                                        ),
+                                        SizedBox(width: 10.w),
+                                        Expanded(
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Text(
+                                                    comment.user.name,
+                                                    style: styleForBoldText
+                                                        .copyWith(
+                                                          fontSize: 14.sp,
+                                                          color:
+                                                              AppColors.primary,
                                                         ),
-                                                      ),
+                                                  ),
+                                                  Text(
+                                                    "$date • $time",
+                                                    style: styleForNormalText
+                                                        .copyWith(
+                                                          fontSize: 11.sp,
+                                                          color: AppColors.grey,
+                                                        ),
+                                                  ),
+                                                ],
+                                              ),
+                                              SizedBox(height: 6.h),
+                                              Text(
+                                                comment.text,
+                                                style: styleForNormalText
+                                                    .copyWith(
+                                                      fontSize: 14.sp,
+                                                      color: AppColors.darkGrey,
+                                                    ),
+                                              ),
+                                              SizedBox(height: 4.h),
+                                              Row(
+                                                children: [
+                                                  if (comment
+                                                      .replies
+                                                      .isNotEmpty)
                                                     TextButton(
                                                       onPressed: () {
-                                                        controller
-                                                            .replyingTo
-                                                            .value = comment.id;
-                                                        controller
-                                                                .replyToName
-                                                                .value =
-                                                            comment.user.name;
+                                                        showReplies[comment
+                                                                .id] =
+                                                            !showReplies[comment
+                                                                .id]!;
                                                       },
                                                       child: Text(
-                                                        "Reply".tr,
+                                                        showReplies[comment.id]!
+                                                            ? "Hide Replies".tr
+                                                            : "${"View Replies".tr} (${comment.replies.length})",
                                                         style: styleForNormalText
                                                             .copyWith(
                                                               fontSize: 12.sp,
-                                                              color:
-                                                                  AppColors
-                                                                      .primary,
+                                                              color: AppColors
+                                                                  .primary,
                                                             ),
                                                       ),
                                                     ),
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-
-                                      // 🔹 Replies
-                                      if (showReplies[comment.id]! &&
-                                          comment.replies.isNotEmpty)
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                            left: 48.w,
-                                            top: 8.h,
-                                          ),
-                                          child: Column(
-                                            children:
-                                                comment.replies.map((reply) {
-                                                  final replyDate = DateFormat(
-                                                    'dd-MM-yyyy',
-                                                  ).format(
-                                                    DateTime.parse(
-                                                      reply.createdAt,
-                                                    ),
-                                                  );
-                                                  final replyTime = DateFormat(
-                                                    'HH:mm',
-                                                  ).format(
-                                                    DateTime.parse(
-                                                      reply.createdAt,
-                                                    ),
-                                                  );
-
-                                                  return Container(
-                                                    margin: EdgeInsets.only(
-                                                      bottom: 8.h,
-                                                    ),
-                                                    padding: EdgeInsets.all(
-                                                      10.w,
-                                                    ),
-                                                    decoration: BoxDecoration(
-                                                      color: Colors.white,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                            10.r,
+                                                  TextButton(
+                                                    onPressed: () {
+                                                      controller
+                                                              .replyingTo
+                                                              .value =
+                                                          comment.id;
+                                                      controller
+                                                              .replyToName
+                                                              .value =
+                                                          comment.user.name;
+                                                    },
+                                                    child: Text(
+                                                      "Reply".tr,
+                                                      style: styleForNormalText
+                                                          .copyWith(
+                                                            fontSize: 12.sp,
+                                                            color: AppColors
+                                                                .primary,
                                                           ),
-                                                      border: Border.all(
-                                                        color: AppColors.grey
-                                                            .withOpacity(0.3),
-                                                      ),
                                                     ),
-                                                    child: Row(
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+
+                                    // 🔹 Replies
+                                    if (showReplies[comment.id]! &&
+                                        comment.replies.isNotEmpty)
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                          left: 48.w,
+                                          top: 8.h,
+                                        ),
+                                        child: Column(
+                                          children: comment.replies.map((
+                                            reply,
+                                          ) {
+                                            final replyDate =
+                                                DateFormat('dd-MM-yyyy').format(
+                                                  DateTime.parse(
+                                                    reply.createdAt,
+                                                  ),
+                                                );
+                                            final replyTime =
+                                                DateFormat('HH:mm').format(
+                                                  DateTime.parse(
+                                                    reply.createdAt,
+                                                  ),
+                                                );
+
+                                            return Container(
+                                              margin: EdgeInsets.only(
+                                                bottom: 8.h,
+                                              ),
+                                              padding: EdgeInsets.all(10.w),
+                                              decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius:
+                                                    BorderRadius.circular(10.r),
+                                                border: Border.all(
+                                                  color: AppColors.grey
+                                                      .withOpacity(0.3),
+                                                ),
+                                              ),
+                                              child: Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  CommonImage(
+                                                    imageSrc:
+                                                        reply.user.profileImage,
+                                                    imageType:
+                                                        ImageType.network,
+                                                    borderRadius: 30.r,
+                                                    height: 28.h,
+                                                    width: 28.w,
+                                                  ),
+                                                  SizedBox(width: 8.w),
+                                                  Expanded(
+                                                    child: Column(
                                                       crossAxisAlignment:
                                                           CrossAxisAlignment
                                                               .start,
                                                       children: [
-                                                        CommonImage(
-                                                          imageSrc:
-                                                              reply
-                                                                  .user
-                                                                  .profileImage,
-                                                          imageType:
-                                                              ImageType.network,
-                                                          borderRadius: 30.r,
-                                                          height: 28.h,
-                                                          width: 28.w,
+                                                        Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceBetween,
+                                                          children: [
+                                                            Text(
+                                                              reply.user.name,
+                                                              style: styleForBoldText
+                                                                  .copyWith(
+                                                                    fontSize:
+                                                                        13.sp,
+                                                                    color: AppColors
+                                                                        .primary,
+                                                                  ),
+                                                            ),
+                                                            Text(
+                                                              "$replyDate • $replyTime",
+                                                              style: styleForNormalText
+                                                                  .copyWith(
+                                                                    fontSize:
+                                                                        11.sp,
+                                                                    color:
+                                                                        AppColors
+                                                                            .grey,
+                                                                  ),
+                                                            ),
+                                                          ],
                                                         ),
-                                                        SizedBox(width: 8.w),
-                                                        Expanded(
-                                                          child: Column(
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .start,
-                                                            children: [
-                                                              Row(
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .spaceBetween,
-                                                                children: [
-                                                                  Text(
-                                                                    reply
-                                                                        .user
-                                                                        .name,
-                                                                    style: styleForBoldText.copyWith(
-                                                                      fontSize:
-                                                                          13.sp,
-                                                                      color:
-                                                                          AppColors
-                                                                              .primary,
-                                                                    ),
-                                                                  ),
-                                                                  Text(
-                                                                    "$replyDate • $replyTime",
-                                                                    style: styleForNormalText.copyWith(
-                                                                      fontSize:
-                                                                          11.sp,
-                                                                      color:
-                                                                          AppColors
-                                                                              .grey,
-                                                                    ),
-                                                                  ),
-                                                                ],
+                                                        SizedBox(height: 4.h),
+                                                        Text(
+                                                          reply.text,
+                                                          style: styleForNormalText
+                                                              .copyWith(
+                                                                fontSize: 13.sp,
+                                                                color: AppColors
+                                                                    .darkGrey,
                                                               ),
-                                                              SizedBox(
-                                                                height: 4.h,
-                                                              ),
-                                                              Text(
-                                                                reply.text,
-                                                                style: styleForNormalText
-                                                                    .copyWith(
-                                                                      fontSize:
-                                                                          13.sp,
-                                                                      color:
-                                                                          AppColors
-                                                                              .darkGrey,
-                                                                    ),
-                                                              ),
-                                                            ],
-                                                          ),
                                                         ),
                                                       ],
                                                     ),
-                                                  );
-                                                }).toList(),
-                                          ),
+                                                  ),
+                                                ],
+                                              ),
+                                            );
+                                          }).toList(),
                                         ),
-                                    ],
-                                  ),
+                                      ),
+                                  ],
                                 ),
-                              );
-                            },
-                          ),
+                              ),
+                            );
+                          },
+                        ),
                 ),
 
                 // 🔹 Replying indicator
                 Obx(
-                  () =>
-                      controller.replyToName.value.isNotEmpty
-                          ? Container(
-                            margin: EdgeInsets.only(bottom: 8.h, top: 8.h),
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 12.w,
-                              vertical: 6.h,
-                            ),
-                            decoration: BoxDecoration(
-                              color: AppColors.textFieldBg,
-                              borderRadius: BorderRadius.circular(16.r),
-                            ),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: Text(
-                                    "${"Replying to".tr} ${controller.replyToName.value}",
-                                    style: styleForNormalText.copyWith(
-                                      fontSize: 13.sp,
-                                      fontWeight: FontWeight.w500,
-                                    ),
+                  () => controller.replyToName.value.isNotEmpty
+                      ? Container(
+                          margin: EdgeInsets.only(bottom: 8.h, top: 8.h),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 12.w,
+                            vertical: 6.h,
+                          ),
+                          decoration: BoxDecoration(
+                            color: AppColors.textFieldBg,
+                            borderRadius: BorderRadius.circular(16.r),
+                          ),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  "${"Replying to".tr} ${controller.replyToName.value}",
+                                  style: styleForNormalText.copyWith(
+                                    fontSize: 13.sp,
+                                    fontWeight: FontWeight.w500,
                                   ),
                                 ),
-                                GestureDetector(
-                                  onTap: () {
-                                    controller.replyToName.value = "";
-                                    controller.replyingTo.value = "";
-                                  },
-                                  child: Icon(
-                                    Icons.close,
-                                    size: 18.sp,
-                                    color: AppColors.grey,
-                                  ),
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  controller.replyToName.value = "";
+                                  controller.replyingTo.value = "";
+                                },
+                                child: Icon(
+                                  Icons.close,
+                                  size: 18.sp,
+                                  color: AppColors.grey,
                                 ),
-                              ],
-                            ),
-                          )
-                          : SizedBox.shrink(),
+                              ),
+                            ],
+                          ),
+                        )
+                      : SizedBox.shrink(),
                 ),
 
                 // 🔹 Comment input field
@@ -446,10 +425,15 @@ Future<void> showHomePageCommentBottomSheet(
                             }
 
                             if (success) {
-                              await controller.fetchComments(
-                                id: id,
-                                isBusiness: isBussiness,
-                              );
+                              WidgetsBinding.instance.addPostFrameCallback((
+                                timeStamp,
+                              ) async {
+                                await controller.fetchComments(
+                                  id: id,
+                                  isBusiness: isBussiness,
+                                );
+                              });
+
                               commentController.clear();
                               controller.replyToName.value = "";
                               controller.replyingTo.value = "";
