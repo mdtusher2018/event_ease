@@ -396,7 +396,7 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        buildActionButton(
+                  Expanded(child:      buildActionButton(
                           icon: Icon(
                             (controller.businessDetail.value!.isFollowed)
                                 ? Icons.person_remove
@@ -436,9 +436,9 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen> {
                               }
                             });
                           },
-                        ),
+                        )),
                         SizedBox(width: 2),
-                        buildActionButton(
+                 Expanded(child:       buildActionButton(
                           icon: Icon(
                             controller.businessDetail.value!.isLiked
                                 ? Icons.favorite
@@ -472,9 +472,9 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen> {
                               controller.businessDetail.refresh(); // update UI
                             }
                           },
-                        ),
+                        )),
                         SizedBox(width: 2),
-                        buildActionButton(
+                     Expanded(child:   buildActionButton(
                           icon: SvgPicture.asset(
                             AppIcons.commentIcon,
                             color: Colors.white,
@@ -490,12 +490,15 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen> {
                               context,
                               commentController: TextEditingController(),
                             ).then((value) {
-                              controller.fetchBusinessesDetailsById();
+                               WidgetsBinding.instance.addPostFrameCallback((timeStamp){
+                                 controller.fetchBusinessesDetailsById();
+                               });
+                             
                             });
                           },
-                        ),
+                        )),
                       ],
-                    ),
+                ),
                     SizedBox(height: 10.h),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -1439,7 +1442,8 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen> {
                                       commentController:
                                           TextEditingController(),
                                     ).then((value) {
-                                      controller
+                                      WidgetsBinding.instance.addPostFrameCallback((timeStamp){
+                                        controller
                                           .fetchExtraBusinessesDetailsById(
                                             id:
                                                 controller
@@ -1447,6 +1451,8 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen> {
                                                     .value!
                                                     .id,
                                           );
+                                      });
+                                      
                                     });
                                   },
                                   isWishlisted: data.isWishlisted,
@@ -1616,7 +1622,8 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen> {
                                       commentController:
                                           TextEditingController(),
                                     ).then((value) {
-                                      controller
+                                       WidgetsBinding.instance.addPostFrameCallback((timeStamp){
+                                         controller
                                           .fetchExtraBusinessesDetailsById(
                                             id:
                                                 controller
@@ -1624,6 +1631,8 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen> {
                                                     .value!
                                                     .id,
                                           );
+                                       });
+                                     
                                     });
                                   },
                                   isWishlisted:
@@ -1916,7 +1925,8 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen> {
                                           commentController:
                                               TextEditingController(),
                                         ).then((value) {
-                                          controller
+                                           WidgetsBinding.instance.addPostFrameCallback((timeStamp){
+                                              controller
                                               .fetchExtraBusinessesDetailsById(
                                                 id:
                                                     controller
@@ -1924,6 +1934,8 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen> {
                                                         .value!
                                                         .id,
                                               );
+                                           });
+                                        
                                         });
                                       },
                                       isWishlisted:
@@ -1994,8 +2006,8 @@ class BusinessCommentsSection extends StatelessWidget {
     // Map to manage showing replies for each comment
     final RxMap<String, bool> showReplies = <String, bool>{}.obs;
 
-    // Fetch comments on build
-    controller.fetchComments(id: businessId, isBusiness: isBusiness);
+    // WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+    // controller.fetchComments(id: businessId, isBusiness: isBusiness);});
 
     return Padding(
       padding: EdgeInsets.only(
@@ -2361,6 +2373,7 @@ class BusinessCommentsSection extends StatelessWidget {
                       }
 
                       if (success) {
+                        WidgetsBinding.instance.addPostFrameCallback((_) async{
                         await controller.fetchComments(
                           id: businessId,
                           isBusiness: isBusiness,
@@ -2368,6 +2381,7 @@ class BusinessCommentsSection extends StatelessWidget {
                         commentController.clear();
                         controller.replyToName.value = "";
                         controller.replyingTo.value = "";
+                        });
                       }
                     },
                   ),
