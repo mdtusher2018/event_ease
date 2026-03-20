@@ -537,6 +537,13 @@ class BusinessProfileController extends GetxController {
       );
       if (response.statusCode == 200 || response.statusCode == 201) {
         Get.back();
+        log(">>>>>>>>>> Successful : ===== ${response.message}");
+
+           
+                PrefsHelper.setParentBusinessId(
+          response.data['_id']?? "",
+        );
+
         Get.snackbar("Success".tr, response.message);
       } else {
         log(">>>>>>>>>> Error : ===== ${response.message}");

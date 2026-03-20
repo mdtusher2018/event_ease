@@ -80,7 +80,7 @@ class _ListingScreenState extends State<ListingScreen> {
         ),
         centerTitle: true,
       ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: (PrefsHelper.parentBusinessId==null || PrefsHelper.parentBusinessId.isEmpty)? null: FloatingActionButton(
         onPressed: () {},
         backgroundColor: AppColors.primary,
         heroTag: 'inspirationScreenFAB',
