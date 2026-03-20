@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:event_ease/core/helper/prefs_helper.dart';
 import 'package:event_ease/features/auth/presentation/screen/common/role_screen.dart';
 import 'package:event_ease/features/auth/presentation/utils/app_string.dart';
@@ -80,7 +82,7 @@ class _DeleteGoogleAccountPageState extends State<DeleteGoogleAccountPage> {
       } else {
         ScaffoldMessenger.of(
           context,
-        ).showSnackBar(SnackBar(content: Text("Error: Otp send failed")));
+        ).showSnackBar(SnackBar(content: Text(response.data["message"] ??"Error: Otp send failed")));
       }
     } catch (e) {
       ScaffoldMessenger.of(
@@ -127,7 +129,9 @@ class _DeleteGoogleAccountPageState extends State<DeleteGoogleAccountPage> {
     return Scaffold(
       appBar: AppBar(title: Text("Delete Account".tr), centerTitle: true),
       body: SafeArea(
-        child: Padding(
+        child: 
+        SingleChildScrollView(child:
+        Padding(
           padding: const EdgeInsets.all(20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -193,8 +197,15 @@ class _DeleteGoogleAccountPageState extends State<DeleteGoogleAccountPage> {
                   ),
                 ),
 
-              const Spacer(),
-
+                if(Platform.isIOS)  Text(
+                "Please ensure that your account is fully completed with a verified email address before proceeding with the account deletion process.".tr
+                    .tr,
+                textAlign: TextAlign.center,
+                style: theme.textTheme.bodyMedium?.copyWith(
+                  color: Colors.grey[700],
+                ),
+              ),
+SizedBox(height: 40),
               /// Delete Button
               ElevatedButton(
                 onPressed:
@@ -245,6 +256,8 @@ class _DeleteGoogleAccountPageState extends State<DeleteGoogleAccountPage> {
             ],
           ),
         ),
+
+      ),
       ),
     );
   }

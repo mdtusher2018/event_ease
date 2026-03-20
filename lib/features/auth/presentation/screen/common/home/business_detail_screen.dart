@@ -396,7 +396,10 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                  Expanded(child:      buildActionButton(
+                  Expanded(child:  FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child:  
+                      buildActionButton(
                           icon: Icon(
                             (controller.businessDetail.value!.isFollowed)
                                 ? Icons.person_remove
@@ -436,9 +439,11 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen> {
                               }
                             });
                           },
-                        )),
+                    ))),
                         SizedBox(width: 2),
-                 Expanded(child:       buildActionButton(
+                 Expanded(child:    FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child:     buildActionButton(
                           icon: Icon(
                             controller.businessDetail.value!.isLiked
                                 ? Icons.favorite
@@ -472,9 +477,11 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen> {
                               controller.businessDetail.refresh(); // update UI
                             }
                           },
-                        )),
+                        ))),
                         SizedBox(width: 2),
-                     Expanded(child:   buildActionButton(
+                     Expanded(child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child:    buildActionButton(
                           icon: SvgPicture.asset(
                             AppIcons.commentIcon,
                             color: Colors.white,
@@ -496,7 +503,7 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen> {
                              
                             });
                           },
-                        )),
+                        ))),
                       ],
                 ),
                     SizedBox(height: 10.h),

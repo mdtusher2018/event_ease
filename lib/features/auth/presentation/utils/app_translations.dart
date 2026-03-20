@@ -545,8 +545,12 @@ class AppTranslations extends Translations {
       "Ticket Support": "Ticket Support",
       "Your account was created using Google Sign-In. To delete your account permanently, please verify your identity using OTP.":
           "Your account was created using Google/Apple Sign-In. To delete your account permanently, please verify your identity using OTP.",
+   "Please ensure that your account is fully completed with a verified email address before proceeding with the account deletion process.":"Please ensure that your account is fully completed with a verified email address before proceeding with the account deletion process."
+   
+   
     },
     'it_IT': {
+      "Please ensure that your account is fully completed with a verified email address before proceeding with the account deletion process.":"Si prega di assicurarsi che il tuo account sia completamente completato con un indirizzo email verificato prima di procedere con il processo di eliminazione dell'account.",
       "Add Checklist Item": "Aggiungi voce alla checklist",
       "Item Name": "Nome voce",
 

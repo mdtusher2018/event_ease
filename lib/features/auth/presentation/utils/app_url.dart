@@ -24,9 +24,9 @@ class AppUrl {
   // static const baseImageUrl = "http://109.176.197.7:7010";
   // static const socketUrl = "http://109.176.197.7:7020";
 
-//   static const baseUrl = "http://10.10.10.32:7010/api/v1";
-//   static const baseImageUrl = "http://10.10.10.32:7010";
-//   static const socketUrl = "http://10.10.10.32:7020";
+  // static const baseUrl = "http://10.10.10.32:7010/api/v1";
+  // static const baseImageUrl = "http://10.10.10.32:7010";
+  // static const socketUrl = "http://10.10.10.32:7020";
 
   static const createUser = "$baseUrl/users/create";
   static const login = "$baseUrl/auth/login";
