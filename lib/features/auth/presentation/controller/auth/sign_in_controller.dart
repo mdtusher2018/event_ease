@@ -140,6 +140,14 @@ class SignInController extends GetxController {
         }
         isRemember.value = true;
         _handleSuccessfulLogin(response);
+
+        PrefsHelper.setParentBusinessId(
+          response.data['user']['parentBusiness'] ?? "",
+        );
+
+
+
+
         if (response.success) {
           if ((response.data["user"]?["phone"] as String).isEmpty) {
             showEditProfileInputDialog(
@@ -222,6 +230,15 @@ class SignInController extends GetxController {
 
       isRemember.value = true;
       _handleSuccessfulLogin(response);
+
+
+        PrefsHelper.setParentBusinessId(
+          response.data['user']['parentBusiness'] ?? "",
+        );
+
+
+
+
       if (response.success) {
         if ((response.data["user"]?["phone"] as String).isEmpty) {
           showEditProfileInputDialog(
