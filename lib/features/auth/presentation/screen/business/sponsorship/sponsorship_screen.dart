@@ -272,26 +272,28 @@ class _SponsorshipScreenState extends State<SponsorshipScreen> {
                   itemBuilder: (context, index) {
                     final subscriptionWrapper = controller.subscriptions[index];
                     final subscription = subscriptionWrapper.subscription;
-                    final option =
-                        subscription.options[subscriptionWrapper
-                            .subscriptionOptionIndex];
+                    final option = subscription
+                        .options[subscriptionWrapper.subscriptionOptionIndex];
                     //  ${remainingCredits.toStringAsFixed(2)}
                     String footerText =
                         (subscriptionWrapper.status == "notActivate")
-                            ? "The pack must be activated within ${option.refoundDays.toInt()} days; otherwise, it will be removed, and the amount will be converted into advertising credits."
-                            : "By blocking the pack, the remaining amount will be converted into advertising credits. You will receive ${subscriptionWrapper.potentialCredits.toStringAsFixed(2)} credits.";
-
+                        ? 'pack_activation_message'.trParams({
+                            'days': option.refoundDays.toInt().toString(),
+                          })
+                        : 'pack_block_message'.trParams({
+                            'credits': subscriptionWrapper.potentialCredits
+                                .toStringAsFixed(2),
+                          });
                     return SubscriptionCard(
                       businessName: subscriptionWrapper.subscriptionFor.name,
                       title: subscription.title,
                       subtitle: subscription.subTitle,
                       features: subscription.feature,
-                      buttonText:
-                          (subscriptionWrapper.status == "notActivate")
-                              ? "Activate"
-                              : (subscriptionWrapper.status == "activate")
-                              ? "Stop"
-                              : "Got Credits",
+                      buttonText: (subscriptionWrapper.status == "notActivate")
+                          ? "Activate"
+                          : (subscriptionWrapper.status == "activate")
+                          ? "Stop"
+                          : "Got Credits",
                       controller: controller,
                       onButtonPressed: () {
                         final id = subscriptionWrapper.id;

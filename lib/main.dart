@@ -3,7 +3,6 @@ import 'package:event_ease/core/routers/routes_name.dart';
 import 'package:event_ease/core/theme/theme.dart';
 import 'package:event_ease/features/auth/presentation/utils/app_string.dart';
 import 'package:event_ease/firebase_options.dart';
-import 'package:event_ease/permission_handeler.dart';
 import 'package:event_ease/services/socket_service.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';

@@ -30,27 +30,96 @@ class ListingScreen extends StatefulWidget {
 }
 
 class _ListingScreenState extends State<ListingScreen> {
-  void _handleMenuSelection(String value) {
+  void _handleMenuSelection(String value, BuildContext context) {
     switch (value) {
       case 'business':
         // Get.toNamed(RoutesName.createNewOption, arguments: {'create': "business"});
-        Get.to(CreateNewBusiness())!.then((value) {
+        Get.to(() => CreateNewBusiness())!.then((value) {
+          loadParentBusinessId();
           listingController.fetchMyBusinesses();
         });
         break;
       case 'event':
-        // Get.toNamed(RoutesName.createNewOption, arguments: {'create': "event"});
-        Get.to(CreateNewEvent())!.then((value) {
+        if (PrefsHelper.parentBusinessId.isEmpty) {
+          showBusinessRequiredDialog(context, "event");
+          return;
+        }
+
+        Get.to(() => CreateNewEvent())!.then((value) {
           listingController.fetchMyEvents();
         });
         break;
       case 'job':
-        // Get.toNamed(RoutesName.createNewOption, arguments: {'create': "job"});
-        Get.to(CreateNewJob())!.then((value) {
+        if (PrefsHelper.parentBusinessId.isEmpty) {
+          showBusinessRequiredDialog(context, "job");
+          return;
+        }
+        Get.to(() => CreateNewJob())!.then((value) {
           listingController.fetchMyJobs();
         });
         break;
     }
+  }
+
+  void showBusinessRequiredDialog(BuildContext context, String type) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
+          title: Row(
+            children: [
+              Icon(Icons.business_center, color: AppColors.primary),
+              const SizedBox(width: 8),
+              Text('business_required'.tr),
+            ],
+          ),
+          content: Text(
+            'create_listing_message'.trParams({'type': type}),
+            style: const TextStyle(color: Colors.black87, height: 1.4),
+          ),
+          actionsPadding: const EdgeInsets.symmetric(
+            horizontal: 12,
+            vertical: 8,
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: Text(
+                'cancel'.tr,
+                style: TextStyle(color: AppColors.primary),
+              ),
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 10,
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                backgroundColor: AppColors.primary,
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+
+                Get.to(() => CreateNewBusiness())!.then((value) {
+                  loadParentBusinessId();
+                  listingController.fetchMyBusinesses();
+                });
+              },
+              child: Text(
+                'create_business'.tr,
+                style: const TextStyle(color: Colors.white),
+              ),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   ListingController listingController = Get.put(ListingController());
@@ -80,47 +149,46 @@ class _ListingScreenState extends State<ListingScreen> {
         ),
         centerTitle: true,
       ),
-      floatingActionButton: (PrefsHelper.parentBusinessId==null || PrefsHelper.parentBusinessId.isEmpty)? null: FloatingActionButton(
+      floatingActionButton: FloatingActionButton(
         onPressed: () {},
         backgroundColor: AppColors.primary,
         heroTag: 'inspirationScreenFAB',
         shape: const CircleBorder(),
         child: PopupMenuButton<String>(
           color: Colors.white,
-          onSelected: _handleMenuSelection,
-          itemBuilder:
-              (BuildContext context) => <PopupMenuEntry<String>>[
-                PopupMenuItem<String>(
-                  value: 'business',
-                  child: Text(
-                    AppString.business,
-                    style: styleForBoldText.copyWith(
-                      fontSize: 14,
-                      color: AppColors.darkGrey,
-                    ),
-                  ),
+          onSelected: (value) => _handleMenuSelection(value, context),
+          itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+            PopupMenuItem<String>(
+              value: 'business',
+              child: Text(
+                AppString.business,
+                style: styleForBoldText.copyWith(
+                  fontSize: 14,
+                  color: AppColors.darkGrey,
                 ),
-                PopupMenuItem<String>(
-                  value: 'event',
-                  child: Text(
-                    AppString.event,
-                    style: styleForBoldText.copyWith(
-                      fontSize: 14,
-                      color: AppColors.darkGrey,
-                    ),
-                  ),
+              ),
+            ),
+            PopupMenuItem<String>(
+              value: 'event',
+              child: Text(
+                AppString.event,
+                style: styleForBoldText.copyWith(
+                  fontSize: 14,
+                  color: AppColors.darkGrey,
                 ),
-                PopupMenuItem<String>(
-                  value: 'job',
-                  child: Text(
-                    'Job',
-                    style: styleForBoldText.copyWith(
-                      fontSize: 14,
-                      color: AppColors.darkGrey,
-                    ),
-                  ),
+              ),
+            ),
+            PopupMenuItem<String>(
+              value: 'job',
+              child: Text(
+                'Job',
+                style: styleForBoldText.copyWith(
+                  fontSize: 14,
+                  color: AppColors.darkGrey,
                 ),
-              ],
+              ),
+            ),
+          ],
           child: const Icon(Icons.add, color: Colors.white),
         ),
       ),
@@ -214,54 +282,51 @@ class _ListingScreenState extends State<ListingScreen> {
                                       listingController.businessList[index].id,
                                 );
                               },
-                              type:
-                                  listingController
-                                      .businessList[index]
-                                      .categoryName,
+                              type: listingController
+                                  .businessList[index]
+                                  .categoryName,
                               typeImage: AppIcons.businessIcon,
                               name: listingController.businessList[index].name,
                               location:
                                   listingController.businessList[index].address,
-                              image:
-                                  listingController
-                                      .businessList[index]
-                                      .coverImage,
-                              peopleCount:
-                                  listingController.businessList[index].maxGuest
-                                      .toString(),
+                              image: listingController
+                                  .businessList[index]
+                                  .coverImage,
+                              peopleCount: listingController
+                                  .businessList[index]
+                                  .maxGuest
+                                  .toString(),
                               rating:
                                   "${listingController.businessList[index].averageRating}(${listingController.businessList[index].totalReviews})",
                               doller:
                                   listingController
-                                              .businessList[index]
-                                              .priceRange
-                                              .toLowerCase() ==
-                                          "budget"
-                                      ? "€"
-                                      : listingController
-                                              .businessList[index]
-                                              .priceRange
-                                              .toLowerCase() ==
-                                          "medium"
-                                      ? "€€"
-                                      : listingController
-                                              .businessList[index]
-                                              .priceRange
-                                              .toLowerCase() ==
-                                          "high"
-                                      ? "€€€"
-                                      : "€€€€",
+                                          .businessList[index]
+                                          .priceRange
+                                          .toLowerCase() ==
+                                      "budget"
+                                  ? "€"
+                                  : listingController
+                                            .businessList[index]
+                                            .priceRange
+                                            .toLowerCase() ==
+                                        "medium"
+                                  ? "€€"
+                                  : listingController
+                                            .businessList[index]
+                                            .priceRange
+                                            .toLowerCase() ==
+                                        "high"
+                                  ? "€€€"
+                                  : "€€€€",
                               verificationIcon: Icons.verified,
-                              likeCount:
-                                  listingController
-                                      .businessList[index]
-                                      .totalLikes
-                                      .toString(),
-                              commentCount:
-                                  listingController
-                                      .businessList[index]
-                                      .totalComments
-                                      .toString(),
+                              likeCount: listingController
+                                  .businessList[index]
+                                  .totalLikes
+                                  .toString(),
+                              commentCount: listingController
+                                  .businessList[index]
+                                  .totalComments
+                                  .toString(),
                               switchValue:
                                   listingController
                                       .businessList[index]
@@ -273,8 +338,9 @@ class _ListingScreenState extends State<ListingScreen> {
                                       listingController.businessList[index].id,
                                 ).then((value) {
                                   listingController
-                                      .businessList[index]
-                                      .isActive = val;
+                                          .businessList[index]
+                                          .isActive =
+                                      val;
                                   listingController.businessList.refresh();
                                 });
                               },
@@ -362,18 +428,17 @@ class _ListingScreenState extends State<ListingScreen> {
                                   "${listingController.eventList[index].averageRating}(${listingController.eventList[index].totalReviews})",
                               doller: "€€€",
                               verificationIcon: Icons.verified,
-                              verification:
-                                  listingController
-                                      .eventList[index]
-                                      .blueVerifiedBadge,
-                              likeCount:
-                                  listingController.eventList[index].totalLikes
-                                      .toString(),
-                              commentCount:
-                                  listingController
-                                      .eventList[index]
-                                      .totalComments
-                                      .toString(),
+                              verification: listingController
+                                  .eventList[index]
+                                  .blueVerifiedBadge,
+                              likeCount: listingController
+                                  .eventList[index]
+                                  .totalLikes
+                                  .toString(),
+                              commentCount: listingController
+                                  .eventList[index]
+                                  .totalComments
+                                  .toString(),
                               peopleCountIcon: SvgPicture.asset(
                                 AppIcons.calenderIcon,
                               ),

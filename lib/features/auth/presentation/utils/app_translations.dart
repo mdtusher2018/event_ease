@@ -545,12 +545,37 @@ class AppTranslations extends Translations {
       "Ticket Support": "Ticket Support",
       "Your account was created using Google Sign-In. To delete your account permanently, please verify your identity using OTP.":
           "Your account was created using Google/Apple Sign-In. To delete your account permanently, please verify your identity using OTP.",
-   "Please ensure that your account is fully completed with a verified email address before proceeding with the account deletion process.":"Please ensure that your account is fully completed with a verified email address before proceeding with the account deletion process."
-   
-   
+      "Please ensure that your account is fully completed with a verified email address before proceeding with the account deletion process.":
+          "Please ensure that your account is fully completed with a verified email address before proceeding with the account deletion process.",
+      'business_required': 'Business Required',
+      'cancel': 'Cancel',
+      'create_business': 'Create Business',
+      'create_listing_message':
+          'To create a @type listing, you need to have a registered business profile. Please create your business first to continue.',
+    
+    'pack_activation_message':
+        'The pack must be activated within @days days; otherwise, it will be removed, and the amount will be converted into advertising credits.',
+
+    'pack_block_message':
+        'By blocking the pack, the remaining amount will be converted into advertising credits. You will receive @credits credits.',
+ 
+    
     },
     'it_IT': {
-      "Please ensure that your account is fully completed with a verified email address before proceeding with the account deletion process.":"Si prega di assicurarsi che il tuo account sia completamente completato con un indirizzo email verificato prima di procedere con il processo di eliminazione dell'account.",
+          'pack_activation_message':
+        'Il pacchetto deve essere attivato entro @days giorni; in caso contrario verrà rimosso e l\'importo sarà convertito in crediti pubblicitari.',
+
+    'pack_block_message':
+        'Bloccando il pacchetto, l\'importo rimanente verrà convertito in crediti pubblicitari. Riceverai @credits crediti.',
+
+      'business_required': 'Attività richiesta',
+      'cancel': 'Annulla',
+      'create_business': 'Crea attività',
+      'create_listing_message':
+          'Per creare un annuncio di tipo @type, è necessario avere un profilo aziendale registrato. Crea prima la tua attività per continuare.',
+
+      "Please ensure that your account is fully completed with a verified email address before proceeding with the account deletion process.":
+          "Si prega di assicurarsi che il tuo account sia completamente completato con un indirizzo email verificato prima di procedere con il processo di eliminazione dell'account.",
       "Add Checklist Item": "Aggiungi voce alla checklist",
       "Item Name": "Nome voce",
 

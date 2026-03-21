@@ -22,9 +22,12 @@ class BusinessProfileController extends GetxController {
 
   Rx<BusinessProfileModel> businessProfileModel = BusinessProfileModel().obs;
 
-  Rx<TextEditingController> businessNameController = TextEditingController().obs;
-  Rx<TextEditingController> shortDescriptionController = TextEditingController().obs;
-  Rx<TextEditingController> detailedDescriptionController = TextEditingController().obs;
+  Rx<TextEditingController> businessNameController =
+      TextEditingController().obs;
+  Rx<TextEditingController> shortDescriptionController =
+      TextEditingController().obs;
+  Rx<TextEditingController> detailedDescriptionController =
+      TextEditingController().obs;
 
   ///>>>>>>>>>>>>>>>>>>>>>>>>> Image & Media
   RxString businessLogo = ''.obs;
@@ -68,7 +71,8 @@ class BusinessProfileController extends GetxController {
   ///>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Business hours
 
   ///>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Address & Map
-  Rx<TextEditingController> addressSearchController = TextEditingController().obs;
+  Rx<TextEditingController> addressSearchController =
+      TextEditingController().obs;
   RxString geoLocation = "".obs;
 
   ///>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> Business hours
@@ -146,7 +150,6 @@ class BusinessProfileController extends GetxController {
     selectedPriceRange.value = value;
   }
 
-
   ///>>>>>>>>>>>>>>>>>>>>> FAQ
   RxList<Map<String, String>> faqList = <Map<String, String>>[].obs;
   RxList<TextEditingController> questionControllers =
@@ -196,7 +199,7 @@ class BusinessProfileController extends GetxController {
     isLoading.value = true;
     try {
       final response = await repository.getProviderType();
-      if (response.statusCode == 200|| response.statusCode == 201) {
+      if (response.statusCode == 200 || response.statusCode == 201) {
         log(">>>>>>>>>>>>>>> Success 200");
         providerList.clear();
         for (int i = 0; i < response.data['data'].length; i++) {
@@ -243,14 +246,19 @@ class BusinessProfileController extends GetxController {
 
         // contact info
         emailController.value.text = businessProfileModel.value.email;
-        phoneNumberController.value.text = businessProfileModel.value.phoneNumber;
+        phoneNumberController.value.text =
+            businessProfileModel.value.phoneNumber;
         websiteController.value.text = businessProfileModel.value.website;
 
         // Social links
-        facebookController.value.text = businessProfileModel.value.socialLinks.facebook;
-        instagramController.value.text = businessProfileModel.value.socialLinks.instagram;
-        twitterController.value.text = businessProfileModel.value.socialLinks.twitter;
-        tikTokController.value.text = businessProfileModel.value.socialLinks.tiktok;
+        facebookController.value.text =
+            businessProfileModel.value.socialLinks.facebook;
+        instagramController.value.text =
+            businessProfileModel.value.socialLinks.instagram;
+        twitterController.value.text =
+            businessProfileModel.value.socialLinks.twitter;
+        tikTokController.value.text =
+            businessProfileModel.value.socialLinks.tiktok;
 
         // Business hour
         // Set availabilities
@@ -270,15 +278,30 @@ class BusinessProfileController extends GetxController {
         guestCount.value = businessProfileModel.value.maxGuest;
         maxCountController.value.text = guestCount.value.toString();
 
-        selectedSupportedServices.assignAll(businessProfileModel.value.supportedServices);
-        selectedAdditionalServices.assignAll(businessProfileModel.value.additionalServices);
+        selectedSupportedServices.assignAll(
+          businessProfileModel.value.supportedServices,
+        );
+        selectedAdditionalServices.assignAll(
+          businessProfileModel.value.additionalServices,
+        );
 
         // ensure state arrays match list length
-        selectedSupportedStates.assignAll(List.generate(supportedServiceList.length,
-                (i) => selectedSupportedServices.contains(supportedServiceList[i]['name'])));
-        selectedAdditionalStates
-            .assignAll(List.generate(additionalServiceList.length,
-                (i) => selectedAdditionalServices.contains(additionalServiceList[i]['name'])));
+        selectedSupportedStates.assignAll(
+          List.generate(
+            supportedServiceList.length,
+            (i) => selectedSupportedServices.contains(
+              supportedServiceList[i]['name'],
+            ),
+          ),
+        );
+        selectedAdditionalStates.assignAll(
+          List.generate(
+            additionalServiceList.length,
+            (i) => selectedAdditionalServices.contains(
+              additionalServiceList[i]['name'],
+            ),
+          ),
+        );
 
         // Set FAQs
         setFaqFromModel(businessProfileModel.value.faq);
@@ -290,7 +313,7 @@ class BusinessProfileController extends GetxController {
         log(">>>>>>>>>> Successful : ===== ${response.message}");
       } else {
         log(">>>>>>>>>> Error : ===== ${response.message}");
-        Get.snackbar("Error".tr,response.message);
+        Get.snackbar("Error".tr, response.message);
       }
     } catch (e, s) {
       log(">>>>> Error e : === $e");
@@ -329,7 +352,7 @@ class BusinessProfileController extends GetxController {
         Get.snackbar("Success".tr, response.message);
       } else {
         log(">>>>>>>>>> Error : ===== ${response.message}");
-        Get.snackbar("Error".tr,response.message);
+        Get.snackbar("Error".tr, response.message);
       }
     } catch (e, s) {
       log(">>>>> Error e : === $e");
@@ -369,8 +392,9 @@ class BusinessProfileController extends GetxController {
       if (response.statusCode == 200 || response.statusCode == 201) {
         businessProfileModel.value.logo = businessLogo.value;
         businessProfileModel.value.coverImage = coverLogo.value;
-        businessProfileModel.value.gallery =
-            galleryLogoLocal.map((file) => file.path).toList();
+        businessProfileModel.value.gallery = galleryLogoLocal
+            .map((file) => file.path)
+            .toList();
 
         log(">>>>>>>>>> Successful : ===== ${response.message}");
 
@@ -378,7 +402,7 @@ class BusinessProfileController extends GetxController {
         Get.snackbar("Success".tr, response.message);
       } else {
         log(">>>>>>>>>> Error : ===== ${response.message}");
-        Get.snackbar("Error".tr,response.message);
+        Get.snackbar("Error".tr, response.message);
       }
     } catch (e, s) {
       log(">>>>> Error e : === $e");
@@ -416,7 +440,7 @@ class BusinessProfileController extends GetxController {
         Get.snackbar("Success".tr, response.message);
       } else {
         log(">>>>>>>>>> Error : ===== ${response.message}");
-        Get.snackbar("Error".tr,response.message);
+        Get.snackbar("Error".tr, response.message);
       }
     } catch (e, s) {
       log(">>>>> Error e : === $e");
@@ -460,7 +484,7 @@ class BusinessProfileController extends GetxController {
         Get.snackbar("Success".tr, response.message);
       } else {
         log(">>>>>>>>>> Error : ===== ${response.message}");
-        Get.snackbar("Error".tr,response.message);
+        Get.snackbar("Error".tr, response.message);
       }
     } catch (e, s) {
       log(">>>>> Error e : === $e");
@@ -501,7 +525,7 @@ class BusinessProfileController extends GetxController {
         Get.snackbar("Success".tr, response.message);
       } else {
         log(">>>>>>>>>> Error : ===== ${response.message}");
-        Get.snackbar("Error".tr,response.message);
+        Get.snackbar("Error".tr, response.message);
       }
     } catch (e, s) {
       log(">>>>> Error e : === $e");
@@ -538,16 +562,11 @@ class BusinessProfileController extends GetxController {
       if (response.statusCode == 200 || response.statusCode == 201) {
         Get.back();
         log(">>>>>>>>>> Successful : ===== ${response.message}");
-
-           
-                PrefsHelper.setParentBusinessId(
-          response.data['_id']?? "",
-        );
-
+        PrefsHelper.setParentBusinessId(response.data['_id'] ?? "");
         Get.snackbar("Success".tr, response.message);
       } else {
         log(">>>>>>>>>> Error : ===== ${response.message}");
-        Get.snackbar("Error".tr,response.message);
+        Get.snackbar("Error".tr, response.message);
       }
     } catch (e, s) {
       log(">>>>> Error e : === $e");
@@ -592,7 +611,7 @@ class BusinessProfileController extends GetxController {
         Get.snackbar("Success".tr, response.message);
       } else {
         log(">>>>>>>>>> Error : ===== ${response.message}");
-        Get.snackbar("Error".tr,response.message);
+        Get.snackbar("Error".tr, response.message);
       }
     } catch (e, s) {
       log(">>>>> Error e : === $e");
@@ -631,7 +650,7 @@ class BusinessProfileController extends GetxController {
         Get.snackbar("Success".tr, response.message);
       } else {
         log(">>>>>>>>>> Error : ===== ${response.message}");
-        Get.snackbar("Error".tr,response.message);
+        Get.snackbar("Error".tr, response.message);
       }
     } catch (e, s) {
       log(">>>>> Error e : === $e");
@@ -670,7 +689,7 @@ class BusinessProfileController extends GetxController {
         Get.snackbar("Success".tr, response.message);
       } else {
         log(">>>>>>>>>> Error : ===== ${response.message}");
-        Get.snackbar("Error".tr,response.message);
+        Get.snackbar("Error".tr, response.message);
       }
     } catch (e, s) {
       log(">>>>> Error e : === $e");
