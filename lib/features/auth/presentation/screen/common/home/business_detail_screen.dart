@@ -180,53 +180,53 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final String? detailShow =
-        Get.arguments is Map ? Get.arguments['detailShow'] as String? : null;
+    final String? detailShow = Get.arguments is Map
+        ? Get.arguments['detailShow'] as String?
+        : null;
 
     return Scaffold(
-      floatingActionButton:
-          detailShow == 'business'
-              ? Padding(
-                padding: const EdgeInsets.only(left: 30),
-                child: CustomButton(text: "Edit"),
-              )
-              : Row(
-                children: [
-                  SizedBox(width: 30),
-                  GestureDetector(
-                    onTap: () async {
-                      await launchURL(
-                        controller.businessDetail.value!.phoneNumber,
-                      );
-                    },
-                    child: Container(
-                      padding: EdgeInsets.all(10),
-                      height: 48,
-                      width: 48,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(19.r),
-                        color: const Color(0xffebcfff),
-                      ),
-                      child: Icon(
-                        Icons.phone,
-                        color: AppColors.primary,
-                        size: 22.r,
-                      ),
+      floatingActionButton: detailShow == 'business'
+          ? Padding(
+              padding: const EdgeInsets.only(left: 30),
+              child: CustomButton(text: "Edit"),
+            )
+          : Row(
+              children: [
+                SizedBox(width: 30),
+                GestureDetector(
+                  onTap: () async {
+                    await launchURL(
+                      controller.businessDetail.value!.phoneNumber,
+                    );
+                  },
+                  child: Container(
+                    padding: EdgeInsets.all(10),
+                    height: 48,
+                    width: 48,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(19.r),
+                      color: const Color(0xffebcfff),
+                    ),
+                    child: Icon(
+                      Icons.phone,
+                      color: AppColors.primary,
+                      size: 22.r,
                     ),
                   ),
+                ),
 
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: CustomButton(
-                      text: AppString.sendMessage,
-                      paddingVertical: 0.h,
-                      onTap: () {
-                        controller.createChat();
-                      },
-                    ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: CustomButton(
+                    text: AppString.sendMessage,
+                    paddingVertical: 0.h,
+                    onTap: () {
+                      controller.createChat();
+                    },
                   ),
-                ],
-              ),
+                ),
+              ],
+            ),
       body: Obx(() {
         if (controller.isLoading.value ||
             controller.businessDetail.value == null) {
@@ -328,26 +328,25 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen> {
                             'type': "Business",
                           },
                         );
-                      }else if (value == 'block') {
+                      } else if (value == 'block') {
                         await blockAnything(
                           id: controller.businessDetail.value!.id,
                           type: "business",
                         );
                       }
                     },
-                    itemBuilder:
-                        (BuildContext context) => [
-                          if (Platform.isIOS || kDebugMode)
-                            PopupMenuItem<String>(
-                              value: 'block',
-                              child: Text('Block'),
-                            ),
-                          PopupMenuItem<String>(
-                            value: 'report',
-                            child: Text('Report'),
-                          ),
-                          // Add other options here if needed
-                        ],
+                    itemBuilder: (BuildContext context) => [
+                      if (Platform.isIOS || kDebugMode)
+                        PopupMenuItem<String>(
+                          value: 'block',
+                          child: Text('Block'),
+                        ),
+                      PopupMenuItem<String>(
+                        value: 'report',
+                        child: Text('Report'),
+                      ),
+                      // Add other options here if needed
+                    ],
                   ),
                 ],
               ),
@@ -393,119 +392,145 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen> {
                       ],
                     ),
                     SizedBox(height: 10.h),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                  Expanded(child:  FittedBox(
-                    fit: BoxFit.scaleDown,
-                    child:  
-                      buildActionButton(
-                          icon: Icon(
-                            (controller.businessDetail.value!.isFollowed)
-                                ? Icons.person_remove
-                                : Icons.person_add_alt_1_rounded,
-                            size: 20.r,
-                          ),
-                          label: AppString.follow,
-                          color: AppColors.primary,
-                          onPressed: () {
-                            log("message");
-                            followUnfollow(
-                              businessId: controller.businessDetail.value!.id,
-                              isFollowed:
-                                  controller.businessDetail.value!.isFollowed,
-                            ).then((success) {
-                              if (success) {
-                                controller.businessDetail.value!.isFollowed =
-                                    !controller
+                    Container(
+                      height: 50,
+
+                      child: Row(
+                        spacing: 4,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Expanded(
+                            flex: 9,
+                            child: buildActionButton(
+                              icon: Icon(
+                                (controller.businessDetail.value!.isFollowed)
+                                    ? Icons.person_remove
+                                    : Icons.person_add_alt_1_rounded,
+                                size: 20.r,
+                              ),
+                              label: AppString.follow,
+                              color: AppColors.primary,
+                              onPressed: () {
+                                log("message");
+                                followUnfollow(
+                                  businessId:
+                                      controller.businessDetail.value!.id,
+                                  isFollowed: controller
+                                      .businessDetail
+                                      .value!
+                                      .isFollowed,
+                                ).then((success) {
+                                  if (success) {
+                                    controller
+                                        .businessDetail
+                                        .value!
+                                        .isFollowed = !controller
                                         .businessDetail
                                         .value!
                                         .isFollowed;
-                                if (controller
-                                    .businessDetail
-                                    .value!
-                                    .isFollowed) {
-                                  controller
+                                    if (controller
+                                        .businessDetail
+                                        .value!
+                                        .isFollowed) {
+                                      controller
+                                              .businessDetail
+                                              .value!
+                                              .totalFollowers +=
+                                          1;
+                                    } else {
+                                      controller
+                                              .businessDetail
+                                              .value!
+                                              .totalFollowers -=
+                                          1;
+                                    }
+                                    controller.businessDetail.refresh();
+                                  }
+                                });
+                              },
+                            ),
+                          ),
+
+                          Expanded(
+                            flex: 9,
+                            child: buildActionButton(
+                              icon: Icon(
+                                controller.businessDetail.value!.isLiked
+                                    ? Icons.favorite
+                                    : Icons.favorite_border,
+                                size: 20.r,
+                              ),
+                              label: AppString.like,
+                              color: AppColors.primary,
+                              onPressed: () async {
+                                final isCurrentlyLiked =
+                                    controller.businessDetail.value!.isLiked;
+
+                                final success = await likeUnlike(
+                                  businessId:
+                                      controller.businessDetail.value!.id,
+                                  isLike:
+                                      isCurrentlyLiked, // send the desired state
+                                );
+
+                                if (success) {
+                                  controller.businessDetail.value!.isLiked =
+                                      !isCurrentlyLiked;
+
+                                  if (controller
                                       .businessDetail
                                       .value!
-                                      .totalFollowers += 1;
-                                } else {
-                                  controller
-                                      .businessDetail
-                                      .value!
-                                      .totalFollowers -= 1;
+                                      .isLiked) {
+                                    controller
+                                            .businessDetail
+                                            .value!
+                                            .totalLikes +=
+                                        1;
+                                  } else {
+                                    controller
+                                            .businessDetail
+                                            .value!
+                                            .totalLikes -=
+                                        1;
+                                  }
+
+                                  controller.businessDetail
+                                      .refresh(); // update UI
                                 }
-                                controller.businessDetail.refresh();
-                              }
-                            });
-                          },
-                    ))),
-                        SizedBox(width: 2),
-                 Expanded(child:    FittedBox(
-                    fit: BoxFit.scaleDown,
-                    child:     buildActionButton(
-                          icon: Icon(
-                            controller.businessDetail.value!.isLiked
-                                ? Icons.favorite
-                                : Icons.favorite_border,
-                            size: 20.r,
+                              },
+                            ),
                           ),
-                          label: AppString.like,
-                          color: AppColors.primary,
-                          onPressed: () async {
-                            final isCurrentlyLiked =
-                                controller.businessDetail.value!.isLiked;
 
-                            final success = await likeUnlike(
-                              businessId: controller.businessDetail.value!.id,
-                              isLike:
-                                  isCurrentlyLiked, // send the desired state
-                            );
-
-                            if (success) {
-                              controller.businessDetail.value!.isLiked =
-                                  !isCurrentlyLiked;
-
-                              if (controller.businessDetail.value!.isLiked) {
-                                controller.businessDetail.value!.totalLikes +=
-                                    1;
-                              } else {
-                                controller.businessDetail.value!.totalLikes -=
-                                    1;
-                              }
-
-                              controller.businessDetail.refresh(); // update UI
-                            }
-                          },
-                        ))),
-                        SizedBox(width: 2),
-                     Expanded(child: FittedBox(
-                    fit: BoxFit.scaleDown,
-                    child:    buildActionButton(
-                          icon: SvgPicture.asset(
-                            AppIcons.commentIcon,
-                            color: Colors.white,
-                            height: 20.h,
-                            width: 20.w,
+                          Expanded(
+                            flex: 10,
+                            child: buildActionButton(
+                              icon: SvgPicture.asset(
+                                AppIcons.commentIcon,
+                                color: Colors.white,
+                                height: 20.h,
+                                width: 20.w,
+                              ),
+                              label: AppString.comment,
+                              color: AppColors.primary,
+                              onPressed: () {
+                                showHomePageCommentBottomSheet(
+                                  id: controller.businessDetail.value!.id,
+                                  isBussiness: true,
+                                  context,
+                                  commentController: TextEditingController(),
+                                ).then((value) {
+                                  WidgetsBinding.instance.addPostFrameCallback((
+                                    timeStamp,
+                                  ) {
+                                    controller.fetchBusinessesDetailsById();
+                                  });
+                                });
+                              },
+                            ),
                           ),
-                          label: AppString.comment,
-                          color: AppColors.primary,
-                          onPressed: () {
-                            showHomePageCommentBottomSheet(
-                              id: controller.businessDetail.value!.id,
-                              isBussiness: true,
-                              context,
-                              commentController: TextEditingController(),
-                            ).then((value) {
-                               WidgetsBinding.instance.addPostFrameCallback((timeStamp){
-                                 controller.fetchBusinessesDetailsById();
-                               });
-                             
-                            });
-                          },
-                        ))),
-                      ],
-                ),
+                        ],
+                      ),
+                    ),
                     SizedBox(height: 10.h),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -594,14 +619,13 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen> {
                         ),
                         SizedBox(width: 10.w),
                         InkWell(
-                          onTap:
-                              () => launchURL(
-                                controller
-                                    .businessDetail
-                                    .value!
-                                    .socialLinks
-                                    .facebook,
-                              ),
+                          onTap: () => launchURL(
+                            controller
+                                .businessDetail
+                                .value!
+                                .socialLinks
+                                .facebook,
+                          ),
                           child: CommonImage(
                             imageSrc: AppIcons.facebookIcon,
                             imageType: ImageType.svg,
@@ -610,14 +634,13 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen> {
                         ),
                         SizedBox(width: 5.w),
                         InkWell(
-                          onTap:
-                              () => launchURL(
-                                controller
-                                    .businessDetail
-                                    .value!
-                                    .socialLinks
-                                    .instagram,
-                              ),
+                          onTap: () => launchURL(
+                            controller
+                                .businessDetail
+                                .value!
+                                .socialLinks
+                                .instagram,
+                          ),
                           child: CommonImage(
                             imageSrc: AppIcons.instagramIcon,
                             imageType: ImageType.svg,
@@ -626,14 +649,13 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen> {
                         ),
                         SizedBox(width: 5.w),
                         InkWell(
-                          onTap:
-                              () => launchURL(
-                                controller
-                                    .businessDetail
-                                    .value!
-                                    .socialLinks
-                                    .twitter,
-                              ),
+                          onTap: () => launchURL(
+                            controller
+                                .businessDetail
+                                .value!
+                                .socialLinks
+                                .twitter,
+                          ),
                           child: CommonImage(
                             imageSrc: AppIcons.xIcon,
                             imageType: ImageType.svg,
@@ -642,14 +664,9 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen> {
                         ),
                         SizedBox(width: 5.w),
                         InkWell(
-                          onTap:
-                              () => launchURL(
-                                controller
-                                    .businessDetail
-                                    .value!
-                                    .socialLinks
-                                    .tiktok,
-                              ),
+                          onTap: () => launchURL(
+                            controller.businessDetail.value!.socialLinks.tiktok,
+                          ),
                           child: CommonImage(
                             imageSrc: AppIcons.tiktokIcon,
                             imageType: ImageType.svg,
@@ -836,10 +853,9 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen> {
                                 AppIcons.galleryLogo,
                                 height: 18.h,
                                 width: 18.w,
-                                color:
-                                    _selectedTabIndex == 0
-                                        ? Colors.white
-                                        : AppColors.primary,
+                                color: _selectedTabIndex == 0
+                                    ? Colors.white
+                                    : AppColors.primary,
                               ),
                             ),
                             buildTab(
@@ -850,10 +866,9 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen> {
                                 AppIcons.reviewIconTab,
                                 height: 18.h,
                                 width: 18.w,
-                                color:
-                                    _selectedTabIndex == 1
-                                        ? Colors.white
-                                        : AppColors.primary,
+                                color: _selectedTabIndex == 1
+                                    ? Colors.white
+                                    : AppColors.primary,
                               ),
                             ),
                             buildTab(
@@ -864,10 +879,9 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen> {
                                 AppIcons.locationIcon2,
                                 height: 18.h,
                                 width: 18.w,
-                                color:
-                                    _selectedTabIndex == 2
-                                        ? Colors.white
-                                        : AppColors.primary,
+                                color: _selectedTabIndex == 2
+                                    ? Colors.white
+                                    : AppColors.primary,
                               ),
                             ),
                             buildTab(
@@ -878,10 +892,9 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen> {
                                 AppIcons.faqTabIcon,
                                 height: 18.h,
                                 width: 18.w,
-                                color:
-                                    _selectedTabIndex == 3
-                                        ? Colors.white
-                                        : AppColors.primary,
+                                color: _selectedTabIndex == 3
+                                    ? Colors.white
+                                    : AppColors.primary,
                               ),
                             ),
                           ],
@@ -920,17 +933,17 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen> {
                               physics: const NeverScrollableScrollPhysics(),
                               itemCount:
                                   controller
-                                              .businessDetail
-                                              .value!
-                                              .gallery
-                                              .length >
-                                          4
-                                      ? 4
-                                      : controller
                                           .businessDetail
                                           .value!
                                           .gallery
-                                          .length,
+                                          .length >
+                                      4
+                                  ? 4
+                                  : controller
+                                        .businessDetail
+                                        .value!
+                                        .gallery
+                                        .length,
                               gridDelegate:
                                   const SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisCount: 2,
@@ -949,11 +962,10 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen> {
                                   onTap: () {
                                     showFullImageGallery(
                                       context,
-                                      imageUrls:
-                                          controller
-                                              .businessDetail
-                                              .value!
-                                              .gallery,
+                                      imageUrls: controller
+                                          .businessDetail
+                                          .value!
+                                          .gallery,
                                       initialIndex: index,
                                     );
                                   },
@@ -1016,51 +1028,46 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen> {
                           SizedBox(
                             height:
                                 (controller
-                                        .businessDetail
-                                        .value!
-                                        .reviews
-                                        .isEmpty)
-                                    ? 0
-                                    : 160.h,
+                                    .businessDetail
+                                    .value!
+                                    .reviews
+                                    .isEmpty)
+                                ? 0
+                                : 160.h,
                             child: ListView.builder(
-                              itemCount:
-                                  controller
-                                      .businessDetail
-                                      .value!
-                                      .reviews
-                                      .length,
+                              itemCount: controller
+                                  .businessDetail
+                                  .value!
+                                  .reviews
+                                  .length,
                               shrinkWrap: true,
                               scrollDirection: Axis.horizontal,
                               itemBuilder: (context, index) {
                                 return Padding(
                                   padding: EdgeInsets.all(10),
                                   child: ReviewShowWidget(
-                                    comment:
-                                        controller
-                                            .businessDetail
-                                            .value!
-                                            .reviews[index]
-                                            .comment,
-                                    name:
-                                        controller
-                                            .businessDetail
-                                            .value!
-                                            .reviews[index]
-                                            .userId
-                                            .name,
-                                    profileImage:
-                                        controller
-                                            .businessDetail
-                                            .value!
-                                            .reviews[index]
-                                            .userId
-                                            .profileImage,
-                                    ratting:
-                                        controller
-                                            .businessDetail
-                                            .value!
-                                            .reviews[index]
-                                            .rating,
+                                    comment: controller
+                                        .businessDetail
+                                        .value!
+                                        .reviews[index]
+                                        .comment,
+                                    name: controller
+                                        .businessDetail
+                                        .value!
+                                        .reviews[index]
+                                        .userId
+                                        .name,
+                                    profileImage: controller
+                                        .businessDetail
+                                        .value!
+                                        .reviews[index]
+                                        .userId
+                                        .profileImage,
+                                    ratting: controller
+                                        .businessDetail
+                                        .value!
+                                        .reviews[index]
+                                        .rating,
                                   ),
                                 );
                               },
@@ -1112,20 +1119,18 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen> {
                             height: 218.h,
                             width: double.infinity,
                             child: MapPreview(
-                              lat:
-                                  controller
-                                      .businessDetail
-                                      .value!
-                                      .location
-                                      .coordinates
-                                      .last,
-                              lng:
-                                  controller
-                                      .businessDetail
-                                      .value!
-                                      .location
-                                      .coordinates
-                                      .first,
+                              lat: controller
+                                  .businessDetail
+                                  .value!
+                                  .location
+                                  .coordinates
+                                  .last,
+                              lng: controller
+                                  .businessDetail
+                                  .value!
+                                  .location
+                                  .coordinates
+                                  .first,
                             ),
                           ),
                           SizedBox(height: 20.h),
@@ -1158,12 +1163,11 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen> {
                         .isNotEmpty)
                       ListView.builder(
                         padding: const EdgeInsets.all(0),
-                        itemCount:
-                            controller
-                                .businessDetail
-                                .value!
-                                .supportedServices
-                                .length,
+                        itemCount: controller
+                            .businessDetail
+                            .value!
+                            .supportedServices
+                            .length,
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
                         itemBuilder: (context, index) {
@@ -1207,12 +1211,11 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen> {
                         .isNotEmpty)
                       ListView.builder(
                         padding: const EdgeInsets.all(0),
-                        itemCount:
-                            controller
-                                .businessDetail
-                                .value!
-                                .additionalServices
-                                .length,
+                        itemCount: controller
+                            .businessDetail
+                            .value!
+                            .additionalServices
+                            .length,
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
                         itemBuilder: (context, index) {
@@ -1253,18 +1256,16 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen> {
                                 (index) {
                                   return FAQItem(
                                     number: (index + 1).toString(),
-                                    question:
-                                        controller
-                                            .businessDetail
-                                            .value!
-                                            .faq[index]
-                                            .question,
-                                    answer:
-                                        controller
-                                            .businessDetail
-                                            .value!
-                                            .faq[index]
-                                            .answer,
+                                    question: controller
+                                        .businessDetail
+                                        .value!
+                                        .faq[index]
+                                        .question,
+                                    answer: controller
+                                        .businessDetail
+                                        .value!
+                                        .faq[index]
+                                        .answer,
                                     isExpanded: false,
                                   );
                                 },
@@ -1344,18 +1345,16 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen> {
                         child: ListView.builder(
                           scrollDirection: Axis.horizontal,
                           shrinkWrap: true,
-                          itemCount:
-                              controller
-                                  .extraBusinessDetail
-                                  .value
-                                  .currentEvents
-                                  .length,
+                          itemCount: controller
+                              .extraBusinessDetail
+                              .value
+                              .currentEvents
+                              .length,
                           itemBuilder: (context, index) {
-                            var data =
-                                controller
-                                    .extraBusinessDetail
-                                    .value
-                                    .currentEvents[index];
+                            var data = controller
+                                .extraBusinessDetail
+                                .value
+                                .currentEvents[index];
                             return SizedBox(
                               width: 288,
                               child: Padding(
@@ -1390,18 +1389,16 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen> {
                                   ),
                                   likeOnPressed: () {
                                     eventLikeUnlike(
-                                      isLike:
-                                          controller
-                                              .extraBusinessDetail
-                                              .value
-                                              .currentEvents[index]
-                                              .isLiked,
-                                      eventId:
-                                          controller
-                                              .extraBusinessDetail
-                                              .value
-                                              .currentEvents[index]
-                                              .id,
+                                      isLike: controller
+                                          .extraBusinessDetail
+                                          .value
+                                          .currentEvents[index]
+                                          .isLiked,
+                                      eventId: controller
+                                          .extraBusinessDetail
+                                          .value
+                                          .currentEvents[index]
+                                          .id,
                                     ).then((value) {
                                       if (value) {
                                         if (controller
@@ -1410,26 +1407,30 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen> {
                                             .currentEvents[index]
                                             .isLiked) {
                                           controller
-                                              .extraBusinessDetail
-                                              .value
-                                              .currentEvents[index]
-                                              .isLiked = false;
+                                                  .extraBusinessDetail
+                                                  .value
+                                                  .currentEvents[index]
+                                                  .isLiked =
+                                              false;
                                           controller
-                                              .extraBusinessDetail
-                                              .value
-                                              .currentEvents[index]
-                                              .totalLikes -= 1;
+                                                  .extraBusinessDetail
+                                                  .value
+                                                  .currentEvents[index]
+                                                  .totalLikes -=
+                                              1;
                                         } else {
                                           controller
-                                              .extraBusinessDetail
-                                              .value
-                                              .currentEvents[index]
-                                              .isLiked = true;
+                                                  .extraBusinessDetail
+                                                  .value
+                                                  .currentEvents[index]
+                                                  .isLiked =
+                                              true;
                                           controller
-                                              .extraBusinessDetail
-                                              .value
-                                              .currentEvents[index]
-                                              .totalLikes += 1;
+                                                  .extraBusinessDetail
+                                                  .value
+                                                  .currentEvents[index]
+                                                  .totalLikes +=
+                                              1;
                                         }
                                         setState(() {});
                                       }
@@ -1438,28 +1439,26 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen> {
                                   commentOnPressed: () {
                                     log("message");
                                     showHomePageCommentBottomSheet(
-                                      id:
-                                          controller
-                                              .extraBusinessDetail
-                                              .value
-                                              .currentEvents[index]
-                                              .id,
+                                      id: controller
+                                          .extraBusinessDetail
+                                          .value
+                                          .currentEvents[index]
+                                          .id,
                                       isBussiness: false,
                                       context,
                                       commentController:
                                           TextEditingController(),
                                     ).then((value) {
-                                      WidgetsBinding.instance.addPostFrameCallback((timeStamp){
-                                        controller
-                                          .fetchExtraBusinessesDetailsById(
-                                            id:
-                                                controller
-                                                    .businessDetail
-                                                    .value!
-                                                    .id,
-                                          );
-                                      });
-                                      
+                                      WidgetsBinding.instance
+                                          .addPostFrameCallback((timeStamp) {
+                                            controller
+                                                .fetchExtraBusinessesDetailsById(
+                                                  id: controller
+                                                      .businessDetail
+                                                      .value!
+                                                      .id,
+                                                );
+                                          });
                                     });
                                   },
                                   isWishlisted: data.isWishlisted,
@@ -1472,10 +1471,11 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen> {
                                     // );
                                     if (result) {
                                       controller
-                                          .extraBusinessDetail
-                                          .value
-                                          .currentEvents[index]
-                                          .isWishlisted = true;
+                                              .extraBusinessDetail
+                                              .value
+                                              .currentEvents[index]
+                                              .isWishlisted =
+                                          true;
                                       controller.extraBusinessDetail.refresh();
                                     }
                                   },
@@ -1506,18 +1506,16 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen> {
                         child: ListView.builder(
                           scrollDirection: Axis.horizontal,
                           shrinkWrap: true,
-                          itemCount:
-                              controller
-                                  .extraBusinessDetail
-                                  .value
-                                  .pastEvents
-                                  .length,
+                          itemCount: controller
+                              .extraBusinessDetail
+                              .value
+                              .pastEvents
+                              .length,
                           itemBuilder: (context, index) {
-                            var data =
-                                controller
-                                    .extraBusinessDetail
-                                    .value
-                                    .pastEvents[index];
+                            var data = controller
+                                .extraBusinessDetail
+                                .value
+                                .pastEvents[index];
                             return SizedBox(
                               width: 288,
                               child: Padding(
@@ -1526,19 +1524,17 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen> {
                                   bookType: "eventId",
                                   id: data.id,
 
-                                  type:
-                                      controller
-                                          .extraBusinessDetail
-                                          .value
-                                          .pastEvents[index]
-                                          .category,
+                                  type: controller
+                                      .extraBusinessDetail
+                                      .value
+                                      .pastEvents[index]
+                                      .category,
 
-                                  isLiked:
-                                      controller
-                                          .extraBusinessDetail
-                                          .value
-                                          .pastEvents[index]
-                                          .isLiked,
+                                  isLiked: controller
+                                      .extraBusinessDetail
+                                      .value
+                                      .pastEvents[index]
+                                      .isLiked,
                                   onTap: () {
                                     Get.toNamed(
                                       RoutesName.eventDetailScreen,
@@ -1550,12 +1546,11 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen> {
                                   name: data.name,
                                   location: data.address,
                                   peopleCount: "${data.maxParticipants}",
-                                  verification:
-                                      controller
-                                          .extraBusinessDetail
-                                          .value
-                                          .pastEvents[index]
-                                          .blueVerifiedBadge,
+                                  verification: controller
+                                      .extraBusinessDetail
+                                      .value
+                                      .pastEvents[index]
+                                      .blueVerifiedBadge,
                                   padding: 5,
                                   borderRadius: 8,
                                   peopleCountIcon: SvgPicture.asset(
@@ -1570,18 +1565,16 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen> {
 
                                   likeOnPressed: () {
                                     eventLikeUnlike(
-                                      isLike:
-                                          controller
-                                              .extraBusinessDetail
-                                              .value
-                                              .pastEvents[index]
-                                              .isLiked,
-                                      eventId:
-                                          controller
-                                              .extraBusinessDetail
-                                              .value
-                                              .pastEvents[index]
-                                              .id,
+                                      isLike: controller
+                                          .extraBusinessDetail
+                                          .value
+                                          .pastEvents[index]
+                                          .isLiked,
+                                      eventId: controller
+                                          .extraBusinessDetail
+                                          .value
+                                          .pastEvents[index]
+                                          .id,
                                     ).then((value) {
                                       if (value) {
                                         if (controller
@@ -1590,26 +1583,30 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen> {
                                             .pastEvents[index]
                                             .isLiked) {
                                           controller
-                                              .extraBusinessDetail
-                                              .value
-                                              .pastEvents[index]
-                                              .isLiked = false;
+                                                  .extraBusinessDetail
+                                                  .value
+                                                  .pastEvents[index]
+                                                  .isLiked =
+                                              false;
                                           controller
-                                              .extraBusinessDetail
-                                              .value
-                                              .pastEvents[index]
-                                              .totalLikes -= 1;
+                                                  .extraBusinessDetail
+                                                  .value
+                                                  .pastEvents[index]
+                                                  .totalLikes -=
+                                              1;
                                         } else {
                                           controller
-                                              .extraBusinessDetail
-                                              .value
-                                              .pastEvents[index]
-                                              .isLiked = true;
+                                                  .extraBusinessDetail
+                                                  .value
+                                                  .pastEvents[index]
+                                                  .isLiked =
+                                              true;
                                           controller
-                                              .extraBusinessDetail
-                                              .value
-                                              .pastEvents[index]
-                                              .totalLikes += 1;
+                                                  .extraBusinessDetail
+                                                  .value
+                                                  .pastEvents[index]
+                                                  .totalLikes +=
+                                              1;
                                         }
                                         setState(() {});
                                       }
@@ -1618,43 +1615,41 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen> {
                                   commentOnPressed: () {
                                     log("message");
                                     showHomePageCommentBottomSheet(
-                                      id:
-                                          controller
-                                              .extraBusinessDetail
-                                              .value
-                                              .pastEvents[index]
-                                              .id,
+                                      id: controller
+                                          .extraBusinessDetail
+                                          .value
+                                          .pastEvents[index]
+                                          .id,
                                       isBussiness: false,
                                       context,
                                       commentController:
                                           TextEditingController(),
                                     ).then((value) {
-                                       WidgetsBinding.instance.addPostFrameCallback((timeStamp){
-                                         controller
-                                          .fetchExtraBusinessesDetailsById(
-                                            id:
-                                                controller
-                                                    .businessDetail
-                                                    .value!
-                                                    .id,
-                                          );
-                                       });
-                                     
+                                      WidgetsBinding.instance
+                                          .addPostFrameCallback((timeStamp) {
+                                            controller
+                                                .fetchExtraBusinessesDetailsById(
+                                                  id: controller
+                                                      .businessDetail
+                                                      .value!
+                                                      .id,
+                                                );
+                                          });
                                     });
                                   },
-                                  isWishlisted:
-                                      controller
-                                          .extraBusinessDetail
-                                          .value
-                                          .pastEvents[index]
-                                          .isWishlisted,
+                                  isWishlisted: controller
+                                      .extraBusinessDetail
+                                      .value
+                                      .pastEvents[index]
+                                      .isWishlisted,
 
                                   bookmarkOnPressed: (result) {
                                     controller
-                                        .extraBusinessDetail
-                                        .value
-                                        .pastEvents[index]
-                                        .isWishlisted = true;
+                                            .extraBusinessDetail
+                                            .value
+                                            .pastEvents[index]
+                                            .isWishlisted =
+                                        true;
                                     controller.extraBusinessDetail.refresh();
                                   },
 
@@ -1692,18 +1687,16 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen> {
                         child: ListView.builder(
                           scrollDirection: Axis.horizontal,
                           shrinkWrap: true,
-                          itemCount:
-                              controller
-                                  .extraBusinessDetail
-                                  .value
-                                  .inspirationBlogs
-                                  .length,
+                          itemCount: controller
+                              .extraBusinessDetail
+                              .value
+                              .inspirationBlogs
+                              .length,
                           itemBuilder: (context, index) {
-                            var data =
-                                controller
-                                    .extraBusinessDetail
-                                    .value
-                                    .inspirationBlogs[index];
+                            var data = controller
+                                .extraBusinessDetail
+                                .value
+                                .inspirationBlogs[index];
                             return SizedBox(
                               width: 320,
                               child: Padding(
@@ -1765,12 +1758,11 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen> {
                             child: ListView.builder(
                               scrollDirection: Axis.horizontal,
                               shrinkWrap: true,
-                              itemCount:
-                                  controller
-                                      .extraBusinessDetail
-                                      .value
-                                      .relatedBusinesses
-                                      .length,
+                              itemCount: controller
+                                  .extraBusinessDetail
+                                  .value
+                                  .relatedBusinesses
+                                  .length,
                               itemBuilder: (context, index) {
                                 return SizedBox(
                                   width: 288,
@@ -1778,51 +1770,45 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen> {
                                     padding: const EdgeInsets.all(5),
                                     child: CustomFeatureEventContainer(
                                       bookType: "businessId",
-                                      id:
-                                          controller
-                                              .extraBusinessDetail
-                                              .value
-                                              .relatedBusinesses[index]
-                                              .id,
-                                      isLiked:
-                                          controller
-                                              .extraBusinessDetail
-                                              .value
-                                              .relatedBusinesses[index]
-                                              .isLiked,
+                                      id: controller
+                                          .extraBusinessDetail
+                                          .value
+                                          .relatedBusinesses[index]
+                                          .id,
+                                      isLiked: controller
+                                          .extraBusinessDetail
+                                          .value
+                                          .relatedBusinesses[index]
+                                          .isLiked,
                                       onTap: () {
                                         setState(() {
                                           controller.fetchBusinessesDetailsById(
-                                            id:
-                                                controller
-                                                    .extraBusinessDetail
-                                                    .value
-                                                    .relatedBusinesses[index]
-                                                    .id,
+                                            id: controller
+                                                .extraBusinessDetail
+                                                .value
+                                                .relatedBusinesses[index]
+                                                .id,
                                           );
                                         });
                                       },
-                                      imageSrc:
-                                          controller
-                                              .extraBusinessDetail
-                                              .value
-                                              .relatedBusinesses[index]
-                                              .coverImage,
+                                      imageSrc: controller
+                                          .extraBusinessDetail
+                                          .value
+                                          .relatedBusinesses[index]
+                                          .coverImage,
                                       typeImage: AppIcons.businessIcon,
-                                      name:
-                                          controller
-                                              .extraBusinessDetail
-                                              .value
-                                              .relatedBusinesses[index]
-                                              .name,
+                                      name: controller
+                                          .extraBusinessDetail
+                                          .value
+                                          .relatedBusinesses[index]
+                                          .name,
                                       padding: 5,
                                       borderRadius: 8,
-                                      location:
-                                          controller
-                                              .extraBusinessDetail
-                                              .value
-                                              .relatedBusinesses[index]
-                                              .address,
+                                      location: controller
+                                          .extraBusinessDetail
+                                          .value
+                                          .relatedBusinesses[index]
+                                          .address,
                                       peopleCount:
                                           "${controller.extraBusinessDetail.value.relatedBusinesses[index].maxGuest}",
                                       rating:
@@ -1830,42 +1816,40 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen> {
 
                                       doller:
                                           controller
-                                                      .extraBusinessDetail
-                                                      .value
-                                                      .relatedBusinesses[index]
-                                                      .priceRange
-                                                      .toLowerCase() ==
-                                                  "budget"
-                                              ? "€"
-                                              : controller
-                                                      .extraBusinessDetail
-                                                      .value
-                                                      .relatedBusinesses[index]
-                                                      .priceRange
-                                                      .toLowerCase() ==
-                                                  "medium"
-                                              ? "€€"
-                                              : controller
-                                                      .extraBusinessDetail
-                                                      .value
-                                                      .relatedBusinesses[index]
-                                                      .priceRange
-                                                      .toLowerCase() ==
-                                                  "high"
-                                              ? "€€€"
-                                              : "€€€€",
-                                      type:
-                                          controller
-                                              .extraBusinessDetail
-                                              .value
-                                              .relatedBusinesses[index]
-                                              .subscriptionType,
-                                      verification:
-                                          controller
-                                              .extraBusinessDetail
-                                              .value
-                                              .relatedBusinesses[index]
-                                              .blueVerifiedBadge,
+                                                  .extraBusinessDetail
+                                                  .value
+                                                  .relatedBusinesses[index]
+                                                  .priceRange
+                                                  .toLowerCase() ==
+                                              "budget"
+                                          ? "€"
+                                          : controller
+                                                    .extraBusinessDetail
+                                                    .value
+                                                    .relatedBusinesses[index]
+                                                    .priceRange
+                                                    .toLowerCase() ==
+                                                "medium"
+                                          ? "€€"
+                                          : controller
+                                                    .extraBusinessDetail
+                                                    .value
+                                                    .relatedBusinesses[index]
+                                                    .priceRange
+                                                    .toLowerCase() ==
+                                                "high"
+                                          ? "€€€"
+                                          : "€€€€",
+                                      type: controller
+                                          .extraBusinessDetail
+                                          .value
+                                          .relatedBusinesses[index]
+                                          .subscriptionType,
+                                      verification: controller
+                                          .extraBusinessDetail
+                                          .value
+                                          .relatedBusinesses[index]
+                                          .blueVerifiedBadge,
                                       verificationIcon: Icons.verified,
                                       likeCount:
                                           "${controller.extraBusinessDetail.value.relatedBusinesses[index].totalLikes}",
@@ -1873,18 +1857,16 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen> {
                                           "${controller.extraBusinessDetail.value.relatedBusinesses[index].totalComments}",
                                       likeOnPressed: () {
                                         likeUnlike(
-                                          isLike:
-                                              controller
-                                                  .extraBusinessDetail
-                                                  .value
-                                                  .relatedBusinesses[index]
-                                                  .isLiked,
-                                          businessId:
-                                              controller
-                                                  .extraBusinessDetail
-                                                  .value
-                                                  .relatedBusinesses[index]
-                                                  .id,
+                                          isLike: controller
+                                              .extraBusinessDetail
+                                              .value
+                                              .relatedBusinesses[index]
+                                              .isLiked,
+                                          businessId: controller
+                                              .extraBusinessDetail
+                                              .value
+                                              .relatedBusinesses[index]
+                                              .id,
                                         ).then((value) {
                                           if (value) {
                                             if (controller
@@ -1893,26 +1875,30 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen> {
                                                 .relatedBusinesses[index]
                                                 .isLiked) {
                                               controller
-                                                  .extraBusinessDetail
-                                                  .value
-                                                  .relatedBusinesses[index]
-                                                  .isLiked = false;
+                                                      .extraBusinessDetail
+                                                      .value
+                                                      .relatedBusinesses[index]
+                                                      .isLiked =
+                                                  false;
                                               controller
-                                                  .extraBusinessDetail
-                                                  .value
-                                                  .relatedBusinesses[index]
-                                                  .totalLikes -= 1;
+                                                      .extraBusinessDetail
+                                                      .value
+                                                      .relatedBusinesses[index]
+                                                      .totalLikes -=
+                                                  1;
                                             } else {
                                               controller
-                                                  .extraBusinessDetail
-                                                  .value
-                                                  .relatedBusinesses[index]
-                                                  .isLiked = true;
+                                                      .extraBusinessDetail
+                                                      .value
+                                                      .relatedBusinesses[index]
+                                                      .isLiked =
+                                                  true;
                                               controller
-                                                  .extraBusinessDetail
-                                                  .value
-                                                  .relatedBusinesses[index]
-                                                  .totalLikes += 1;
+                                                      .extraBusinessDetail
+                                                      .value
+                                                      .relatedBusinesses[index]
+                                                      .totalLikes +=
+                                                  1;
                                             }
                                             setState(() {});
                                           }
@@ -1921,44 +1907,44 @@ class _BusinessDetailScreenState extends State<BusinessDetailScreen> {
                                       commentOnPressed: () {
                                         log("message");
                                         showHomePageCommentBottomSheet(
-                                          id:
-                                              controller
-                                                  .extraBusinessDetail
-                                                  .value
-                                                  .relatedBusinesses[index]
-                                                  .id,
+                                          id: controller
+                                              .extraBusinessDetail
+                                              .value
+                                              .relatedBusinesses[index]
+                                              .id,
                                           isBussiness: true,
                                           context,
                                           commentController:
                                               TextEditingController(),
                                         ).then((value) {
-                                           WidgetsBinding.instance.addPostFrameCallback((timeStamp){
-                                              controller
-                                              .fetchExtraBusinessesDetailsById(
-                                                id:
-                                                    controller
-                                                        .businessDetail
-                                                        .value!
-                                                        .id,
-                                              );
-                                           });
-                                        
+                                          WidgetsBinding.instance
+                                              .addPostFrameCallback((
+                                                timeStamp,
+                                              ) {
+                                                controller
+                                                    .fetchExtraBusinessesDetailsById(
+                                                      id: controller
+                                                          .businessDetail
+                                                          .value!
+                                                          .id,
+                                                    );
+                                              });
                                         });
                                       },
-                                      isWishlisted:
-                                          controller
-                                              .extraBusinessDetail
-                                              .value
-                                              .relatedBusinesses[index]
-                                              .isWishlisted,
+                                      isWishlisted: controller
+                                          .extraBusinessDetail
+                                          .value
+                                          .relatedBusinesses[index]
+                                          .isWishlisted,
 
                                       bookmarkOnPressed: (result) {
                                         if (result) {
                                           controller
-                                              .extraBusinessDetail
-                                              .value
-                                              .relatedBusinesses[index]
-                                              .isWishlisted = true;
+                                                  .extraBusinessDetail
+                                                  .value
+                                                  .relatedBusinesses[index]
+                                                  .isWishlisted =
+                                              true;
                                           controller.extraBusinessDetail
                                               .refresh();
                                         }
@@ -2057,104 +2043,122 @@ class BusinessCommentsSection extends StatelessWidget {
             // 🔹 Comments list
             controller.comments.isEmpty
                 ? Center(
-                  child: Text(
-                    AppString.noCommentsYet,
-                    style: styleForNormalText.copyWith(
-                      fontSize: 14.sp,
-                      color: AppColors.grey,
+                    child: Text(
+                      AppString.noCommentsYet,
+                      style: styleForNormalText.copyWith(
+                        fontSize: 14.sp,
+                        color: AppColors.grey,
+                      ),
                     ),
-                  ),
-                )
+                  )
                 : ListView.builder(
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  padding: EdgeInsets.only(bottom: 20.h),
-                  itemCount: controller.comments.length,
-                  itemBuilder: (context, index) {
-                    final comment = controller.comments[index];
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    padding: EdgeInsets.only(bottom: 20.h),
+                    itemCount: controller.comments.length,
+                    itemBuilder: (context, index) {
+                      final comment = controller.comments[index];
 
-                    if (!showReplies.containsKey(comment.id)) {
-                      showReplies[comment.id] = false;
-                    }
+                      if (!showReplies.containsKey(comment.id)) {
+                        showReplies[comment.id] = false;
+                      }
 
-                    final date = DateFormat(
-                      'dd-MM-yyyy',
-                    ).format(DateTime.parse(comment.createdAt));
-                    final time = DateFormat(
-                      'HH:mm',
-                    ).format(DateTime.parse(comment.createdAt));
+                      final date = DateFormat(
+                        'dd-MM-yyyy',
+                      ).format(DateTime.parse(comment.createdAt));
+                      final time = DateFormat(
+                        'HH:mm',
+                      ).format(DateTime.parse(comment.createdAt));
 
-                    return Obx(
-                      () => Container(
-                        margin: EdgeInsets.only(bottom: 12.h),
-                        padding: EdgeInsets.all(12.w),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12.r),
-                          border: Border.all(
-                            color: AppColors.grey.withOpacity(0.3),
+                      return Obx(
+                        () => Container(
+                          margin: EdgeInsets.only(bottom: 12.h),
+                          padding: EdgeInsets.all(12.w),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12.r),
+                            border: Border.all(
+                              color: AppColors.grey.withOpacity(0.3),
+                            ),
                           ),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            // 🔹 User row
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                CommonImage(
-                                  imageSrc: comment.user.profileImage,
-                                  imageType: ImageType.network,
-                                  borderRadius: 40.r,
-                                  height: 36.h,
-                                  width: 36.w,
-                                ),
-                                SizedBox(width: 10.w),
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            comment.user.name,
-                                            style: styleForBoldText.copyWith(
-                                              fontSize: 14.sp,
-                                              color: AppColors.primary,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              // 🔹 User row
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  CommonImage(
+                                    imageSrc: comment.user.profileImage,
+                                    imageType: ImageType.network,
+                                    borderRadius: 40.r,
+                                    height: 36.h,
+                                    width: 36.w,
+                                  ),
+                                  SizedBox(width: 10.w),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text(
+                                              comment.user.name,
+                                              style: styleForBoldText.copyWith(
+                                                fontSize: 14.sp,
+                                                color: AppColors.primary,
+                                              ),
                                             ),
-                                          ),
-                                          Text(
-                                            "$date • $time",
-                                            style: styleForNormalText.copyWith(
-                                              fontSize: 11.sp,
-                                              color: AppColors.grey,
+                                            Text(
+                                              "$date • $time",
+                                              style: styleForNormalText
+                                                  .copyWith(
+                                                    fontSize: 11.sp,
+                                                    color: AppColors.grey,
+                                                  ),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                      SizedBox(height: 6.h),
-                                      Text(
-                                        comment.text,
-                                        style: styleForNormalText.copyWith(
-                                          fontSize: 14.sp,
-                                          color: AppColors.darkGrey,
+                                          ],
                                         ),
-                                      ),
-                                      SizedBox(height: 4.h),
-                                      Row(
-                                        children: [
-                                          if (comment.replies.isNotEmpty)
+                                        SizedBox(height: 6.h),
+                                        Text(
+                                          comment.text,
+                                          style: styleForNormalText.copyWith(
+                                            fontSize: 14.sp,
+                                            color: AppColors.darkGrey,
+                                          ),
+                                        ),
+                                        SizedBox(height: 4.h),
+                                        Row(
+                                          children: [
+                                            if (comment.replies.isNotEmpty)
+                                              TextButton(
+                                                onPressed: () {
+                                                  showReplies[comment.id] =
+                                                      !showReplies[comment.id]!;
+                                                },
+                                                child: Text(
+                                                  showReplies[comment.id]!
+                                                      ? "Hide Replies".tr
+                                                      : "${"View Replies".tr} (${comment.replies.length})",
+                                                  style: styleForNormalText
+                                                      .copyWith(
+                                                        fontSize: 12.sp,
+                                                        color:
+                                                            AppColors.primary,
+                                                      ),
+                                                ),
+                                              ),
                                             TextButton(
                                               onPressed: () {
-                                                showReplies[comment.id] =
-                                                    !showReplies[comment.id]!;
+                                                controller.replyingTo.value =
+                                                    comment.id;
+                                                controller.replyToName.value =
+                                                    comment.user.name;
                                               },
                                               child: Text(
-                                                showReplies[comment.id]!
-                                                    ? "Hide Replies".tr
-                                                    : "${"View Replies".tr} (${comment.replies.length})",
+                                                "Reply".tr,
                                                 style: styleForNormalText
                                                     .copyWith(
                                                       fontSize: 12.sp,
@@ -2162,134 +2166,115 @@ class BusinessCommentsSection extends StatelessWidget {
                                                     ),
                                               ),
                                             ),
-                                          TextButton(
-                                            onPressed: () {
-                                              controller.replyingTo.value =
-                                                  comment.id;
-                                              controller.replyToName.value =
-                                                  comment.user.name;
-                                            },
-                                            child: Text(
-                                              "Reply".tr,
-                                              style: styleForNormalText
-                                                  .copyWith(
-                                                    fontSize: 12.sp,
-                                                    color: AppColors.primary,
-                                                  ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+
+                              // 🔹 Replies
+                              if (showReplies[comment.id]! &&
+                                  comment.replies.isNotEmpty)
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                    left: 48.w,
+                                    top: 8.h,
+                                  ),
+                                  child: Column(
+                                    children: comment.replies.map((reply) {
+                                      final replyDate = DateFormat(
+                                        'dd-MM-yyyy',
+                                      ).format(DateTime.parse(reply.createdAt));
+                                      final replyTime = DateFormat(
+                                        'HH:mm',
+                                      ).format(DateTime.parse(reply.createdAt));
+
+                                      return Container(
+                                        margin: EdgeInsets.only(bottom: 8.h),
+                                        padding: EdgeInsets.all(10.w),
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius: BorderRadius.circular(
+                                            10.r,
+                                          ),
+                                          border: Border.all(
+                                            color: AppColors.grey.withOpacity(
+                                              0.3,
                                             ),
                                           ),
-                                        ],
-                                      ),
-                                    ],
+                                        ),
+                                        child: Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            CommonImage(
+                                              imageSrc: reply.user.profileImage,
+                                              imageType: ImageType.network,
+                                              borderRadius: 30.r,
+                                              height: 28.h,
+                                              width: 28.w,
+                                            ),
+                                            SizedBox(width: 8.w),
+                                            Expanded(
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Text(
+                                                        reply.user.name,
+                                                        style: styleForBoldText
+                                                            .copyWith(
+                                                              fontSize: 13.sp,
+                                                              color: AppColors
+                                                                  .primary,
+                                                            ),
+                                                      ),
+                                                      Text(
+                                                        "$replyDate • $replyTime",
+                                                        style:
+                                                            styleForNormalText
+                                                                .copyWith(
+                                                                  fontSize:
+                                                                      11.sp,
+                                                                  color:
+                                                                      AppColors
+                                                                          .grey,
+                                                                ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  SizedBox(height: 4.h),
+                                                  Text(
+                                                    reply.text,
+                                                    style: styleForNormalText
+                                                        .copyWith(
+                                                          fontSize: 13.sp,
+                                                          color: AppColors
+                                                              .darkGrey,
+                                                        ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    }).toList(),
                                   ),
                                 ),
-                              ],
-                            ),
-
-                            // 🔹 Replies
-                            if (showReplies[comment.id]! &&
-                                comment.replies.isNotEmpty)
-                              Padding(
-                                padding: EdgeInsets.only(left: 48.w, top: 8.h),
-                                child: Column(
-                                  children:
-                                      comment.replies.map((reply) {
-                                        final replyDate = DateFormat(
-                                          'dd-MM-yyyy',
-                                        ).format(
-                                          DateTime.parse(reply.createdAt),
-                                        );
-                                        final replyTime = DateFormat(
-                                          'HH:mm',
-                                        ).format(
-                                          DateTime.parse(reply.createdAt),
-                                        );
-
-                                        return Container(
-                                          margin: EdgeInsets.only(bottom: 8.h),
-                                          padding: EdgeInsets.all(10.w),
-                                          decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius: BorderRadius.circular(
-                                              10.r,
-                                            ),
-                                            border: Border.all(
-                                              color: AppColors.grey.withOpacity(
-                                                0.3,
-                                              ),
-                                            ),
-                                          ),
-                                          child: Row(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              CommonImage(
-                                                imageSrc:
-                                                    reply.user.profileImage,
-                                                imageType: ImageType.network,
-                                                borderRadius: 30.r,
-                                                height: 28.h,
-                                                width: 28.w,
-                                              ),
-                                              SizedBox(width: 8.w),
-                                              Expanded(
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: [
-                                                    Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceBetween,
-                                                      children: [
-                                                        Text(
-                                                          reply.user.name,
-                                                          style: styleForBoldText
-                                                              .copyWith(
-                                                                fontSize: 13.sp,
-                                                                color:
-                                                                    AppColors
-                                                                        .primary,
-                                                              ),
-                                                        ),
-                                                        Text(
-                                                          "$replyDate • $replyTime",
-                                                          style: styleForNormalText
-                                                              .copyWith(
-                                                                fontSize: 11.sp,
-                                                                color:
-                                                                    AppColors
-                                                                        .grey,
-                                                              ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    SizedBox(height: 4.h),
-                                                    Text(
-                                                      reply.text,
-                                                      style: styleForNormalText
-                                                          .copyWith(
-                                                            fontSize: 13.sp,
-                                                            color:
-                                                                AppColors
-                                                                    .darkGrey,
-                                                          ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        );
-                                      }).toList(),
-                                ),
-                              ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                    );
-                  },
-                ),
+                      );
+                    },
+                  ),
 
             // 🔹 Replying indicator
             Obx(() {
@@ -2380,14 +2365,14 @@ class BusinessCommentsSection extends StatelessWidget {
                       }
 
                       if (success) {
-                        WidgetsBinding.instance.addPostFrameCallback((_) async{
-                        await controller.fetchComments(
-                          id: businessId,
-                          isBusiness: isBusiness,
-                        );
-                        commentController.clear();
-                        controller.replyToName.value = "";
-                        controller.replyingTo.value = "";
+                        WidgetsBinding.instance.addPostFrameCallback((_) async {
+                          await controller.fetchComments(
+                            id: businessId,
+                            isBusiness: isBusiness,
+                          );
+                          commentController.clear();
+                          controller.replyToName.value = "";
+                          controller.replyingTo.value = "";
                         });
                       }
                     },
